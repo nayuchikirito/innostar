@@ -15,11 +15,11 @@ class CreateSuppliersTable extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('contact');
             $table->enum('type', ['Florist', 'Photo & Video', 'Reception', 'Souvenir', 'Invitation']);
+            $table->unsignedInteger('user_id');
+            
+            $table->foreign('user_id')->references('id')->on('users');
+
             $table->rememberToken();
             $table->timestamps();
         });

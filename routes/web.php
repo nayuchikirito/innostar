@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('admin.includes.sample');
+    return view('welcome');
 });
 
 Auth::routes();
@@ -27,4 +27,5 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 	Route::get('/home', 'HomeController@index');
 	
 	Route::resource('/users', 'UsersController');
+	Route::get('/get-users', 'UsersController@all');
 });

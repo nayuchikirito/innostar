@@ -230,39 +230,3 @@ header.masthead {
     background-color: #ee4b28 !important; }
   .btn-primary:active, .btn-primary:focus {
     box-shadow: 0 0 0 0.2rem rgba(240, 95, 64, 0.5) !important; }
-
-  .dropdown {
-    position: relative;
-    display: inline-block;
-  }
-
-  .dropbtn {
-    font-size: .9rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #212529;
-}
-
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: rgba(0,0,0,0.4);
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-
-  .dropdown-content a {
-    font-size: .9rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #212529;
-  }
-
-  .dropdown-content a:hover {
-    color: #F05F40;
-  } 
-
-  .dropdown:hover .dropbtn {
-    color: #F05F40;
-}

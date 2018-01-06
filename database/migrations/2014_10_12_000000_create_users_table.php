@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('midname')->nullable();
             $table->string('location')->nullable();
             $table->string('contact')->nullable();
-            $table->enum('user_type', ['admin', 'customer', 'secretary', 'suppliers']);
+            $table->enum('user_type', ['Admin', 'Client', 'Secretary', 'Suppliers']);
             $table->rememberToken();
             $table->timestamps();
         });

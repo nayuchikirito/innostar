@@ -31,4 +31,10 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
 	Route::resource('/suppliers', 'SuppliersController');
 	Route::get('/get-suppliers', 'SuppliersController@all');
+
+	Route::resource('/services', 'ServicesController');
+	Route::get('/get-services', 'ServicesController@all');
+
+	Route::resource('/packages', 'PackagesController');
+	Route::get('/get-packages', 'PackagesController@all');
 });

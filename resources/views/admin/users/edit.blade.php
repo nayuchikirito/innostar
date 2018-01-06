@@ -12,8 +12,8 @@
           <label for="user_type">User Type</label>
           <select name="user_type" id="user_type" class="form-control">
             <option selected disabled>Select User Type</option>
-            <option value="admin" {{ $user->user_type == 'admin' ? 'selected':'' }}>Admin</option>
-            <option value="secretary" {{ $user->user_type == 'secretary' ? 'selected':'' }}>Secretary</option> 
+            <option value="Admin" {{ $user->user_type == 'Admin' ? 'selected':'' }}>Admin</option>
+            <option value="Secretary" {{ $user->user_type == 'Secretary' ? 'selected':'' }}>Secretary</option>
           </select> 
           <span class="help-text text-danger"></span>
       </div>

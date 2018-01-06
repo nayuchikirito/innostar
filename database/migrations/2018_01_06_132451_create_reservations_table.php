@@ -18,8 +18,12 @@ class CreateReservationsTable extends Migration
             $table->datetime('date');
             $table->enum('status', ['confirmed', 'pending']);
             $table->decimal('balance');
-            $table->integer('client_id');
-            $table->integer('service_id');
+
+            $table->unsignedInteger('client_id');
+            $table->foreign('client_id')->references('id')->on('clients');
+
+            $table->unsignedInteger('service_id');
+            $table->foreign('service_id')->references('id')->on('services');
             $table->timestamps();
         });
     }

@@ -19,6 +19,8 @@
         <li class="{{ Request::segment(2) == 'admin' ? 'active':'' }}"><a href="{{url('admin/home')}}"><i class="fa fa-dashboard"></i> <span>Home</span></a></li>
         <li class="{{ Request::segment(2) == 'suppliers' ? 'active':'' }}"><a href="{{url('admin/suppliers')}}"><i class="fa fa-truck"></i> <span>Suppliers</span></a></li>
         <li class="{{ Request::segment(2) == 'users' ? 'active':'' }}"><a href="{{url('admin/users')}}"><i class="fa fa-users"></i> <span>Users</span></a></li>
+        <li class="{{ Request::segment(2) == 'services' ? 'active':'' }}"><a href="{{url('admin/services')}}"><i class="fa fa-users"></i> <span>Services</span></a></li>
+        <li class="{{ Request::segment(2) == 'packages' ? 'active':'' }}"><a href="{{url('admin/packages')}}"><i class="fa fa-users"></i> <span>Packages</span></a></li>
 
 
       </ul>

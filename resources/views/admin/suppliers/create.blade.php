@@ -28,7 +28,7 @@
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <label for="midname">Last Name</label>
+          <label for="midname">Middle Name</label>
           <input type="text" class="form-control" id="midname" name="midname" placeholder="Enter Middlename" autocomplete="false">
           <span class="help-text text-danger"></span>
       </div>

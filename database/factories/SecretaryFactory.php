@@ -13,7 +13,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\Secretary::class, function (Faker $faker) {
+$factory->define(App\User::class, function (Faker $faker) {
     static $password;
 
     return [
@@ -24,6 +24,7 @@ $factory->define(App\Secretary::class, function (Faker $faker) {
         'password' => $password ?: $password = 'secret',
         'location' => $faker->address,
         'contact' => str_random(11),
+        'user_type' => 'secretary',
         'remember_token' => str_random(10),
     ];
 });

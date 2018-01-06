@@ -64,7 +64,7 @@ class SuppliersController extends Controller
                 $user->contact      = $request->get('contact');
                 $user->user_type    = $request->get('user_type');
                 $user->email        = $request->get('email');
-                $user->password     =  bcrypt($request->get('password'));
+                $user->password     = $request->get('password');
                 $user->save();
 
                 $supplier = new \App\Supplier;
@@ -138,7 +138,7 @@ class SuppliersController extends Controller
                 $user->contact      = $request->get('contact');
                 $user->user_type    = $request->get('user_type');
                 $user->email        = $request->get('email');
-                //$user->password     =  bcrypt($request->get('password'));
+                $user->password     = $request->get('password');
                 $user->save();
 
                 $supplier = \App\Supplier::find($user->supplier->id);

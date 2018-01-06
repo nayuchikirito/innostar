@@ -41,6 +41,7 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
+        
         $data = request()->validate([
             'fname' => 'required',
             'lname' => 'required',
@@ -51,9 +52,9 @@ class UsersController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|same:password_confirm'
         ]);
-        if($data['password']){
-            $data['password'] = bcrypt($data['password']);          
-        }
+        // if($data['password']){
+        //     $data['password'] = bcrypt($data['password']);          
+        // }
 
         $status = \App\User::create($data); 
         if($status){

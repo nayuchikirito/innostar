@@ -1,0 +1,17 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Package extends Model
+{
+    protected $fillable = [
+        'name', 'price', 'description', 'service_id'
+    ];
+
+    public function service(){
+        return $this->hasMany('App\Service');
+    }
+
+}

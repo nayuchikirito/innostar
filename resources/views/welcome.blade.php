@@ -1,95 +1,84 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('client.includes.app')
 
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
+@section('title')
+    Innovation Star
+@endsection
+      @include('client.navigations.nav')
+@section('content') 
+ <header class="masthead text-center text-white d-flex">
+      <div class="container my-auto">
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <h1 class="text-uppercase">
+              <strong>Innovation Star</strong>
+            </h1>
+            <hr>
+          </div>
+          <div class="col-lg-8 mx-auto">
+            <p class="text-white mb-5">Events Coordinating and Planning Team</p>
+            <a class="btn btn-primary btn-xl js-scroll-trigger" href="#login">Log in</a>
+          </div>
         </div>
-    </body>
-</html>
+      </div>
+    </header>
+
+    <section class="bg-dark text-white" id="login">
+        <div class="container">
+        <div class="row">
+          <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box mt-5 mx-auto">
+              <i class="fa fa-4x fa-user-o text-primary mb-3 sr-icons"></i>
+              <h3 class="mb-3">Admistrator</h3>
+              <p class="text-muted mb-0">Our templates are updated regularly so they don't break.</p>
+              <hr>
+              <a class="btn btn-light btn-xl sr-button" href="/login">Login</a>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box mt-5 mx-auto">
+              <i class="fa fa-4x fa-user-o text-primary mb-3 sr-icons"></i>
+              <h3 class="mb-3">Secretary</h3>
+              <p class="text-muted mb-0">Our templates are updated regularly so they don't break.</p>
+              <hr>
+              <a class="btn btn-light btn-xl sr-button" href="/login">Login</a>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box mt-5 mx-auto">
+              <i class="fa fa-4x fa-user text-primary mb-3 sr-icons"></i>
+              <h3 class="mb-3">Supplier</h3>
+              <p class="text-muted mb-0">You can use this theme as is, or you can make changes!</p>
+              <hr>
+              <a class="btn btn-light btn-xl sr-button"  href="/login">Login</a>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box mt-5 mx-auto">
+              <i class="fa fa-4x fa-users text-primary mb-3 sr-icons"></i>
+              <h3 class="mb-3">Client</h3>
+              <p class="text-muted mb-0">We update dependencies to keep things fresh.</p>
+              <hr>
+              <a class="btn btn-light btn-xl sr-button"  href="/login">Login</a>
+              <a class="btn btn-light btn-xl sr-button"  href="/login">Register</a>
+            </div>
+          </div>
+      </div>
+    </section>
+
+    @include('client.parts.about')
+
+    @include('client.parts.services')
+
+    @include('client.parts.portfolio')
+
+    @include('client.parts.contact')
+
+
+@endsection
+
+    
+
+    

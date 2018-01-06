@@ -32,6 +32,7 @@
                   <th>#</th>
                   <th>Name</th>
                   <th>Email</th>
+                  <th>Type</th>
                   <th>Location</th>
                   <th>Contact</th>
                   <th>Action</th>
@@ -74,6 +75,7 @@
         {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
         {data: 'name',  name: 'name', className: 'col-md-3  text-left',   searchable: true, sortable: true},
         {data: 'email',  name: 'email', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
+        {data: 'type',  name: 'type', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
         {data: 'location',  name: 'location', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
         {data: 'contact',  name: 'contact', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
         {data: 'actions',   name: 'actions', className: 'col-md-2 text-left',  searchable: false,  sortable: false},

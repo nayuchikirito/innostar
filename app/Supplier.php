@@ -15,4 +15,14 @@ class Supplier extends Authenticatable
         'user_id', 'type',
     ];
 
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
+
+
+    public function setPasswordAttribute($password) {
+        $this->attributes['password'] = bcrypt($password);
+    }
+
+
 }

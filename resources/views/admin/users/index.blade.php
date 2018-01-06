@@ -29,9 +29,10 @@
             <div class="box-body">
               <table class="table table-hover" id="users-table">
                 <thead>
-                  <th>#</th>
+                  <th>ID</th>
                   <th>Name</th>
                   <th>Email</th>
+                  <th>Type</th>
                   <th>Location</th>
                   <th>Contact</th>
                   <th>Action</th>
@@ -72,8 +73,9 @@
       },
       "columns": [ 
         {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
-        {data: 'name',  name: 'name', className: 'col-md-3  text-left',   searchable: true, sortable: true},
-        {data: 'email',  name: 'email', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
+        {data: 'name',  name: 'name', className: 'col-md-2  text-left',   searchable: true, sortable: true},
+        {data: 'email',  name: 'email', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'user_type',  name: 'user_type', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
         {data: 'location',  name: 'location', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
         {data: 'contact',  name: 'contact', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
         {data: 'actions',   name: 'actions', className: 'col-md-2 text-left',  searchable: false,  sortable: false},

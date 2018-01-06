@@ -12,8 +12,8 @@
           <label for="user_type">User Type</label>
           <select name="user_type" id="user_type" class="form-control">
             <option selected disabled>Select User Type</option>
-            <option value="admin">Admin</option>
-            <option value="secretary">Secretary</option> 
+            <option value="Admin">Admin</option>
+            <option value="Secretary">Secretary</option>
           </select> 
           <span class="help-text text-danger"></span>
       </div>
@@ -23,7 +23,7 @@
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <label for="midname">Last Name</label>
+          <label for="midname">Middle Name</label>
           <input type="text" class="form-control" id="midname" name="midname" placeholder="Enter Middlename" autocomplete="false">
           <span class="help-text text-danger"></span>
       </div>

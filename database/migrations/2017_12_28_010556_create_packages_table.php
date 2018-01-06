@@ -18,7 +18,10 @@ class CreatePackagesTable extends Migration
             $table->string('name');
             $table->decimal('price');
             $table->text('description');
-            $table->integer('supplier_id');
+
+            $table->unsignedInteger('service_id');
+            $table->foreign('service_id')->references('id')->on('services');
+
             $table->timestamps();
         });
     }

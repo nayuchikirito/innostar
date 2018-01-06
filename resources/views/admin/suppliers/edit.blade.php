@@ -14,11 +14,11 @@
           <label for="type">Supplier Type</label>
           <select name="type" id="type" class="form-control">
             <option selected disabled>Select Supplier Type</option>
-            <option {{ $supplier->supplier->type == 'Florist' ? ' selected':'' }}>Florist</option>
-            <option {{ $supplier->supplier->type == 'Photo & Video' ? ' selected':'' }}>Photo & Video</option>
-            <option {{ $supplier->supplier->type == 'Reception' ? ' selected':'' }}>Reception</option>
-            <option {{ $supplier->supplier->type == 'Souvenir' ? ' selected':'' }}>Souvenir</option>
-            <option {{ $supplier->supplier->type == 'Invitation' ? ' selected':'' }}>Invitation</option> 
+            <option value="Florist" {{ $supplier->supplier->type == 'Florist' ? ' selected':'' }}>Florist</option>
+            <option value="Photo & Video" {{ $supplier->supplier->type == 'Photo & Video' ? ' selected':'' }}>Photo & Video</option>
+            <option value="Reception" {{ $supplier->supplier->type == 'Reception' ? ' selected':'' }}>Reception</option>
+            <option value="Souvenir" {{ $supplier->supplier->type == 'Souvenir' ? ' selected':'' }}>Souvenir</option>
+            <option value="Invitation" {{ $supplier->supplier->type == 'Invitation' ? ' selected':'' }}>Invitation</option> 
           </select> 
           <span class="help-text text-danger"></span>
       </div>

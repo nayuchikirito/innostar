@@ -28,4 +28,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 	
 	Route::resource('/users', 'UsersController');
 	Route::get('/get-users', 'UsersController@all');
+
+	Route::resource('/suppliers', 'SuppliersController');
+	Route::get('/get-suppliers', 'SuppliersController@all');
 });

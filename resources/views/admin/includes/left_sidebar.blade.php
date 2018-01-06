@@ -16,9 +16,9 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li> 
 
-        <li><a href="{{url('admin')}}"><i class="fa fa-dashboard"></i> <span>Home</span></a></li>
-        <li><a href="{{url('admin/suppliers')}}"><i class="fa fa-truck"></i> <span>Suppliers</span></a></li>
-        <li><a href="{{url('admin/users')}}"><i class="fa fa-users"></i> <span>Users</span></a></li>
+        <li class="{{ Request::segment(2) == 'admin' ? 'active':'' }}"><a href="{{url('admin/home')}}"><i class="fa fa-dashboard"></i> <span>Home</span></a></li>
+        <li class="{{ Request::segment(2) == 'suppliers' ? 'active':'' }}"><a href="{{url('admin/suppliers')}}"><i class="fa fa-truck"></i> <span>Suppliers</span></a></li>
+        <li class="{{ Request::segment(2) == 'users' ? 'active':'' }}"><a href="{{url('admin/users')}}"><i class="fa fa-users"></i> <span>Users</span></a></li>
 
 
       </ul>

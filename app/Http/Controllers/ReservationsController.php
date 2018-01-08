@@ -5,20 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DataTables;
 use DB;
-class ServicesController extends Controller
+
+class ReservationsController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        return view('admin.services.index');
+        return view('admin.reservations.index');
     }
 
     /**
@@ -28,7 +25,11 @@ class ServicesController extends Controller
      */
     public function create()
     {
-        return view('admin.services.create');
+        $packages = \App\Package::all();
+        $services = \App\Service::all();
+        return view('admin.reservations.create')
+        ->with('services', $services)
+        ->with('packages', $packages);
     }
 
     /**
@@ -39,19 +40,7 @@ class ServicesController extends Controller
      */
     public function store(Request $request)
     {
-        $data = request()->validate([
-            'name' => 'required'
-        ]);
-        // if($data['password']){
-        //     $data['password'] = bcrypt($data['password']);          
-        // }
-
-        $status = \App\Service::create($data); 
-        if($status){
-            return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
-        }else{
-            return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
-        }
+        //
     }
 
     /**
@@ -73,8 +62,7 @@ class ServicesController extends Controller
      */
     public function edit($id)
     {
-        $service = \App\Service::find($id);
-        return view('admin.services.edit')->with('service', $service);
+        //
     }
 
     /**
@@ -86,18 +74,7 @@ class ServicesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = request()->validate([ 
-            'name' => 'required',
-        ]);
-        
-        $service = \App\Service::find($id); 
-        $service->name = $request->get('name');
- 
-        if($service->save()){
-            return response()->json(['success' => true, 'msg' => 'Data Successfully updated!']);
-        }else{
-            return response()->json(['success' => false, 'msg' => 'An error occured while updating data!']);
-        }
+        //
     }
 
     /**
@@ -108,25 +85,23 @@ class ServicesController extends Controller
      */
     public function destroy($id)
     {
-         $status = \App\Service::destroy($id); 
-        if($status){
-            return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
-        }else{
-            return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
-        }
+        //
     }
 
     public function all(){
         DB::statement(DB::raw('set @row:=0'));
-        $data = \App\Service::selectRaw('*, @row:=@row+1 as row');
+        $data = \App\Reservation::selectRaw('*, @row:=@row+1 as row');
 
          return DataTables::of($data)
             ->AddColumn('row', function($column){
                return $column->id;
             })
-            // ->AddColumn('name', function($column){
-            //    return $column->name;
-            // }) 
+            ->AddColumn('client', function($column){
+               return $column->client_id;
+            }) 
+            ->AddColumn('service', function($column){
+               return $column->service_id;
+            }) 
             ->AddColumn('actions', function($column){
               
                 return '

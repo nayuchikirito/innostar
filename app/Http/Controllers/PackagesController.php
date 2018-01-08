@@ -110,7 +110,24 @@ class PackagesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = request()->validate([ 
+            'name' => 'required',
+            'price' => 'required|numeric|min:0',
+            'description' => 'required',
+            'service_id' => 'required',
+        ]);
+        
+        $service = \App\Package::find($id); 
+        $service->name = $request->get('name');
+        $service->price = $request->get('price');
+        $service->description = $request->get('description');
+        $service->service_id = $request->get('service_id');
+ 
+        if($service->save()){
+            return response()->json(['success' => true, 'msg' => 'Data Successfully updated!']);
+        }else{
+            return response()->json(['success' => false, 'msg' => 'An error occured while updating data!']);
+        }
     }
 
     /**
@@ -121,7 +138,12 @@ class PackagesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $status = \App\Package::destroy($id); 
+        if($status){
+            return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
+        }else{
+            return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
+        }
     }
 
     public function all(){
@@ -129,10 +151,10 @@ class PackagesController extends Controller
         $data = \App\Package::selectRaw('*, @row:=@row+1 as row');
          return DataTables::of($data)
             ->AddColumn('row', function($column){
-               return $column->row;
+               return $column->id;
             })
             ->AddColumn('service', function($column){
-               return $column->service_id;
+               return $column->service->name;
             }) 
             ->AddColumn('actions', function($column){
               

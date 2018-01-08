@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSuppliersTable extends Migration
+class CreateAssignSupplierToPackageTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateSuppliersTable extends Migration
      */
     public function up()
     {
-        Schema::create('suppliers', function (Blueprint $table) {
+        Schema::create('assign_suppliers', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('type', ['Florist', 'Photo & Video', 'Reception', 'Souvenir', 'Invitation']);
 
-            $table->unsignedInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedInteger('supplier_id');
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
 
+            $table->unsignedInteger('package_id');
+            $table->foreign('package_id')->references('id')->on('packages');
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class CreateSuppliersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('suppliers');
+        Schema::dropIfExists('assign_suppliers');
     }
 }

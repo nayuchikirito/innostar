@@ -147,7 +147,7 @@ class UsersController extends Controller
 
          return DataTables::of($data)
             ->AddColumn('row', function($column){
-               return $column->row;
+               return $column->id;
             })
             ->AddColumn('name', function($column){
                return $column->fname.' '.$column->midname.' '.$column->lname;

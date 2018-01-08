@@ -37,4 +37,11 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
 	Route::resource('/packages', 'PackagesController');
 	Route::get('/get-packages', 'PackagesController@all');
+
+	Route::resource('/reservations', 'ReservationsController');
+	Route::get('/get-reservations', 'ReservationsController@all');
+
+	Route::resource('/clients', 'ClientsController');
+	Route::get('/clients/{client}/reserve', 'ClientsController@reserve')->name('clients.reserve');
+	Route::get('/get-clients', 'ClientsController@all');
 });

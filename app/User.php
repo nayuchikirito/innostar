@@ -29,7 +29,11 @@ class User extends Authenticatable
 
 
     public function supplier(){
-        return $this->hasOne('\App\Supplier', 'user_id', 'id');
+        return $this->hasOne('\App\Supplier');
+    }
+
+    public function client(){
+        return $this->hasOne('\App\Client', 'user_id');
     }
 
     public function setPasswordAttribute($password) {

@@ -21,7 +21,6 @@ class CreatePackagesTable extends Migration
 
             $table->unsignedInteger('service_id');
             $table->foreign('service_id')->references('id')->on('services');
-
             $table->timestamps();
         });
     }

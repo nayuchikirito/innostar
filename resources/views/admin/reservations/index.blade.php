@@ -5,12 +5,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Suppliers
-        <small>Add/Edit/Delete/View Suppliers</small>
+        Reservations
+        <small>Add/Edit/Delete/View Reservations</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('admin/home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Suppliers</li>
+        <li class="active">Reservations</li>
       </ol>
     </section>
 
@@ -20,20 +20,22 @@
 
         <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">Suppliers Table</h3>
-              <button class="btn-sm btn btn-success add-data-btn pull-right">
-              <i class="fa fa-plus"></i> Add
+              <h3 class="box-title">Reservations Table</h3>
+              <button class="btn-sm btn btn-success add_data-btn pull-right">
+              <i class="fa fa-plus"></i> Reserve
                 </button>
             </div>
             <!-- /.box-header -->
+            <!-- Status is blocked date or not -->
             <div class="box-body">
-              <table class="table table-hover" id="suppliers-table">
+              <table class="table table-hover" id="reservations-table">
                 <thead>
                   <th>#</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Location</th>
-                  <th>Contact</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>Balance</th>
+                  <th>Client</th>
+                  <th>Service</th>
                   <th>Actions</th>
                 </thead>
               </table>
@@ -54,11 +56,11 @@
 @section('scripts')
 <script type="text/javascript">
   $(function(){
-    var table = $('#suppliers-table').DataTable({
+    var table = $('#reservations-table').DataTable({
       bProcessing: true,
       bServerSide: false,
       sServerMethod: "GET",
-      'ajax': '/admin/get-suppliers',
+      'ajax': '/admin/get-reservations',
       searching: true, 
       paging: true, 
       filtering:false, 
@@ -72,22 +74,23 @@
       },
       "columns": [ 
         {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
-        {data: 'name',  name: 'name', className: 'col-md-3  text-left',   searchable: true, sortable: true},
-        {data: 'email',  name: 'email', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'location',  name: 'location', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
-        {data: 'contact',  name: 'contact', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'date',  name: 'date', className: 'col-md-3  text-left',   searchable: true, sortable: true},
+        {data: 'status',  name: 'status', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
+        {data: 'balance',  name: 'balance', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
+        {data: 'client',  name: 'client', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
+        {data: 'service',  name: 'service', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
         {data: 'actions',   name: 'actions', className: 'col-md-2 text-left',  searchable: false,  sortable: false},
       ], 
       'order': [[0, 'asc']]
     });
 
-    $(".add-data-btn").click(function(x){  
+    $(".add_data-btn").click(function(x){  
           x.preventDefault();
           var that = this;
           $("#addmodal").html('');
           $("#addmodal").modal();
           $.ajax({
-            url: '/admin/suppliers/create',         
+            url: '/admin/reservations/create',         
             success: function(data) {
               $("#addmodal").html(data);
             }
@@ -99,7 +102,7 @@
       $("#editmodal").html('');
       $("#editmodal").modal();
       $.ajax({
-        url: '/admin/suppliers/'+that.dataset.id+'/edit',         
+        url: '/admin/reservations/'+that.dataset.id+'/edit',         
         success: function(data) {
           $("#editmodal").html(data);
         }
@@ -126,11 +129,11 @@
                  if(result){
                   var token = '{{csrf_token()}}'; 
                   $.ajax({
-                  url:'/admin/suppliers/'+that.dataset.id,
+                  url:'/admin/reservations/'+that.dataset.id,
                   type: 'post',
                   data: {_method: 'delete', _token :token},
                   success:function(result){
-                    $("#suppliers-table").DataTable().ajax.url( '/admin/get-suppliers' ).load();
+                    $("#reservations-table").DataTable().ajax.url( '/admin/get-reservations' ).load();
                     swal({
                         title: result.msg,
                         icon: "success"

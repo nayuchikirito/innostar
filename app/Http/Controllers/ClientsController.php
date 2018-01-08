@@ -6,21 +6,16 @@ use Illuminate\Http\Request;
 use DataTables;
 use DB;
 
-class SuppliersController extends Controller
+class ClientsController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        return view('admin.suppliers.index');
+        return view('admin.clients.index');
     }
 
     /**
@@ -30,9 +25,17 @@ class SuppliersController extends Controller
      */
     public function create()
     {
-        return view('admin.suppliers.create');
+        return view('admin.clients.create');
     }
 
+    public function reserve()
+    {   
+        $packages = \App\Package::all();
+        $services = \App\Service::all();
+        return view('admin.clients.reserve')
+        ->with('packages', $packages)
+        ->with('services', $services);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -50,7 +53,6 @@ class SuppliersController extends Controller
             'user_type' => 'required',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|same:password_confirm',
-            'type' => 'required'
         ]);
 
         try{
@@ -68,10 +70,9 @@ class SuppliersController extends Controller
                 $user->password     = $request->get('password');
                 $user->save();
 
-                $supplier = new \App\Supplier;
-                $supplier->type     = $request->get('type');
-                $supplier->user_id  = $user->id;
-                $supplier->save();
+                $client = new \App\Client;
+                $client->user_id  = $user->id;
+                $client->save();
 
                 DB::commit();
 
@@ -81,7 +82,6 @@ class SuppliersController extends Controller
                 DB::rollback();
                 return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
             } 
-
     }
 
     /**
@@ -103,8 +103,8 @@ class SuppliersController extends Controller
      */
     public function edit($id)
     {
-        $supplier = \App\User::find($id);
-        return view('admin.suppliers.edit')->with('supplier', $supplier);
+        $client = \App\User::find($id);
+        return view('admin.clients.edit')->with('client', $client);
     }
 
     /**
@@ -142,11 +142,10 @@ class SuppliersController extends Controller
                 $user->password     = $request->get('password');
                 $user->save();
 
-                $supplier = \App\Supplier::find($user->supplier->id);
-                $supplier->type     = $request->get('type');
-                $supplier->user_id  = $user->id;
-                $supplier->save();
-
+               /* $client = \App\Client::find($user->client->id);//kani<------------------ Gi comment sa nako ang try catch para
+                $client->user_id  = $user->id;                  //makit-an ang error
+                $client->save();
+*/
                 DB::commit();
 
                 return response()->json(['success' => true, 'msg' => 'Data Successfully updated!']);
@@ -165,9 +164,9 @@ class SuppliersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {   
+    {
         $user = \App\User::find($id); 
-        $status = \App\Supplier::destroy($user->supplier->id);
+        $status = \App\Client::destroy($user->client->id);
         $status2 = \App\User::destroy($id);
         if($status && $status2){
             return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
@@ -178,7 +177,7 @@ class SuppliersController extends Controller
 
     public function all(){
         DB::statement(DB::raw('set @row:=0'));
-        $data = \App\User::selectRaw('*, @row:=@row+1 as row')->where('user_type', 'suppliers');
+        $data = \App\User::selectRaw('*, @row:=@row+1 as row')->where('user_type', 'client');
 
          return DataTables::of($data)
             ->AddColumn('row', function($column){
@@ -189,7 +188,10 @@ class SuppliersController extends Controller
             }) 
             ->AddColumn('actions', function($column){
               
-                return '
+                return '    
+                            <button class="btn-sm btn btn-success reserve-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-plus"></i> Reserve
+                            </button>
                             <button class="btn-sm btn btn-warning edit-data-btn" data-id="'.$column->id.'">
                                 <i class="fa fa-edit"></i> Edit
                             </button>
@@ -202,4 +204,3 @@ class SuppliersController extends Controller
             ->make(true);    
     }
 }
-

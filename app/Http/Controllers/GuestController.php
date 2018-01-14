@@ -5,17 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DataTables;
 use DB;
+use Auth;
 
-class ReservationsController extends Controller
+class GuestController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        return view('admin.reservations.index');
+        //
     }
 
     /**
@@ -49,7 +50,7 @@ class ReservationsController extends Controller
         //     $data['password'] = bcrypt($data['password']);          
         // }
 
-         try{
+         // try{
 
             DB::beginTransaction();
 
@@ -65,16 +66,10 @@ class ReservationsController extends Controller
 
                 return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
 
-            }catch(\Exception $e){
-                DB::rollback();
-                return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
-            } 
-        // $status = \App\Reservation::create($data); 
-        // if($status){
-        //     return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
-        // }else{
+        // }catch(\Exception $e){
+        //     DB::rollback();
         //     return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
-        // }
+        // } 
     }
 
     /**
@@ -124,7 +119,7 @@ class ReservationsController extends Controller
 
     public function all(){
         DB::statement(DB::raw('set @row:=0'));
-        $data = \App\Reservation::selectRaw('*, @row:=@row+1 as row');
+        $data = \App\Reservation::where('client_id', Auth::user()->client->id);
 
          return DataTables::of($data)
             ->AddColumn('row', function($column){
@@ -133,20 +128,14 @@ class ReservationsController extends Controller
             ->AddColumn('date', function($column){
                return date('M d, Y | h:i A', strtotime($column->date));
             })
-            ->AddColumn('client', function($column){
-               return $column->client->user->lname.', '.$column->client->user->fname.' '.$column->client->user->midname;
-            }) 
             ->AddColumn('service', function($column){
                return $column->package->service->name;
             }) 
             ->AddColumn('actions', function($column){
               
                 return '
-                            <button class="btn-sm btn btn-warning edit-data-btn" data-id="'.$column->id.'">
-                                <i class="fa fa-edit"></i> Edit
-                            </button>
                             <button class="btn-sm btn btn-danger delete-data-btn" data-id="'.$column->id.'">
-                                <i class="fa fa-trash-o"></i> Delete
+                                <i class="fa fa-trash-o"></i> Request for Cancellation
                             </button> 
                         ';
             }) 

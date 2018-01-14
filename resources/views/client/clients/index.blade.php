@@ -16,13 +16,13 @@
           </div>
           <div class="col-lg-8 mx-auto">
             <p class="text-white mb-5">Events Coordinating and Planning Team</p>
-            <button class="btn btn-primary add-data-btn">Reserve</button>
+            <button class="btn btn-primary reserve-data-btn">Reserve</button>
           </div>
         </div>
       </div>
     </header>
 
-
+    @include('parts.my-reservations')
 
     @include('parts.about')
 
@@ -37,18 +37,48 @@
 
 @section('scripts')
   <script type="text/javascript">
-    $(".add-data-btn").click(function(x){  
+    $(function(){
+    var table = $('#reservations-table').DataTable({
+      bProcessing: true,
+      bServerSide: false,
+      sServerMethod: "GET",
+      'ajax': '/client/get-reservations',
+      searching: true, 
+      paging: true, 
+      filtering:false, 
+      bInfo: true,
+      responsive: true,
+      language:{
+        "paginate": {
+          "next":       "<i class='fa fa-chevron-right'></i>",
+          "previous":   "<i class='fa fa-chevron-left'></i>"
+        }
+      },
+      "columns": [ 
+        {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
+        {data: 'date',  name: 'date', className: 'col-md-2  text-left',   searchable: true, sortable: true},
+        {data: 'status',  name: 'status', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'balance',  name: 'balance', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'service',  name: 'service', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'actions',   name: 'actions', className: 'col-md-3 text-left',  searchable: false,  sortable: false},
+      ], 
+      'order': [[0, 'asc']]
+    });
+    });
+
+    $(".reserve-data-btn").click(function(x){  
           x.preventDefault();
           var that = this;
           $("#addmodal").html('');
           $("#addmodal").modal();
           $.ajax({
-            url: '/admin/reservations/create',         
+            url: '/client/reservations/create',         
             success: function(data) {
               $("#addmodal").html(data);
             }
           }); 
-    });
+      });
+
   </script>
 @endsection
 

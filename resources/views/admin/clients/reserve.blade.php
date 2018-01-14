@@ -10,7 +10,7 @@
     <div class="modal-body">
       <div class="form-group">
           Date and Time
-          <input type="datetime-local" name="datetime">
+          <input type="datetime-local" name="datetime" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
   <!--     <div class="form-group">

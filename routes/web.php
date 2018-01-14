@@ -48,7 +48,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 });
 
 Route::middleware('client')->prefix('client')->group(function () {
+	Route::resource('/reservations', 'GuestController');
+	Route::get('/get-reservations', 'GuestController@all');
 	Route::get('/home', 'ClientLoginController@index');	
+
 });
 
 Route::get('select_service/{data}', 'SelectionController@selectService')->name('select-service');

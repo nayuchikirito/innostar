@@ -15,4 +15,5 @@ class ClientLoginController extends Controller
     {
     	return view('client.clients.index');
     }
+
 }

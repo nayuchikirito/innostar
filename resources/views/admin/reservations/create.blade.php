@@ -2,15 +2,15 @@
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-      <h4 class="modal-title">Reserve</h4>
+      <!-- <h4 class="modal-title">Reserve</h4> -->
     </div>
  
-    <form action="{{ url('/admin/reservations') }}" method="POST" id="add-reservations-form">
+    <form action="{{ url('/client/reservations') }}" method="POST" id="add-reservations-form">
     {{ csrf_field() }}
     <div class="modal-body">
       <div class="form-group">
           Date and Time
-          <input type="datetime-local" name="datetime">
+          <input type="datetime-local" name="datetime" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
   <!--     <div class="form-group">
@@ -25,7 +25,7 @@
       </div> -->
 
       <div class="form-group">
-          <input type="hidden" name="client_id" value="{{ $client->id }}">
+          <input type="hidden" name="client_id" value="{{ $client->client->id }}">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
@@ -113,7 +113,7 @@
                   icon: "error"
                 });
             }
-            $("#reservations-table").DataTable().ajax.url( '/admin/get-reservations' ).load();
+            // $("#reservations-table").DataTable().ajax.url( '/admin/get-reservations' ).load();
             $('.modal').modal('hide');
           },
           error: function(xhr,status,error){

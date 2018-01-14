@@ -74,12 +74,12 @@
       },
       "columns": [ 
         {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
-        {data: 'date',  name: 'date', className: 'col-md-3  text-left',   searchable: true, sortable: true},
-        {data: 'status',  name: 'status', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
-        {data: 'balance',  name: 'balance', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
-        {data: 'client',  name: 'client', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
+        {data: 'date',  name: 'date', className: 'col-md-2  text-left',   searchable: true, sortable: true},
+        {data: 'status',  name: 'status', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'balance',  name: 'balance', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'client',  name: 'client', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
         {data: 'service',  name: 'service', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'actions',   name: 'actions', className: 'col-md-2 text-left',  searchable: false,  sortable: false},
+        {data: 'actions',   name: 'actions', className: 'col-md-3 text-left',  searchable: false,  sortable: false},
       ], 
       'order': [[0, 'asc']]
     });

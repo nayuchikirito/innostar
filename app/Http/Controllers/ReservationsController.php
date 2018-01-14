@@ -25,11 +25,9 @@ class ReservationsController extends Controller
      */
     public function create()
     {
-        $packages = \App\Package::all();
         $services = \App\Service::all();
-        return view('admin.reservations.create')
-        ->with('services', $services)
-        ->with('packages', $packages);
+        $client = Auth::user();
+        return view('admin.reservations.create', compact('services', 'client'));
     }
 
     /**
@@ -40,7 +38,43 @@ class ReservationsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = request()->validate([
+            'datetime' => 'required|date',
+            'status' => 'required',
+            'balance' => 'required',
+            'client_id' => 'required',
+            'package_id' => 'required',
+        ]);
+        // if($data['password']){
+        //     $data['password'] = bcrypt($data['password']);          
+        // }
+
+         // try{
+
+            DB::beginTransaction();
+
+                $reservation = new \App\Reservation;
+                $reservation->date        = $request->get('datetime');
+                $reservation->status        = $request->get('status');
+                $reservation->balance      = $request->get('balance');
+                $reservation->client_id     = $request->get('client_id');
+                $reservation->package_id      = $request->get('package_id');
+                $reservation->save();
+
+                DB::commit();
+
+                return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+
+            // }catch(\Exception $e){
+            //     DB::rollback();
+            //     return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+            // } 
+        // $status = \App\Reservation::create($data); 
+        // if($status){
+        //     return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+        // }else{
+        //     return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+        // }
     }
 
     /**
@@ -96,11 +130,14 @@ class ReservationsController extends Controller
             ->AddColumn('row', function($column){
                return $column->id;
             })
+            ->AddColumn('date', function($column){
+               return date('M d, Y | h:i A', strtotime($column->date));
+            })
             ->AddColumn('client', function($column){
-               return $column->client_id;
+               return $column->client->user->lname.', '.$column->client->user->fname.' '.$column->client->user->midname;
             }) 
             ->AddColumn('service', function($column){
-               return $column->service_id;
+               return $column->package->service->name;
             }) 
             ->AddColumn('actions', function($column){
               

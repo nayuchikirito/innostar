@@ -9,6 +9,11 @@
     {{ csrf_field() }}
     <div class="modal-body">
       <div class="form-group">
+          Date and Time
+          <input type="datetime-local" name="datetime">
+          <span class="help-text text-danger"></span>
+      </div>
+  <!--     <div class="form-group">
           <label for="datetime">Date and Time</label>
           <div class='input-group date' id='datetimeID'>
                     <input type='text' class="form-control" />
@@ -17,33 +22,41 @@
                     </span>
                 </div>
           <span class="help-text text-danger"></span>
+      </div> -->
+
+      <div class="form-group">
+          <input type="hidden" name="client_id" value="{{ $client->id }}">
+          <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
           <input type="hidden" name="status" value="pending">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="balance" value="0">
-          <span class="help-text text-danger"></span>
-      </div>
-      <div class="form-group">
           <label for="service">Service</label>
-          <select name="service" id="service" class="form-control">
+          <select name="service_id" id="service_id" class="form-control">
             <option selected disabled>Select Service</option>
             @foreach($services as $service)
-              <option value="service">{{ $service->name }}</option>
+              <option value="{{$service->id}}">{{ $service->name }}</option>
             @endforeach
           </select> 
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
           <label for="package">Package</label>
-          <select name="package" id="package" class="form-control">
-            <option selected disabled>Select Package</option>
-            @foreach($packages as $package)
-              <option value="package">{{ $package->name }}</option>
-            @endforeach
+          <select name="package_id" id="package_id" class="form-control">
           </select> 
+          <span class="help-text text-danger"></span>
+      </div>
+
+      <div class="form-group">
+          <input type="hidden" name="balance" id="balance">
+          <span class="help-text text-danger"></span>
+      </div>
+
+      <div class="form-group">
+          <label for="description">Description</label>
+          <textarea type="text" class="form-control" id="description" name="description" autocomplete="false" readonly="true"></textarea>
           <span class="help-text text-danger"></span>
       </div>
     </div>
@@ -58,6 +71,9 @@
 
  
 <script type="text/javascript">
+  var s_id = document.getElementById("service_id");
+  // var package_s_id = e.options[e.selectedIndex].value;
+
   $(function(){ 
 
         $("#add-reservations-form").on('submit', function(e){
@@ -108,12 +124,55 @@
 
       });
 
-        $('#datetimeID').datetimepicker({
-                    defaultDate: "11/1/2013",
-                    disabledDates: [
-                        new Date(2013, 11 - 1, 21),
-                        "11/22/2013 00:53"
-                    ]
-                });
+        // $('#datetimeID').datetimepicker({
+        //             defaultDate: "11/1/2013",
+        //             disabledDates: [
+        //                 new Date(2013, 11 - 1, 21),
+        //                 "11/22/2013 00:53"
+        //             ]
+        //         });
+	     $('#service_id').change(function(){
+	      var serviceID = $(this).val();
+	      var that = this;
+	      var token = $("input[name='_token']").val();
+	      $.ajax({
+		          url: "{{url('select_service')}}/"+serviceID,
+		          method: 'GET',
+		          success: function(data) {
+		            $("select[name='package_id'").html('');
+		            $("select[name='package_id'").html(data);
+		            $('#package_id').change();
+		          }
+		      });
+		  });
+		//$('#service_id').change();
+
+		$('#package_id').change(function(){
+	      var packageID = $(this).val();
+	      var that = this;
+	      var token = $("input[name='_token']").val();
+	      $.ajax({
+		          url: "{{url('select_package')}}/"+packageID,
+		          method: 'GET',
+		          success: function(data) {
+		            $("[name='description'").html('');
+		            $("[name='description'").html(data);
+		          }
+		      });
+		  });
+
+		$('#package_id').change(function(){
+	      var packageID = $(this).val();
+	      var that = this;
+	      var token = $("input[name='_token']").val();
+	      $.ajax({
+		          url: "{{url('select_balance')}}/"+packageID,
+		          method: 'GET',
+		          success: function(data) {
+		            $("[name='balance'").val('');
+		            $("[name='balance'").val(data);
+		          }
+		      });
+		  });
   });  
  </script> 

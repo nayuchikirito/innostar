@@ -28,13 +28,14 @@ class ClientsController extends Controller
         return view('admin.clients.create');
     }
 
-    public function reserve()
+    public function reserve($id)
     {   
-        $packages = \App\Package::all();
         $services = \App\Service::all();
-        return view('admin.clients.reserve')
-        ->with('packages', $packages)
-        ->with('services', $services);
+        $client = \App\Client::where('user_id', $id)->first();
+        // return response()->json($client);
+        return view('admin.clients.reserve', compact(['services', 'client']));
+        // ->with('services', $services)
+        // ->with('client', $client);
     }
     /**
      * Store a newly created resource in storage.

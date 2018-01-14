@@ -3,7 +3,7 @@
 @section('title')
     Innovation Star
 @endsection
-      @include('client.navigations.nav')
+      @include('navigations.nav')
 @section('content') 
  <header class="masthead text-center text-white d-flex">
       <div class="container my-auto">
@@ -68,13 +68,13 @@
       </div>
     </section>
 
-    @include('client.parts.about')
+    @include('parts.about')
 
-    @include('client.parts.services')
+    @include('parts.services')
 
-    @include('client.parts.portfolio')
+    @include('parts.portfolio')
 
-    @include('client.parts.contact')
+    @include('parts.contact')
 
 
 @endsection

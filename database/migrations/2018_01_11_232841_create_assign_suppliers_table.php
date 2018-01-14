@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAssignSupplierToPackageTable extends Migration
+class CreateAssignSuppliersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -19,8 +19,8 @@ class CreateAssignSupplierToPackageTable extends Migration
             $table->unsignedInteger('supplier_id');
             $table->foreign('supplier_id')->references('id')->on('suppliers');
 
-            $table->unsignedInteger('package_id');
-            $table->foreign('package_id')->references('id')->on('packages');
+            $table->unsignedInteger('reservation_id');
+            $table->foreign('reservation_id')->references('id')->on('reservations');
             $table->timestamps();
         });
     }

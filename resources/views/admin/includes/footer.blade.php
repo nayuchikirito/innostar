@@ -19,8 +19,10 @@
 <script src="{{asset('admin/dist/js/adminlte.min.js')}}""></script>  
 
 <!-- datatables css and js -->
-<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/datatables.min.css"/>
+<!-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css"> -->
+<script type="text/javascript" src="/js/datatables.min.js"></script>
+<!-- <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> -->
 
 <script src="{{ asset('js/sweetalert2.all.js') }}"></script>
 <script src="{{ asset('js/bootbox.min.js') }}"></script>

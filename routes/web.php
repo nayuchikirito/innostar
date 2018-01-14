@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Auth::routes();
 
 //NORMAL USER SIDE
@@ -22,7 +23,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 //ADMIN USERS
-Route::middleware('auth')->prefix('admin')->group(function () {
+Route::middleware('admin')->prefix('admin')->group(function () {
 	//Link for your admin homepage
 	Route::get('/home', 'HomeController@index');
 	
@@ -45,3 +46,11 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 	Route::get('/clients/{client}/reserve', 'ClientsController@reserve')->name('clients.reserve');
 	Route::get('/get-clients', 'ClientsController@all');
 });
+
+Route::middleware('client')->prefix('client')->group(function () {
+	Route::get('/home', 'ClientLoginController@index');	
+});
+
+Route::get('select_service/{data}', 'SelectionController@selectService')->name('select-service');
+Route::get('select_package/{data}', 'SelectionController@selectPackage')->name('select-package'); 
+Route::get('select_balance/{data}', 'SelectionController@selectBalance')->name('select-balance'); 

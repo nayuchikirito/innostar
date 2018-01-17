@@ -21,6 +21,9 @@ class CreateClientsTable extends Migration
 
             $table->timestamps();
         });
+        Schema::table('clients', function ($table) {
+            $table->softDeletes();
+        });
     }
 
     /**

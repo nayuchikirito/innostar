@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DataTables;
 use DB;
+use Auth;
 
 class UsersController extends Controller
 {
@@ -43,18 +44,15 @@ class UsersController extends Controller
     {
         
         $data = request()->validate([
-            'fname' => 'required',
-            'lname' => 'required',
-            'midname' => 'required',
+            'fname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
+            'lname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
+            'midname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
             'location' => 'required',
-            'contact' => 'required',
+            'contact' => 'required|numeric',
             'user_type' => 'required',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|same:password_confirm'
         ]);
-        // if($data['password']){
-        //     $data['password'] = bcrypt($data['password']);          
-        // }
 
         $status = \App\User::create($data); 
         if($status){
@@ -72,7 +70,8 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = \App\User::find($id);
+        return view('admin.users.show')->with('user', $user);
     }
 
     /**
@@ -97,14 +96,14 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
         $data = request()->validate([ 
-            'fname' => 'required',
-            'lname' => 'required',
-            'midname' => 'required',
+            'fname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
+            'lname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
+            'midname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
             'location' => 'required',
-            'contact' => 'required',
+            'contact' => 'required|numeric',
             'user_type' => 'required',
             'email' => 'required|string|email|max:255|unique:users,email,'.$id,
-            'password' => 'nullable|string|min:6|same:password_confirm'
+            'password' => 'required|string|min:6|same:password_confirm'
         ]);
         
         $user = \App\User::find($id); 
@@ -132,18 +131,31 @@ class UsersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        $status = \App\User::destroy($id); 
-        if($status){
-            return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
+    {   
+        if(Auth::user()->id != $id){
+            try{
+                $status = \App\User::destroy($id); 
+                if($status){
+                    return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
+                }else{
+                    return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
+                }
+            }catch(\Illuminate\Database\QueryException $e){
+                return response()->json(['success' => false, 'msg' => 'Cannot delete. Client has transactions']);
+            }
+
         }else{
-            return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
+            return response()->json(['success' => false, 'msg' => 'Cannot delete. User is logged in.']);
         }
+        
+
+        
     }
 
     public function all(){
         DB::statement(DB::raw('set @row:=0'));
-        $data = \App\User::selectRaw('*, @row:=@row+1 as row');
+        $data = \App\User::where('user_type', '=', 'Admin' )
+                            ->orWhere('user_type', '=', 'Secretary');
 
          return DataTables::of($data)
             ->AddColumn('row', function($column){
@@ -155,6 +167,9 @@ class UsersController extends Controller
             ->AddColumn('actions', function($column){
               
                 return '
+                            <button class="btn-sm btn btn-info show-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-id-card-o"></i> View
+                            </button>
                             <button class="btn-sm btn btn-warning edit-data-btn" data-id="'.$column->id.'">
                                 <i class="fa fa-edit"></i> Edit
                             </button>

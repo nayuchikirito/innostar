@@ -23,8 +23,8 @@ $factory->define(App\User::class, function (Faker $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => bcrypt('secret'),
         'location' => $faker->address,
-        'contact' => str_random(11),
-        'user_type' => 'admin',
+        'contact' => '09123456789',
+        'user_type' => 'client',
         'remember_token' => str_random(10),
     ];
 });

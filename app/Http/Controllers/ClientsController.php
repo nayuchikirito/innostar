@@ -166,13 +166,17 @@ class ClientsController extends Controller
      */
     public function destroy($id)
     {
-        $user = \App\User::find($id); 
-        $status = \App\Client::destroy($user->client->id);
-        $status2 = \App\User::destroy($id);
-        if($status && $status2){
-            return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
-        }else{
-            return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
+        try{
+            $user = \App\User::find($id); 
+            $status = \App\Client::destroy($user->client->id);
+            $status2 = \App\User::destroy($id);
+            if($status && $status2){
+                return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
+            }else{
+                return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
+            }
+        }catch(\Illuminate\Database\QueryException $e){
+            return response()->json(['success' => false, 'msg' => 'Cannot delete. Client has transactions']);
         }
     }
 

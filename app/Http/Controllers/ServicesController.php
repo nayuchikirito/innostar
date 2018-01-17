@@ -40,7 +40,7 @@ class ServicesController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-            'name' => 'required'
+            'name' => 'required|unique:services'
         ]);
         // if($data['password']){
         //     $data['password'] = bcrypt($data['password']);          
@@ -87,7 +87,7 @@ class ServicesController extends Controller
     public function update(Request $request, $id)
     {
         $data = request()->validate([ 
-            'name' => 'required',
+            'name' => 'required|unique:services',
         ]);
         
         $service = \App\Service::find($id); 
@@ -108,12 +108,17 @@ class ServicesController extends Controller
      */
     public function destroy($id)
     {
-         $status = \App\Service::destroy($id); 
-        if($status){
-            return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
-        }else{
-            return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
+        try{
+            $status = \App\Service::destroy($id); 
+            if($status){
+                return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
+            }else{
+                return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
+            }
+        }catch(\Illuminate\Database\QueryException $e){
+            return response()->json(['success' => false, 'msg' => 'Cannot delete. Client has transactions']);
         }
+        
     }
 
     public function all(){

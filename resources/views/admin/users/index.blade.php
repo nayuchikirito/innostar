@@ -31,10 +31,7 @@
                 <thead>
                   <th>ID</th>
                   <th>Name</th>
-                  <th>Email</th>
                   <th>Type</th>
-                  <th>Location</th>
-                  <th>Contact</th>
                   <th>Action</th>
                 </thead>
               </table>
@@ -50,6 +47,7 @@
 
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="addmodal"></div>
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="editmodal"></div>
+  <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="showmodal"></div>
 @endsection
 
 @section('scripts')
@@ -73,12 +71,9 @@
       },
       "columns": [ 
         {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
-        {data: 'name',  name: 'name', className: 'col-md-2  text-left',   searchable: true, sortable: true},
-        {data: 'email',  name: 'email', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'user_type',  name: 'user_type', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'location',  name: 'location', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'contact',  name: 'contact', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'actions',   name: 'actions', className: 'col-md-2 text-left',  searchable: false,  sortable: false},
+        {data: 'name',  name: 'name', className: 'col-md-3  text-left',   searchable: true, sortable: true},
+        {data: 'user_type',  name: 'user_type', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
+        {data: 'actions',   name: 'actions', className: 'col-md-4 text-left',  searchable: false,  sortable: false},
       ], 
       'order': [[0, 'asc']]
     });
@@ -95,6 +90,20 @@
             }
           }); 
     });
+
+    $(document).off('click','.show-data-btn').on('click','.show-data-btn', function(e){
+      e.preventDefault();
+      var that = this; 
+      $("#showmodal").html('');
+      $("#showmodal").modal();
+      $.ajax({
+        url: '/admin/users/'+that.dataset.id,         
+        success: function(data) {
+          $("#showmodal").html(data);
+        }
+      }); 
+    });
+
     $(document).off('click','.edit-data-btn').on('click','.edit-data-btn', function(e){
       e.preventDefault();
       var that = this; 
@@ -107,6 +116,7 @@
         }
       }); 
     });
+
     $(document).off('click','.delete-data-btn').on('click','.delete-data-btn', function(e){
       e.preventDefault();
       var that = this; 

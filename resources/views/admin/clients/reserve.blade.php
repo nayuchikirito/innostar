@@ -8,6 +8,10 @@
     <form action="{{ url('/admin/reservations') }}" method="POST" id="add-reservations-form">
     {{ csrf_field() }}
     <div class="modal-body">
+      <div class="text-center">
+        <button class="btn-sm btn btn-success" id="package">Package</button>
+        <button class="btn-sm btn btn-success" id="coordination">On-day Coordination</button>
+      </div>
       <div class="form-group">
           Date and Time
           <input type="datetime-local" name="datetime" class="form-control">

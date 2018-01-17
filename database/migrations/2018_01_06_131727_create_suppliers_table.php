@@ -22,6 +22,10 @@ class CreateSuppliersTable extends Migration
 
             $table->timestamps();
         });
+
+        Schema::table('suppliers', function ($table) {
+            $table->softDeletes();
+        });
     }
 
     /**

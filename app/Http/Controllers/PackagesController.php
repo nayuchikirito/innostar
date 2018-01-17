@@ -43,7 +43,7 @@ class PackagesController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-            'name' => 'required',
+            'name' => 'required|unique:packages,name,null,null,service_id,'.$request->service_id,
             'price' => 'required|numeric|min:0',
             'description' => 'required',
             'service_id' => 'required',
@@ -138,12 +138,17 @@ class PackagesController extends Controller
      */
     public function destroy($id)
     {
-        $status = \App\Package::destroy($id); 
-        if($status){
-            return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
-        }else{
-            return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
+        try{
+            $status = \App\Package::destroy($id); 
+            if($status){
+                return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
+            }else{
+                return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
+            }
+        }catch(\Illuminate\Database\QueryException $e){
+            return response()->json(['success' => false, 'msg' => 'Cannot delete. Client has transactions']);
         }
+
     }
 
     public function all(){

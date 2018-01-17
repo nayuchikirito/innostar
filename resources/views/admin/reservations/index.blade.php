@@ -36,6 +36,7 @@
                   <th>Balance</th>
                   <th>Client</th>
                   <th>Service</th>
+                  <th>Package</th>
                   <th>Actions</th>
                 </thead>
               </table>
@@ -79,6 +80,7 @@
         {data: 'balance',  name: 'balance', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
         {data: 'client',  name: 'client', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
         {data: 'service',  name: 'service', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'package',  name: 'package', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
         {data: 'actions',   name: 'actions', className: 'col-md-3 text-left',  searchable: false,  sortable: false},
       ], 
       'order': [[0, 'asc']]

@@ -42,11 +42,11 @@ class SuppliersController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-            'fname' => 'required',
-            'lname' => 'required',
-            'midname' => 'required',
+            'fname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
+            'lname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
+            'midname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
             'location' => 'required',
-            'contact' => 'required',
+            'contact' => 'required|max:11|regex:/(09)[0-9]/',
             'user_type' => 'required',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|same:password_confirm',
@@ -117,14 +117,15 @@ class SuppliersController extends Controller
     public function update(Request $request, $id)
     {
         $data = request()->validate([ 
-            'fname' => 'required',
-            'lname' => 'required',
-            'midname' => 'required',
+            'fname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
+            'lname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
+            'midname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
             'location' => 'required',
-            'contact' => 'required',
+            'contact' => 'required|max:11|regex:/(09)[0-9]{9}/',
             'user_type' => 'required',
             'email' => 'required|string|email|max:255|unique:users,email,'.$id,
             'password' => 'required|string|min:6|same:password_confirm',
+            'type' => 'required'
         ]);
 
         try{
@@ -166,14 +167,19 @@ class SuppliersController extends Controller
      */
     public function destroy($id)
     {   
-        $user = \App\User::find($id); 
-        $status = \App\Supplier::destroy($user->supplier->id);
-        $status2 = \App\User::destroy($id);
-        if($status && $status2){
-            return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
-        }else{
-            return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
+        try{
+            $user = \App\User::find($id); 
+            $status = \App\Supplier::destroy($user->supplier->id);
+            $status2 = \App\User::destroy($id);
+            if($status && $status2){
+                return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
+            }else{
+                return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
+            }
+        }catch(\Illuminate\Database\QueryException $e){
+            return response()->json(['success' => false, 'msg' => 'Cannot delete. Client has transactions']);
         }
+        
     }
 
     public function all(){

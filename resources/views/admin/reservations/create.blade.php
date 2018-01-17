@@ -13,17 +13,6 @@
           <input type="datetime-local" name="datetime" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
-  <!--     <div class="form-group">
-          <label for="datetime">Date and Time</label>
-          <div class='input-group date' id='datetimeID'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-          <span class="help-text text-danger"></span>
-      </div> -->
-
       <div class="form-group">
           <input type="hidden" name="client_id" value="{{ $client->client->id }}">
           <span class="help-text text-danger"></span>
@@ -124,13 +113,6 @@
 
       });
 
-        // $('#datetimeID').datetimepicker({
-        //             defaultDate: "11/1/2013",
-        //             disabledDates: [
-        //                 new Date(2013, 11 - 1, 21),
-        //                 "11/22/2013 00:53"
-        //             ]
-        //         });
        $('#service_id').change(function(){
         var serviceID = $(this).val();
         var that = this;

@@ -9,7 +9,7 @@
     {{ csrf_field() }}
     <div class="modal-body">
       <div class="form-group">
-          <label for="fname">Name</label>
+          <label for="name">Name</label>
           <input type="text" class="form-control" id="name" name="name" placeholder="Enter Name" autocomplete="false">
           <span class="help-text text-danger"></span>
       </div>

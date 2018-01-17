@@ -41,7 +41,7 @@ class ReservationsController extends Controller
         $data = request()->validate([
             'datetime' => 'required|date',
             'status' => 'required',
-            'balance' => 'required',
+            'balance' => 'required|numeric',
             'client_id' => 'required',
             'package_id' => 'required',
         ]);
@@ -108,7 +108,13 @@ class ReservationsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = request()->validate([
+            'datetime' => 'required|date',
+            'status' => 'required',
+            'balance' => 'required|numeric',
+            'client_id' => 'required',
+            'package_id' => 'required',
+        ]);
     }
 
     /**
@@ -124,7 +130,7 @@ class ReservationsController extends Controller
 
     public function all(){
         DB::statement(DB::raw('set @row:=0'));
-        $data = \App\Reservation::selectRaw('*, @row:=@row+1 as row');
+        $data = \App\Reservation::all();
 
          return DataTables::of($data)
             ->AddColumn('row', function($column){
@@ -138,6 +144,9 @@ class ReservationsController extends Controller
             }) 
             ->AddColumn('service', function($column){
                return $column->package->service->name;
+            }) 
+            ->AddColumn('package', function($column){
+               return $column->package->name;
             }) 
             ->AddColumn('actions', function($column){
               

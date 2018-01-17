@@ -11,7 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // factory(App\User::class, 1) ->create();
         $user = new \App\User;
         $user->fname     = 'Admin';
         $user->lname     = 'Sample';
@@ -22,6 +21,8 @@ class DatabaseSeeder extends Seeder
         $user->password = 'secret';
         $user->user_type     = 'admin';
         $user->save();
+
+
         // $this->call(UsersTableSeeder::class);
     }
 

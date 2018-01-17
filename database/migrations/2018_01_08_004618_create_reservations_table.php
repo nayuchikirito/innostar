@@ -26,6 +26,10 @@ class CreateReservationsTable extends Migration
             $table->foreign('package_id')->references('id')->on('packages');
             $table->timestamps();
         });
+
+        Schema::table('reservations', function ($table) {
+            $table->softDeletes();
+        });
     }
 
     /**

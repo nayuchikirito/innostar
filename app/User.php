@@ -40,4 +40,20 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($password);
     }
 
+    public function setFnameAttribute($fname) {
+        $this->attributes['fname'] = ucfirst($fname);
+    }
+
+    public function setLnameAttribute($lname) {
+        $this->attributes['lname'] = ucfirst($lname);
+    }
+
+    public function setMidnameAttribute($midname) {
+        $this->attributes['midname'] = ucfirst($midname);
+    }
+
+    public function setLocationAttribute($location) {
+        $this->attributes['location'] = ucfirst($location);
+    }
+
 }

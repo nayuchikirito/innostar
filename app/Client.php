@@ -18,4 +18,8 @@ class Client extends Model
     public function reservation(){
     	return $this->hasMany('App\Reservation');
     }
+
+    public function coordination(){
+        return $this->hasMany('App\Coordination');
+    }
 }

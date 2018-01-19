@@ -14,4 +14,7 @@ class Service extends Model
         return $this->hasMany('App\Package');
     }
 
+    public function coordination(){
+        return $this->hasMany('App\Coordination');
+    }
 }

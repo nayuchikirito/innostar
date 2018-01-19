@@ -85,7 +85,9 @@ class PackagesController extends Controller
      */
     public function show($id)
     {
-        //
+        $package = \App\Package::find($id);
+        $services = \App\Service::all();
+        return view('admin.packages.show')->with('package', $package)->with('services', $services);
     }
 
     /**
@@ -164,6 +166,9 @@ class PackagesController extends Controller
             ->AddColumn('actions', function($column){
               
                 return '
+                            <button class="btn-sm btn btn-info show-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-id-card-o"></i> View
+                            </button>
                             <button class="btn-sm btn btn-warning edit-data-btn" data-id="'.$column->id.'">
                                 <i class="fa fa-edit"></i> Edit
                             </button>

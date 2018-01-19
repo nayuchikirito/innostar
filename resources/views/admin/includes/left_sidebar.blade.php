@@ -30,6 +30,8 @@
 
         <li class="{{ Request::segment(2) == 'reservations' ? 'active':'' }}"><a href="{{url('admin/reservations')}}"><i class="fa fa-users"></i> <span>Reservations</span></a></li>
 
+        <li class="{{ Request::segment(2) == 'coordinations' ? 'active':'' }}"><a href="{{url('admin/coordinations')}}"><i class="fa fa-users"></i> <span>Coordinations</span></a></li>
+
 
       </ul>
     </section>

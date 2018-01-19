@@ -2,17 +2,12 @@
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-      <h4 class="modal-title">View User</h4>
+      <h4 class="modal-title">View Supplier</h4>
     </div>
  
-    <form action="{{ url('/admin/users/'.$user->id) }}" method="GET" id="show-users-form">
+    <form action="{{ url('/admin/suppliers/'.$user->id) }}" method="GET" id="show-suppliers-form">
     {{ csrf_field() }}
     <div class="modal-body">
-      <div class="form-group">
-          <label for="user_type">User Type: </label>
-          <span id="user_type">{{ $user->user_type }}</span>
-          <span class="help-text text-danger"></span>
-        </div>
       <div class="form-group">
           <label for="name">Name: </label>
           <span id="name">{{ $user->lname.', '.$user->fname.' '.substr($user->midname, 0, 1).'.' }}</span>

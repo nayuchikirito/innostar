@@ -42,7 +42,11 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 	Route::resource('/reservations', 'ReservationsController');
 	Route::get('/get-reservations', 'ReservationsController@all');
 
+	Route::resource('/coordinations', 'CoordinationsController');
+	Route::get('/get-coordinations', 'CoordinationsController@all');
+
 	Route::resource('/clients', 'ClientsController');
+	// Route::get('/choose_reservation', 'ClientsController@choose')->name('clients.choose');
 	Route::get('/clients/{client}/reserve', 'ClientsController@reserve')->name('clients.reserve');
 	Route::get('/get-clients', 'ClientsController@all');
 });

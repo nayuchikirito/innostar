@@ -113,9 +113,7 @@ class UsersController extends Controller
         $user->location = $request->get('location');
         $user->contact = $request->get('contact');
         $user->user_type = $request->get('user_type');
-        if($request->get('password')){
-            $user->password     = bcrypt($request->get('password'));
-        }
+        $user->password     = $request->get('password');
  
         if($user->save()){
             return response()->json(['success' => true, 'msg' => 'Data Successfully updated!']);
@@ -162,7 +160,7 @@ class UsersController extends Controller
                return $column->id;
             })
             ->AddColumn('name', function($column){
-               return $column->fname.' '.$column->midname.' '.$column->lname;
+               return $column->lname.', '.$column->fname.' '.substr($column->midname, 0, 1).'.';
             }) 
             ->AddColumn('actions', function($column){
               

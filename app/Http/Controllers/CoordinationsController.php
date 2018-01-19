@@ -6,16 +6,17 @@ use Illuminate\Http\Request;
 use DataTables;
 use DB;
 
-class ReservationsController extends Controller
-{
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
+class CoordinationsController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        return view('admin.reservations.index');
+        return view('admin.coordinations.index');
     }
 
     /**
@@ -43,7 +44,7 @@ class ReservationsController extends Controller
             'status' => 'required',
             'balance' => 'required|numeric',
             'client_id' => 'required',
-            'package_id' => 'required',
+            'service_id' => 'required',
         ]);
         // if($data['password']){
         //     $data['password'] = bcrypt($data['password']);          
@@ -53,12 +54,12 @@ class ReservationsController extends Controller
 
             DB::beginTransaction();
 
-                $reservation = new \App\Reservation;
+                $reservation = new \App\Coordination;
                 $reservation->date        = $request->get('datetime');
                 $reservation->status        = $request->get('status');
                 $reservation->balance      = $request->get('balance');
                 $reservation->client_id     = $request->get('client_id');
-                $reservation->package_id      = $request->get('package_id');
+                $reservation->service_id      = $request->get('service_id');
                 $reservation->save();
 
                 DB::commit();
@@ -69,12 +70,6 @@ class ReservationsController extends Controller
                 DB::rollback();
                 return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
             } 
-        // $status = \App\Reservation::create($data); 
-        // if($status){
-        //     return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
-        // }else{
-        //     return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
-        // }
     }
 
     /**
@@ -85,8 +80,8 @@ class ReservationsController extends Controller
      */
     public function show($id)
     {
-        $reservation = \App\Reservation::find($id);
-        return view('admin.reservations.show')->with('reservation', $reservation);
+        $coordination = \App\Coordination::find($id);
+        return view('admin.coordinations.show')->with('coordination', $coordination);
     }
 
     /**
@@ -97,11 +92,7 @@ class ReservationsController extends Controller
      */
     public function edit($id)
     {
-        $services = \App\Service::all();
-        $reservation = \App\Reservation::find($id);
-        return view('admin.reservations.edit')
-        ->with('reservation', $reservation)
-        ->with('services', $services);
+        //
     }
 
     /**
@@ -113,13 +104,7 @@ class ReservationsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = request()->validate([
-            'datetime' => 'required|date',
-            'status' => 'required',
-            'balance' => 'required|numeric',
-            'client_id' => 'required',
-            'package_id' => 'required',
-        ]);
+        //
     }
 
     /**
@@ -135,7 +120,7 @@ class ReservationsController extends Controller
 
     public function all(){
         DB::statement(DB::raw('set @row:=0'));
-        $data = \App\Reservation::all();
+        $data = \App\Coordination::all();
 
          return DataTables::of($data)
             ->AddColumn('row', function($column){
@@ -148,7 +133,7 @@ class ReservationsController extends Controller
                return $column->client->user->lname.', '.$column->client->user->fname.' '.substr($column->client->user->midname, 0, 1).'.';
             }) 
             ->AddColumn('service', function($column){
-               return $column->package->service->name;
+               return $column->service->name;
             }) 
             ->AddColumn('actions', function($column){
               
@@ -167,5 +152,4 @@ class ReservationsController extends Controller
             ->rawColumns(['actions'])
             ->make(true);    
     }
-
 }

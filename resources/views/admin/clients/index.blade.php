@@ -22,8 +22,8 @@
             <div class="box-header with-border">
               <h3 class="box-title">Clients Table</h3>
               <button class="btn-sm btn btn-success add-data-btn pull-right">
-              <i class="fa fa-plus"></i> Add
-                </button>
+                <i class="fa fa-plus"></i> Add
+              </button>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -31,9 +31,6 @@
                 <thead>
                   <th>#</th>
                   <th>Name</th>
-                  <th>Email</th>
-                  <th>Location</th>
-                  <th>Contact</th>
                   <th>Action</th>
                 </thead>
               </table>
@@ -49,7 +46,24 @@
 
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="addmodal"></div>
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="editmodal"></div>
-  <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="reservemodal"></div>
+  <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="showmodal"></div>
+  <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="reservemodal">
+    <div class="modal-dialog modal-lg add-user-form">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">Add Reservations</h4>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn submit-btn btn-success btn-gradient pull-right">Submit</button>
+      </div>
+  </div>
+</div>
+</div>
+  <!-- <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="choosemodal"></div> -->
 @endsection
 
 @section('scripts')
@@ -73,14 +87,18 @@
       },
       "columns": [ 
         {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
-        {data: 'name',  name: 'name', className: 'col-md-2  text-left',   searchable: true, sortable: true},
-        {data: 'email',  name: 'email', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'location',  name: 'location', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'contact',  name: 'contact', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'actions',   name: 'actions', className: 'col-md-3 text-left',  searchable: false,  sortable: false},
+        {data: 'name',  name: 'name', className: 'col-md-6  text-left',   searchable: true, sortable: true},
+        {data: 'actions',   name: 'actions', className: 'col-md-6 text-left',  searchable: false,  sortable: false},
       ], 
       'order': [[0, 'asc']]
     });
+
+    //  $(document).off('click','.reserve-data-btn').on('click','.reserve-data-btn', function(e){
+    //   e.preventDefault();
+    //   var that = this;
+    //   $("#reservemodal").modal();
+    //   $("#reservemodal .modal-content").load('/admin/clients/'+that.dataset.id+'/reserve');
+    // });
 
     $(document).off('click','.reserve-data-btn').on('click','.reserve-data-btn', function(e){
       e.preventDefault();
@@ -91,9 +109,26 @@
         url: '/admin/clients/'+that.dataset.id+'/reserve',         
         success: function(data) {
           $("#reservemodal").html(data);
+          $('#add-coordinations-form').addClass('hidden');
         }
       }); 
     });
+
+ 
+
+    $(document).off('click','.show-data-btn').on('click','.show-data-btn', function(e){
+      e.preventDefault();
+      var that = this; 
+      $("#showmodal").html('');
+      $("#showmodal").modal();
+      $.ajax({
+        url: '/admin/clients/'+that.dataset.id,         
+        success: function(data) {
+          $("#showmodal").html(data);
+        }
+      }); 
+    });
+
 
     $(".add-data-btn").click(function(x){  
           x.preventDefault();

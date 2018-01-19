@@ -92,7 +92,8 @@ class SuppliersController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = \App\User::find($id);
+        return view('admin.suppliers.show')->with('user', $user);
     }
 
     /**
@@ -191,11 +192,14 @@ class SuppliersController extends Controller
                return $column->id;
             })
             ->AddColumn('name', function($column){
-               return $column->fname.' '.$column->midname.' '.$column->lname;
+               return $column->lname.', '.$column->fname.' '.substr($column->midname, 0, 1).'.';
             }) 
             ->AddColumn('actions', function($column){
               
                 return '
+                            <button class="btn-sm btn btn-info show-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-id-card-o"></i> View
+                            </button>
                             <button class="btn-sm btn btn-warning edit-data-btn" data-id="'.$column->id.'">
                                 <i class="fa fa-edit"></i> Edit
                             </button>

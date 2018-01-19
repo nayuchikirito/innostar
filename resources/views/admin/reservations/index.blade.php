@@ -21,9 +21,6 @@
         <div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">Reservations Table</h3>
-              <button class="btn-sm btn btn-success add_data-btn pull-right">
-              <i class="fa fa-plus"></i> Reserve
-                </button>
             </div>
             <!-- /.box-header -->
             <!-- Status is blocked date or not -->
@@ -31,12 +28,9 @@
               <table class="table table-hover" id="reservations-table">
                 <thead>
                   <th>#</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                  <th>Balance</th>
                   <th>Client</th>
                   <th>Service</th>
-                  <th>Package</th>
+                  <th>Date</th>
                   <th>Actions</th>
                 </thead>
               </table>
@@ -52,6 +46,7 @@
 
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="addmodal"></div>
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="editmodal"></div>
+  <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="showmodal"></div>
 @endsection
 
 @section('scripts')
@@ -75,28 +70,37 @@
       },
       "columns": [ 
         {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
-        {data: 'date',  name: 'date', className: 'col-md-2  text-left',   searchable: true, sortable: true},
-        {data: 'status',  name: 'status', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'balance',  name: 'balance', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'client',  name: 'client', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'service',  name: 'service', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'package',  name: 'package', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'client',  name: 'client', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
+        {data: 'service',  name: 'service', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
+        {data: 'date',  name: 'date', className: 'col-md-3  text-left',   searchable: true, sortable: true},
         {data: 'actions',   name: 'actions', className: 'col-md-3 text-left',  searchable: false,  sortable: false},
       ], 
       'order': [[0, 'asc']]
     });
 
-    $(".add_data-btn").click(function(x){  
-          x.preventDefault();
-          var that = this;
-          $("#addmodal").html('');
-          $("#addmodal").modal();
-          $.ajax({
-            url: '/admin/reservations/create',         
-            success: function(data) {
-              $("#addmodal").html(data);
-            }
-          }); 
+    // $(".add_data-btn").click(function(x){  
+    //       x.preventDefault();
+    //       var that = this;
+    //       $("#addmodal").html('');
+    //       $("#addmodal").modal();
+    //       $.ajax({
+    //         url: '/admin/reservations/create',         
+    //         success: function(data) {
+    //           $("#addmodal").html(data);
+    //         }
+    //       }); 
+    // });
+    $(document).off('click','.show-data-btn').on('click','.show-data-btn', function(e){
+      e.preventDefault();
+      var that = this; 
+      $("#showmodal").html('');
+      $("#showmodal").modal();
+      $.ajax({
+        url: '/admin/reservations/'+that.dataset.id,         
+        success: function(data) {
+          $("#showmodal").html(data);
+        }
+      }); 
     });
     $(document).off('click','.edit-data-btn').on('click','.edit-data-btn', function(e){
       e.preventDefault();

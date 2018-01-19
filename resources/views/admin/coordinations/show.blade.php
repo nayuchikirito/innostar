@@ -2,35 +2,35 @@
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-      <h4 class="modal-title">View User</h4>
+      <h4 class="modal-title">View Package</h4>
     </div>
  
-    <form action="{{ url('/admin/users/'.$user->id) }}" method="GET" id="show-users-form">
+    <form action="{{ url('/admin/coordinations/'.$coordination->id) }}" method="GET" id="show-clients-form">
     {{ csrf_field() }}
     <div class="modal-body">
       <div class="form-group">
-          <label for="user_type">User Type: </label>
-          <span id="user_type">{{ $user->user_type }}</span>
-          <span class="help-text text-danger"></span>
-        </div>
-      <div class="form-group">
-          <label for="name">Name: </label>
-          <span id="name">{{ $user->lname.', '.$user->fname.' '.substr($user->midname, 0, 1).'.' }}</span>
+          <label for="client">Client Name: </label>
+          <span id="client">{{ $coordination->client->user->lname.', '.$coordination->client->user->fname.' '.ucfirst(substr($coordination->client->user->midname,0 ,1).'.') }}</span>
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <label for="email">Email Address: </label>
-          <span id="email">{{ $user->email }}</span>
+          <label for="service">Service Reserved: </label>
+          <span id="service">{{ $coordination->service->name }}</span>
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <label for="location">Location: </label>
-          <span id="location">{{ ucwords($user->location) }}</span>
+          <label for="date">Date Reserved: </label>
+          <span id="date">{{ date('M d, Y | h:i A', strtotime($coordination->date)) }}</span>
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <label for="contact">Contact: </label>
-          <span id="location">{{ $user->contact }}</span>          
+          <label for="balance">Balance: </label>
+          <span id="balance">{{ $coordination->balance }}</span>
+          <span class="help-text text-danger"></span>
+      </div>
+      <div class="form-group">
+          <label for="status">Status: </label>
+          <span id="status">{{ ucfirst($coordination->status) }}</span>
           <span class="help-text text-danger"></span>
       </div>
     </div>

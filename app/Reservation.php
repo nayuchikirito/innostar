@@ -11,7 +11,7 @@ class Reservation extends Model
 	protected $dates = ['deleted_at'];
 
     protected $fillable = [
-        'date', 'status', 'balance', 'client_id', 'service_id'
+        'date', 'status', 'balance', 'client_id', 'package_id'
     ];
 
     public function client(){

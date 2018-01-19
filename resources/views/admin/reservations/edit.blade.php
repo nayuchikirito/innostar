@@ -8,9 +8,19 @@
     {{ csrf_field() }}
     <div class="modal-body">
       <h3 class="text-center">Package Reservation</h3>
-      <div class="form-group">
+      <!-- <div class="form-group">
           Date and Time
-          <input type="datetime-local" name="datetime" class="form-control">
+          <input type="datetime-local" name="datetime" class="form-control" value="{{ $reservation->date }}">
+          <span class="help-text text-danger"></span>
+      </div> -->
+      <div class="form-group">
+          Date
+          <input type="date" name="date" class="form-control" value="{{ $reservation->date->format('Y-m-d') }}">
+          <span class="help-text text-danger"></span>
+      </div>
+      <div class="form-group">
+          Time
+          <input type="time" name="time" class="form-control" value="{{ $reservation->date->format('H:i:s') }}">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
@@ -26,7 +36,7 @@
           <select name="service_id" id="service_id" class="form-control">
             <option selected disabled>Select Service</option>
             @foreach($services as $service)
-              <option value="{{$service->id}}" {{ $service->service_id == $service->service_id ? ' selected':'' }}>{{ $service->name }}</option>
+              <option value="{{$service->id}}" {{ $service->service_id == $reservation->package->service_id ? ' selected':'' }}>{{ $service->name }}</option>
             @endforeach
           </select> 
           <span class="help-text text-danger"></span>

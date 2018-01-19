@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Reservation extends Model
 {
 	use SoftDeletes;
-	protected $dates = ['deleted_at'];
+	protected $dates = ['deleted_at', 'date'];
 
     protected $fillable = [
         'date', 'status', 'balance', 'client_id', 'package_id'
@@ -21,4 +21,8 @@ class Reservation extends Model
     public function package(){
     	return $this->belongsTo('App\Package');
     }
+
+    // public function getDateAttribute($value) {
+    //     return \Carbon\Carbon::parse($value)->format('Y-m-d');
+    // }
 }

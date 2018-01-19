@@ -12,9 +12,19 @@
     {{ csrf_field() }}
     <div class="modal-body">
       <h3 class="text-center">Package Reservation</h3>
-      <div class="form-group">
+      <!-- <div class="form-group">
           Date and Time
           <input type="datetime-local" name="datetime" class="form-control">
+          <span class="help-text text-danger"></span>
+      </div> -->
+      <div class="form-group">
+          Date
+          <input type="date" name="date" class="form-control">
+          <span class="help-text text-danger"></span>
+      </div>
+      <div class="form-group">
+          Time
+          <input type="time" name="time" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
@@ -64,9 +74,19 @@
     {{ csrf_field() }}
     <div class="modal-body">
       <h3 class="text-center">On-the-day Coordination</h3>
-      <div class="form-group">
+      <!-- <div class="form-group">
           Date and Time
           <input type="datetime-local" name="datetime" class="form-control">
+          <span class="help-text text-danger"></span>
+      </div> -->
+      <div class="form-group">
+          Date
+          <input type="date" name="date" class="form-control">
+          <span class="help-text text-danger"></span>
+      </div>
+      <div class="form-group">
+          Time
+          <input type="time" name="time" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">

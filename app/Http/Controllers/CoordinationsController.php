@@ -9,11 +9,7 @@ use DB;
 
 class CoordinationsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         return view('admin.coordinations.index');
@@ -40,7 +36,8 @@ class CoordinationsController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-            'datetime' => 'required|date',
+            'date' => 'required',
+            'time' => 'required',
             'status' => 'required',
             'balance' => 'required|numeric',
             'client_id' => 'required',
@@ -55,7 +52,7 @@ class CoordinationsController extends Controller
             DB::beginTransaction();
 
                 $reservation = new \App\Coordination;
-                $reservation->date        = $request->get('datetime');
+                $reservation->date        = $request->get('date').' '.$request->get('time');
                 $reservation->status        = $request->get('status');
                 $reservation->balance      = $request->get('balance');
                 $reservation->client_id     = $request->get('client_id');
@@ -92,7 +89,11 @@ class CoordinationsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $services = \App\Service::all();
+        $coordination = \App\Coordination::find($id);
+        return view('admin.coordinations.edit')
+        ->with('coordination', $coordination)
+        ->with('services', $services);
     }
 
     /**

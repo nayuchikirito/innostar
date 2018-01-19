@@ -39,7 +39,8 @@ class ReservationsController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-            'datetime' => 'required|date',
+            'date' => 'required',
+            'time' => 'required',
             'status' => 'required',
             'balance' => 'required|numeric',
             'client_id' => 'required',
@@ -54,7 +55,7 @@ class ReservationsController extends Controller
             DB::beginTransaction();
 
                 $reservation = new \App\Reservation;
-                $reservation->date        = $request->get('datetime');
+                $reservation->date        = $request->get('date').' '.$request->get('time');
                 $reservation->status        = $request->get('status');
                 $reservation->balance      = $request->get('balance');
                 $reservation->client_id     = $request->get('client_id');
@@ -114,7 +115,8 @@ class ReservationsController extends Controller
     public function update(Request $request, $id)
     {
         $data = request()->validate([
-            'datetime' => 'required|date',
+            'date' => 'required',
+            'time' => 'required',
             'status' => 'required',
             'balance' => 'required|numeric',
             'client_id' => 'required',
@@ -130,7 +132,16 @@ class ReservationsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try{
+            $status = \App\Reservation::destroy($id); 
+            if($status){
+                return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
+            }else{
+                return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
+            }
+        }catch(\Illuminate\Database\QueryException $e){
+            return response()->json(['success' => false, 'msg' => 'Cannot delete. Client has transactions']);
+        }
     }
 
     public function all(){

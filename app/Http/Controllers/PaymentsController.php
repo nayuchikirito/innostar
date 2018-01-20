@@ -6,16 +6,16 @@ use Illuminate\Http\Request;
 use DataTables;
 use DB;
 
-class ReservationsController extends Controller
+class PaymentsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
-        return view('admin.reservations.index');
+        return view('admin.payments.index');
     }
 
     /**
@@ -25,9 +25,9 @@ class ReservationsController extends Controller
      */
     public function create()
     {
-        $services = \App\Service::all();
-        $client = Auth::user();
-        return view('admin.reservations.create', compact('services', 'client'));
+        // $reservation = \App\Reservation::find($id);
+        // return view('admin.payments.pay')
+        // ->with('reservation', $reservation);
     }
 
     /**
@@ -39,27 +39,22 @@ class ReservationsController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-            'date' => 'required',
-            'time' => 'required',
-            'status' => 'required',
-            'balance' => 'required|numeric',
-            'client_id' => 'required',
-            'package_id' => 'required',
+            'amount' => 'required|numeric',
+            'or' => 'required|string',
         ]);
-        // if($data['password']){
-        //     $data['password'] = bcrypt($data['password']);          
-        // }
-
          try{
 
             DB::beginTransaction();
 
-                $reservation = new \App\Reservation;
-                $reservation->date        = $request->get('date').' '.$request->get('time').':00';
-                $reservation->status        = $request->get('status');
-                $reservation->balance      = $request->get('balance');
-                $reservation->client_id     = $request->get('client_id');
-                $reservation->package_id      = $request->get('package_id');
+                $payment = new \App\Payment;
+                $payment->or    = $request->get('or');
+                $payment->amount     = $request->get('amount');
+                $payment->type      = $request->get('type');
+                $payment->reservation_id     = $request->get('reservation_id');
+                $payment->save();
+
+                $reservation = \App\Reservation::find($payment->reservation->id);
+                $reservation->balance = $reservation->balance-$request->get('amount');
                 $reservation->save();
 
                 DB::commit();
@@ -70,12 +65,6 @@ class ReservationsController extends Controller
                 DB::rollback();
                 return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
             } 
-        // $status = \App\Reservation::create($data); 
-        // if($status){
-        //     return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
-        // }else{
-        //     return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
-        // }
     }
 
     /**
@@ -86,8 +75,8 @@ class ReservationsController extends Controller
      */
     public function show($id)
     {
-        $reservation = \App\Reservation::find($id);
-        return view('admin.reservations.show')->with('reservation', $reservation);
+        $payment = \App\Payment::find($id);
+        return view('admin.payments.show')->with('payment', $payment);
     }
 
     /**
@@ -98,11 +87,9 @@ class ReservationsController extends Controller
      */
     public function edit($id)
     {
-        $services = \App\Service::all();
-        $reservation = \App\Reservation::find($id);
-        return view('admin.reservations.edit')
-        ->with('reservation', $reservation)
-        ->with('services', $services);
+        $payment = \App\Payment::find($id);
+        return view('admin.payments.edit')
+        ->with('payment', $payment);
     }
 
     /**
@@ -115,33 +102,33 @@ class ReservationsController extends Controller
     public function update(Request $request, $id)
     {
         $data = request()->validate([
-            'date' => 'required',
-            'time' => 'required',
-            'status' => 'required',
-            'balance' => 'required|numeric',
-            'client_id' => 'required',
-            'package_id' => 'required',
+            'amount' => 'required|numeric',
+            'or' => 'required|string',
         ]);
 
          try{
 
             DB::beginTransaction();
 
-                $reservation = \App\Reservation::find($id);
-                $reservation->date        = $request->get('date').' '.$request->get('time').':00';
-                $reservation->status        = $request->get('status');
-                $reservation->balance      = $request->get('balance');
-                $reservation->client_id     = $request->get('client_id');
-                $reservation->package_id      = $request->get('package_id');
+                $payment = \App\Payment::find($id);
+                $oldAmount = $payment->amount;
+                $payment->or    = $request->get('or');
+                $payment->amount     = $request->get('amount');
+                $payment->type      = $request->get('type');
+                $payment->reservation_id     = $request->get('reservation_id');
+                $payment->save();
+
+                $reservation = \App\Reservation::find($payment->reservation->id);
+                $reservation->balance = $reservation->balance+$oldAmount-$request->get('amount');
                 $reservation->save();
 
                 DB::commit();
 
-                return response()->json(['success' => true, 'msg' => 'Data Successfully edited!']);
+                return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
 
             }catch(\Exception $e){
                 DB::rollback();
-                return response()->json(['success' => false, 'msg' => 'An error occured while editing data!']);
+                return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
             } 
     }
 
@@ -154,7 +141,17 @@ class ReservationsController extends Controller
     public function destroy($id)
     {
         try{
-            $status = \App\Reservation::destroy($id); 
+            DB::beginTransaction();
+            $payment = \App\Payment::find($id);
+            $oldAmount = $payment->amount;
+
+            $reservation = \App\Reservation::find($payment->reservation->id);
+            $reservation->balance = $reservation->balance+$oldAmount;
+            $reservation->save();
+            DB::commit();
+
+
+            $status = \App\Payment::destroy($id); 
             if($status){
                 return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
             }else{
@@ -165,29 +162,24 @@ class ReservationsController extends Controller
         }
     }
 
+    public function pay($id)
+    {
+        $reservation = \App\Reservation::find($id);
+        return view('admin.payments.pay')
+        ->with('reservation', $reservation);
+    }
+
     public function all(){
         DB::statement(DB::raw('set @row:=0'));
-        $data = \App\Reservation::all();
+        $data = \App\Payment::all();
 
          return DataTables::of($data)
             ->AddColumn('row', function($column){
                return $column->id;
             })
-            ->AddColumn('date', function($column){
-               return date('M d, Y | h:i A', strtotime($column->date));
-            })
-            ->AddColumn('client', function($column){
-               return $column->client->user->lname.', '.$column->client->user->fname.' '.substr($column->client->user->midname, 0, 1).'.';
-            }) 
-            ->AddColumn('service', function($column){
-               return $column->package->service->name;
-            }) 
             ->AddColumn('actions', function($column){
               
                 return '
-                            <button class="btn-sm btn btn-success pay-data-btn" data-id="'.$column->id.'">
-                                <i class="fa fa-money"></i> Pay
-                            </button>
                             <button class="btn-sm btn btn-info show-data-btn" data-id="'.$column->id.'">
                                 <i class="fa fa-id-card-o"></i> View
                             </button>
@@ -202,5 +194,4 @@ class ReservationsController extends Controller
             ->rawColumns(['actions'])
             ->make(true);    
     }
-
 }

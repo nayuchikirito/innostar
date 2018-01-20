@@ -5,12 +5,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Reservations
-        <small>Add/Edit/Delete/View Reservations</small>
+        Payments
+        <small>Add/Edit/Delete/View Payments</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('admin/home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Reservations</li>
+        <li class="active">Payments</li>
       </ol>
     </section>
 
@@ -20,18 +20,17 @@
 
         <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">Reservations Table</h3>
+              <h3 class="box-title">Payments Table</h3>
             </div>
             <!-- /.box-header -->
             <!-- Status is blocked date or not -->
             <div class="box-body">
-              <table class="table table-hover" id="reservations-table">
+              <table class="table table-hover" id="payments-table">
                 <thead>
                   <th>#</th>
-                  <th>Client</th>
-                  <th>Service</th>
-                  <th>Date</th>
-                  <th>Status</th>
+                  <th>Official Receipt</th>
+                  <th>Amount</th>
+                  <th>Type</th>
                   <th>Actions</th>
                 </thead>
               </table>
@@ -54,11 +53,11 @@
 @section('scripts')
 <script type="text/javascript">
   $(function(){
-    var table = $('#reservations-table').DataTable({
+    var table = $('#payments-table').DataTable({
       bProcessing: true,
       bServerSide: false,
       sServerMethod: "GET",
-      'ajax': '/admin/get-reservations',
+      'ajax': '/admin/get-payments',
       searching: true, 
       paging: true, 
       filtering:false, 
@@ -72,10 +71,9 @@
       },
       "columns": [ 
         {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
-        {data: 'client',  name: 'client', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'service',  name: 'service', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'date',  name: 'date', className: 'col-md-2  text-left',   searchable: true, sortable: true},
-        {data: 'status',  name: 'status', className: 'col-md-2  text-left',   searchable: true, sortable: true},
+        {data: 'or',  name: 'or', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'amount',  name: 'amount', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'type',  name: 'type', className: 'col-md-2  text-left',   searchable: true, sortable: true},
         {data: 'actions',   name: 'actions', className: 'col-md-4 text-left',  searchable: false,  sortable: false},
       ], 
       'order': [[0, 'asc']]
@@ -87,31 +85,20 @@
     //       $("#addmodal").html('');
     //       $("#addmodal").modal();
     //       $.ajax({
-    //         url: '/admin/reservations/create',         
+    //         url: '/admin/payments/create',         
     //         success: function(data) {
     //           $("#addmodal").html(data);
     //         }
     //       }); 
     // });
-    $(document).off('click','.pay-data-btn').on('click','.pay-data-btn', function(e){
-      e.preventDefault();
-      var that = this; 
-      $("#paymodal").html('');
-      $("#paymodal").modal();
-      $.ajax({
-        url: '/admin/payments_walkin/'+that.dataset.id,         
-        success: function(data) {
-          $("#paymodal").html(data);
-        }
-      }); 
-    });
+
     $(document).off('click','.show-data-btn').on('click','.show-data-btn', function(e){
       e.preventDefault();
       var that = this; 
       $("#showmodal").html('');
       $("#showmodal").modal();
       $.ajax({
-        url: '/admin/reservations/'+that.dataset.id,         
+        url: '/admin/payments/'+that.dataset.id,         
         success: function(data) {
           $("#showmodal").html(data);
         }
@@ -123,7 +110,7 @@
       $("#editmodal").html('');
       $("#editmodal").modal();
       $.ajax({
-        url: '/admin/reservations/'+that.dataset.id+'/edit',         
+        url: '/admin/payments/'+that.dataset.id+'/edit',         
         success: function(data) {
           $("#editmodal").html(data);
         }
@@ -150,11 +137,11 @@
                  if(result){
                   var token = '{{csrf_token()}}'; 
                   $.ajax({
-                  url:'/admin/reservations/'+that.dataset.id,
+                  url:'/admin/payments/'+that.dataset.id,
                   type: 'post',
                   data: {_method: 'delete', _token :token},
                   success:function(result){
-                    $("#reservations-table").DataTable().ajax.url( '/admin/get-reservations' ).load();
+                    $("#payments-table").DataTable().ajax.url( '/admin/get-payments' ).load();
                     swal({
                         title: result.msg,
                         icon: "success"

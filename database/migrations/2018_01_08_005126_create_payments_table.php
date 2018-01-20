@@ -17,7 +17,6 @@ class CreatePaymentsTable extends Migration
             $table->increments('id');
             $table->string('or');
             $table->decimal('amount');
-            $table->datetime('datetime');
             $table->enum('type', ['Paypal', 'Cash']);
 
             $table->unsignedInteger('reservation_id');

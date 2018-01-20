@@ -45,6 +45,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 	Route::resource('/coordinations', 'CoordinationsController');
 	Route::get('/get-coordinations', 'CoordinationsController@all');
 
+	Route::resource('/payments', 'PaymentsController');
+	Route::get('/payments_walkin/{res_id}', 'PaymentsController@pay')->name('admin.payments');
+	Route::get('/get-payments', 'PaymentsController@all');
+
 	Route::resource('/clients', 'ClientsController');
 	// Route::get('/choose_reservation', 'ClientsController@choose')->name('clients.choose');
 	Route::get('/clients/{client}/reserve', 'ClientsController@reserve')->name('clients.reserve');

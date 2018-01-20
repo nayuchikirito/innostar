@@ -52,7 +52,7 @@ class CoordinationsController extends Controller
             DB::beginTransaction();
 
                 $reservation = new \App\Coordination;
-                $reservation->date        = $request->get('date').' '.$request->get('time');
+                $reservation->date        = $request->get('date').' '.$request->get('time').':00';
                 $reservation->status        = $request->get('status');
                 $reservation->balance      = $request->get('balance');
                 $reservation->client_id     = $request->get('client_id');
@@ -105,7 +105,38 @@ class CoordinationsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = request()->validate([
+            'date' => 'required',
+            'time' => 'required',
+            'status' => 'required',
+            'balance' => 'required|numeric',
+            'client_id' => 'required',
+            'service_id' => 'required',
+        ]);
+        // if($data['password']){
+        //     $data['password'] = bcrypt($data['password']);          
+        // }
+
+         try{
+
+            DB::beginTransaction();
+
+                $reservation = \App\Coordination::find($id);
+                $reservation->date        = $request->get('date').' '.$request->get('time').':00';
+                $reservation->status        = $request->get('status');
+                $reservation->balance      = $request->get('balance');
+                $reservation->client_id     = $request->get('client_id');
+                $reservation->service_id      = $request->get('service_id');
+                $reservation->save();
+
+                DB::commit();
+
+                return response()->json(['success' => true, 'msg' => 'Data Successfully edited!']);
+
+            }catch(\Exception $e){
+                DB::rollback();
+                return response()->json(['success' => false, 'msg' => 'An error occured while editing data!']);
+            } 
     }
 
     /**

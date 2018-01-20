@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Coordination extends Model
 {
 	protected $dates = ['date'];
-	
+    // protected $dateFormat = 'Y-m-d H:i';
+    
     protected $fillable = [
         'date', 'status', 'balance', 'client_id', 'service_id'
     ];

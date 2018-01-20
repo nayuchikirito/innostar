@@ -9,7 +9,8 @@ class Reservation extends Model
 {
 	use SoftDeletes;
 	protected $dates = ['deleted_at', 'date'];
-
+    // protected $dateFormat = 'Y-m-d H:i';
+    
     protected $fillable = [
         'date', 'status', 'balance', 'client_id', 'package_id'
     ];
@@ -20,6 +21,10 @@ class Reservation extends Model
 
     public function package(){
     	return $this->belongsTo('App\Package');
+    }
+
+    public function payment(){
+        return $this->hasMany('App\Payment');
     }
 
     // public function getDateAttribute($value) {

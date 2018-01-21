@@ -31,27 +31,27 @@ class LoginController extends Controller
     
     public function authenticated()
     {
-            switch (Auth::user()->user_type) {
-                case 'Admin':
-                    return redirect("/admin/home");
-                    break;
-                
-                case 'Secretary':
-                    return redirect("/admin/home");
-                    break;
-                
-                case 'Supplier':
-                    return redirect("/admin/home");
-                    break;
-                
-                case 'Client':
-                    return redirect("/client/home");
-                    break;
+        switch (Auth::user()->user_type) {
+            case 'Admin':
+                return redirect("/admin/home");
+                break;
+            
+            case 'Secretary':
+                return redirect("/admin/home");
+                break;
+            
+            case 'Supplier':
+                return redirect("/admin/home");
+                break;
+            
+            case 'Client':
+                return redirect("/client/home");
+                break;
 
-                default:
-                    return redirect("/404");
-                    break;
-            }
+            default:
+                return redirect("/404");
+                break;
+        }
     }
 
     protected $redirectTo = '/';

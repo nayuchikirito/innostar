@@ -3,20 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ReservationDateRequest;
 use DataTables;
 use DB;
 use Auth;
 
 class GuestController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->middleware('client');
+    }
+
     public function index()
     {
-        //
+        return view('client.clients.index');
     }
 
     /**
@@ -27,7 +28,8 @@ class GuestController extends Controller
     public function create()
     {
         $services = \App\Service::all();
-        $client = Auth::user();
+        $user = Auth::user();
+        $client = \App\Client::find($user->client->id);
         return view('admin.reservations.create', compact('services', 'client'));
     }
 
@@ -37,12 +39,13 @@ class GuestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ReservationDateRequest $request)
     {
         $data = request()->validate([
-            'datetime' => 'required|date',
+            // 'date' => 'required',
+            'time' => 'required',
             'status' => 'required',
-            'balance' => 'required',
+            'balance' => 'required|numeric',
             'client_id' => 'required',
             'package_id' => 'required',
         ]);
@@ -50,12 +53,12 @@ class GuestController extends Controller
         //     $data['password'] = bcrypt($data['password']);          
         // }
 
-         // try{
+         try{
 
             DB::beginTransaction();
 
                 $reservation = new \App\Reservation;
-                $reservation->date        = $request->get('datetime');
+                $reservation->date        = $request->get('date').' '.$request->get('time').':00';
                 $reservation->status        = $request->get('status');
                 $reservation->balance      = $request->get('balance');
                 $reservation->client_id     = $request->get('client_id');
@@ -66,6 +69,10 @@ class GuestController extends Controller
 
                 return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
 
+            }catch(\Exception $e){
+                DB::rollback();
+                return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+            } 
         // }catch(\Exception $e){
         //     DB::rollback();
         //     return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
@@ -101,9 +108,37 @@ class GuestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ReservationDateRequest $request, $id)
     {
-        //
+        $data = request()->validate([
+            // 'date' => 'required',
+            'time' => 'required',
+            'status' => 'required',
+            'balance' => 'required|numeric',
+            'client_id' => 'required',
+            'package_id' => 'required',
+        ]);
+
+         try{
+
+            DB::beginTransaction();
+
+                $reservation = \App\Reservation::find($id);
+                $reservation->date        = $request->get('date').' '.$request->get('time').':00';
+                $reservation->status        = $request->get('status');
+                $reservation->balance      = $request->get('balance');
+                $reservation->client_id     = $request->get('client_id');
+                $reservation->package_id      = $request->get('package_id');
+                $reservation->save();
+
+                DB::commit();
+
+                return response()->json(['success' => true, 'msg' => 'Data Successfully edited!']);
+
+            }catch(\Exception $e){
+                DB::rollback();
+                return response()->json(['success' => false, 'msg' => 'An error occured while editing data!']);
+            } 
     }
 
     /**
@@ -115,6 +150,11 @@ class GuestController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function reservations()
+    {
+        return view('client.clients.reservations');
     }
 
     public function all(){

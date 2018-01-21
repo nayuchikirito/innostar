@@ -62,7 +62,7 @@
               <p class="text-muted mb-0">We update dependencies to keep things fresh.</p>
               <hr>
               <a class="btn btn-light btn-xl sr-button"  href="/login">Login</a>
-              <a class="btn btn-light btn-xl sr-button"  href="/login">Register</a>
+              <a class="btn btn-light btn-xl sr-button"  href="/register">Register</a>
             </div>
           </div>
       </div>

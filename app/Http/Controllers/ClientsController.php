@@ -46,14 +46,14 @@ class ClientsController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
-            'fname' => 'required',
-            'lname' => 'required',
-            'midname' => 'required',
-            'location' => 'required',
-            'contact' => 'required',
-            'user_type' => 'required',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|same:password_confirm',
+        'fname' => 'required',
+        'lname' => 'required',
+        'midname' => 'required',
+        'location' => 'required',
+        'contact' => 'required',
+        'user_type' => 'required',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:6|same:password_confirm',
         ]);
 
         try{

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ReservationDateRequest;
 use DataTables;
 use DB;
 
@@ -36,40 +37,43 @@ class ReservationsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ReservationDateRequest $request)
     {
-        $data = request()->validate([
-            'date' => 'required',
-            'time' => 'required',
-            'status' => 'required',
-            'balance' => 'required|numeric',
-            'client_id' => 'required',
-            'package_id' => 'required',
-        ]);
+        // $data = request()->validate([
+        //     // 'date' => 'required',
+            
+        // ]);
         // if($data['password']){
         //     $data['password'] = bcrypt($data['password']);          
-        // }
+        // // }
+        $dateCount = \App\Reservation::whereDate('date', $request->get('date'))->count();
+        $dateCountCoord = \App\Coordination::whereDate('date', $request->get('date'))->count();
+        // return response()->json($dateCount);
+        if(($dateCount > 0 AND $dateCountCoord > 1) OR ($dateCount > 1) OR ($dateCountCoord > 2))
+            {
+                return response()->json(['success' => false, 'msg' => 'Cannot reserve date, fully booked.']);
+            }else{
+                 try{
 
-         try{
+                    DB::beginTransaction();
 
-            DB::beginTransaction();
+                        $reservation = new \App\Reservation;
+                        $reservation->date        = $request->get('date').' '.$request->get('time').':00';
+                        $reservation->status        = $request->get('status');
+                        $reservation->balance      = $request->get('balance');
+                        $reservation->client_id     = $request->get('client_id');
+                        $reservation->package_id      = $request->get('package_id');
+                        $reservation->save();
 
-                $reservation = new \App\Reservation;
-                $reservation->date        = $request->get('date').' '.$request->get('time').':00';
-                $reservation->status        = $request->get('status');
-                $reservation->balance      = $request->get('balance');
-                $reservation->client_id     = $request->get('client_id');
-                $reservation->package_id      = $request->get('package_id');
-                $reservation->save();
+                        DB::commit();
 
-                DB::commit();
+                        return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
 
-                return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
-
-            }catch(\Exception $e){
-                DB::rollback();
-                return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
-            } 
+                    }catch(\Exception $e){
+                        DB::rollback();
+                        return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+                    } 
+        }
         // $status = \App\Reservation::create($data); 
         // if($status){
         //     return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
@@ -112,37 +116,36 @@ class ReservationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ReservationDateRequest $request, $id)
     {
-        $data = request()->validate([
-            'date' => 'required',
-            'time' => 'required',
-            'status' => 'required',
-            'balance' => 'required|numeric',
-            'client_id' => 'required',
-            'package_id' => 'required',
-        ]);
+        $dateCount = \App\Reservation::whereDate('date', $request->get('date'))->count();
+        $dateCountCoord = \App\Coordination::whereDate('date', $request->get('date'))->count();
+        // return response()->json($dateCount);
+        if(($dateCount > 0 AND $dateCountCoord > 1) OR ($dateCount > 1) OR ($dateCountCoord > 2))
+            {
+                return response()->json(['success' => false, 'msg' => 'Cannot reserve date, fully booked.']);
+            }else{
+                 try{
 
-         try{
+                    DB::beginTransaction();
 
-            DB::beginTransaction();
+                        $reservation = \App\Reservation::find($id);
+                        $reservation->date        = $request->get('date').' '.$request->get('time').':00';
+                        $reservation->status        = $request->get('status');
+                        $reservation->balance      = $request->get('balance');
+                        $reservation->client_id     = $request->get('client_id');
+                        $reservation->package_id      = $request->get('package_id');
+                        $reservation->save();
 
-                $reservation = \App\Reservation::find($id);
-                $reservation->date        = $request->get('date').' '.$request->get('time').':00';
-                $reservation->status        = $request->get('status');
-                $reservation->balance      = $request->get('balance');
-                $reservation->client_id     = $request->get('client_id');
-                $reservation->package_id      = $request->get('package_id');
-                $reservation->save();
+                        DB::commit();
 
-                DB::commit();
+                        return response()->json(['success' => true, 'msg' => 'Data Successfully edited!']);
 
-                return response()->json(['success' => true, 'msg' => 'Data Successfully edited!']);
-
-            }catch(\Exception $e){
-                DB::rollback();
-                return response()->json(['success' => false, 'msg' => 'An error occured while editing data!']);
-            } 
+                    }catch(\Exception $e){
+                        DB::rollback();
+                        return response()->json(['success' => false, 'msg' => 'An error occured while editing data!']);
+                    } 
+                }
     }
 
     /**

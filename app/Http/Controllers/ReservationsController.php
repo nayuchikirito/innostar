@@ -40,7 +40,8 @@ class ReservationsController extends Controller
     public function store(ReservationDateRequest $request)
     {
         // $data = request()->validate([
-        //     // 'date' => 'required',
+        //     'date' => 'required',
+        //     'time' => 'required',
             
         // ]);
         // if($data['password']){
@@ -61,6 +62,7 @@ class ReservationsController extends Controller
                         $reservation->date        = $request->get('date').' '.$request->get('time').':00';
                         $reservation->status        = $request->get('status');
                         $reservation->balance      = $request->get('balance');
+                        $reservation->assigned      = $request->get('assigned');
                         $reservation->client_id     = $request->get('client_id');
                         $reservation->package_id      = $request->get('package_id');
                         $reservation->save();

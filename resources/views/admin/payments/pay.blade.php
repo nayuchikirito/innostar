@@ -74,7 +74,7 @@
                   icon: "error"
                 });
             }
-            // $("#reservations-table").DataTable().ajax.url( '/admin/get-reservations' ).load();
+            $("#reservations-table").DataTable().ajax.url( '/admin/get-reservations' ).load();
             $('.modal').modal('hide');
           },
           error: function(xhr,status,error){

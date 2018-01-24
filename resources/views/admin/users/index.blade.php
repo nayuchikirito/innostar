@@ -63,6 +63,22 @@
       filtering:false, 
       bInfo: true,
       responsive: true,
+      dom: 'Bfrtip',
+      lengthChange: false,
+      buttons: [
+            {
+                extend: 'pdf', 
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            
+            'excel', 'print', 'colvis',
+      ],
+      // columnDefs: [ {
+      //       targets: -1,
+      //       visible: false
+      //   } ],
       language:{
         "paginate": {
           "next":       "<i class='fa fa-chevron-right'></i>",
@@ -77,6 +93,10 @@
       ], 
       'order': [[0, 'asc']]
     });
+
+//     table.buttons().container()
+//         .appendTo( '#users-table_wrapper .col-md-6:eq(0)' );
+// } );
 
     $(".add-data-btn").click(function(x){  
           x.preventDefault();

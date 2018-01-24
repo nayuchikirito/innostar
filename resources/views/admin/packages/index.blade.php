@@ -63,6 +63,18 @@
       filtering:false, 
       bInfo: true,
       responsive: true,
+      dom: 'Bfrtip',
+      lengthChange: false,
+      buttons: [
+            {
+                extend: 'pdf', 
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            
+            'excel', 'print', 'colvis',
+      ],
       language:{
         "paginate": {
           "next":       "<i class='fa fa-chevron-right'></i>",

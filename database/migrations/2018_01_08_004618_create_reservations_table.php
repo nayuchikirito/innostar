@@ -18,6 +18,7 @@ class CreateReservationsTable extends Migration
             $table->datetime('date');
             $table->enum('status', ['confirmed', 'pending']);
             $table->decimal('balance');
+            $table->boolean('assigned');
 
             $table->unsignedInteger('client_id');
             $table->foreign('client_id')->references('id')->on('clients');

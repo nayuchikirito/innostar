@@ -62,9 +62,15 @@
               <p class="text-muted mb-0">We update dependencies to keep things fresh.</p>
               <hr>
               <a class="btn btn-light btn-xl sr-button"  href="/login">Login</a>
-              <a class="btn btn-light btn-xl sr-button"  href="/register">Register</a>
+              <button class="btn btn-light btn-xl add-data-btn sr-button ">Register</button>
             </div>
           </div>
+      </div>
+      <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="addmodal">
+        <div class="modal-dialog modal-lg add-user-form">
+          <div class="modal-content">
+          </div>
+        </div>
       </div>
     </section>
 
@@ -77,6 +83,31 @@
     @include('parts.contact')
 
 
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+  $(function(){
+    // $(".add-data-btn").click(function(x){  
+    //         x.preventDefault();
+    //         var that = this;
+    //         $("#addmodal").html('');
+    //         $("#addmodal").modal();
+    //         $.ajax({
+    //           url: '/client/register/create',         
+    //           success: function(data) {
+    //             $("#addmodal").html(data);
+    //           }
+    //         }); 
+    //   });
+    $(document).off('click','add-data-btn').on('click','.add-data-btn', function(e){
+      dd();
+        e.preventDefault();
+        var that = this;
+        $("#addmodal").modal();
+        $("#addmodal .modal-content").load('/client/register/create');
+      });
+  });
 @endsection
 
     

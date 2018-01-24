@@ -14,7 +14,8 @@ class PaymentsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {  
+        
         return view('admin.payments.index');
     }
 
@@ -55,6 +56,9 @@ class PaymentsController extends Controller
 
                 $reservation = \App\Reservation::find($payment->reservation->id);
                 $reservation->balance = $reservation->balance-$request->get('amount');
+                if($reservation->balance <= $reservation->package->price-($reservation->package->price * .2)){
+                        $reservation->status = 'confirmed';
+                    }
                 $reservation->save();
 
                 DB::commit();

@@ -12,7 +12,13 @@
   <link rel="stylesheet" href="{{asset('admin/bower_components/font-awesome/css/font-awesome.min.css')}}">
   <!-- Ionicons -->
   <link rel="stylesheet" href="{{asset('admin/bower_components/Ionicons/css/ionicons.min.css')}}">
+  <!-- These two are sliders -->
+  <link rel="stylesheet" href="{{asset('admin/bower_components/ion.rangeSlider/css/ion.rangeSlider.css')}}">
+
+  <link rel="stylesheet" href="{{asset('admin/bower_components/ion.rangeSlider/css/ion.rangeSlider.skinNice.css')}}">
   <!-- Theme style -->
+  <link rel="stylesheet" type="text/css" href="{{asset('admin/bower_components/bootstrap-slider/slider.css')}}">
+
   <link rel="stylesheet" href="{{asset('admin/dist/css/AdminLTE.min.css')}}">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
@@ -27,6 +33,12 @@
   <link rel="stylesheet" href="{{asset('admin/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="{{asset('admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}">
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css">
+
+
 <!-- 
   <link rel="stylesheet" href="/images/sort_asc.png">
   <link rel="stylesheet" href="/images/sort_asc_disabled.png">
@@ -43,6 +55,8 @@
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+  {!! Charts::styles() !!}
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">

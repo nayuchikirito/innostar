@@ -17,22 +17,66 @@
         <li class="header">MAIN NAVIGATION</li> 
 
         <li class="{{ Request::segment(2) == 'admin' ? 'active':'' }}"><a href="{{url('admin/home')}}"><i class="fa fa-dashboard"></i> <span>Home</span></a></li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-bar-chart-o"></i>
+            <span>Users</span>
+            <i class="fa fa-angle-left pull-right"></i>
+          </a>
+            <ul class="treeview-menu">
+              <li class=" {{ Request::segment(2) == 'administrators' ? 'active':'' }}"><a href="{{url('admin/users')}}"><i class="fa fa-users"></i> <span>Aministrators</span></a></li>
 
-        <li class="{{ Request::segment(2) == 'users' ? 'active':'' }}"><a href="{{url('admin/users')}}"><i class="fa fa-users"></i> <span>Users</span></a></li>
+              <li class=" {{ Request::segment(2) == 'suppliers' ? 'active':'' }}"><a href="{{url('admin/suppliers')}}"><i class="fa fa-truck"></i> <span>Suppliers</span></a></li>
 
-        <li class="{{ Request::segment(2) == 'suppliers' ? 'active':'' }}"><a href="{{url('admin/suppliers')}}"><i class="fa fa-truck"></i> <span>Suppliers</span></a></li>
+              <li class=" {{ Request::segment(2) == 'clients' ? 'active':'' }}"><a href="{{url('admin/clients')}}"><i class="fa fa-truck"></i> <span>Clients</span></a></li>
+            </ul>
+        </li>
 
-        <li class="{{ Request::segment(2) == 'clients' ? 'active':'' }}"><a href="{{url('admin/clients')}}"><i class="fa fa-truck"></i> <span>Clients</span></a></li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-bar-chart-o"></i>
+            <span>Services and Packages</span>
+            <i class="fa fa-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{ Request::segment(2) == 'services' ? 'active':'' }}"><a href="{{url('admin/services')}}"><i class="fa fa-users"></i> <span>Services</span></a></li>
 
-        <li class="{{ Request::segment(2) == 'services' ? 'active':'' }}"><a href="{{url('admin/services')}}"><i class="fa fa-users"></i> <span>Services</span></a></li>
+            <li class="{{ Request::segment(2) == 'packages' ? 'active':'' }}"><a href="{{url('admin/packages')}}"><i class="fa fa-users"></i> <span>Packages</span></a></li>
+          </ul>
+        </li>
 
-        <li class="{{ Request::segment(2) == 'packages' ? 'active':'' }}"><a href="{{url('admin/packages')}}"><i class="fa fa-users"></i> <span>Packages</span></a></li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-bar-chart-o"></i>
+            <span>Reservations</span>
+            <i class="fa fa-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{ Request::segment(2) == 'package' ? 'active':'' }}"><a href="{{url('admin/reservations')}}"><i class="fa fa-users"></i> <span>Package</span></a></li>
 
-        <li class="{{ Request::segment(2) == 'reservations' ? 'active':'' }}"><a href="{{url('admin/reservations')}}"><i class="fa fa-users"></i> <span>Reservations</span></a></li>
+            <li class="{{ Request::segment(2) == 'coordinations' ? 'active':'' }}"><a href="{{url('admin/coordinations')}}"><i class="fa fa-users"></i> <span>Coordinations</span></a></li>
+          </ul>
+        </li>
 
-        <li class="{{ Request::segment(2) == 'coordinations' ? 'active':'' }}"><a href="{{url('admin/coordinations')}}"><i class="fa fa-users"></i> <span>Coordinations</span></a></li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-bar-chart-o"></i>
+            <span>Reports</span>
+            <i class="fa fa-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu">
+            <li class="{{ Request::segment(2) == 'user registration' ? 'active':'' }}"><a href="{{url('reports/registrations')}}"><i class="fa fa-users"></i> <span>User Registration</span></a></li>
+
+            <li class="{{ Request::segment(2) == 'services purchased' ? 'active':'' }}"><a href="{{url('admin/report/test')}}"><i class="fa fa-users"></i> <span>Services Purchased</span></a></li>
+
+            <li class="{{ Request::segment(2) == 'packages purchased' ? 'active':'' }}"><a href="{{url('admin/report/service')}}"><i class="fa fa-users"></i> <span>Packages Purchased</span></a></li>
+          </ul>
+        </li>
 
         <li class="{{ Request::segment(2) == 'payments' ? 'active':'' }}"><a href="{{url('admin/payments')}}"><i class="fa fa-users"></i> <span>Payments</span></a></li>
+
+        <li class="{{ Request::segment(2) == 'gallery' ? 'active':'' }}"><a href="{{url('/gallery')}}"><i class="fa fa-users"></i> <span>Gallery</span></a></li>
 
       </ul>
     </section>

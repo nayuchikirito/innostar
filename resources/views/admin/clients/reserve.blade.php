@@ -31,6 +31,10 @@
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
+          <input type="hidden" name="assigned" value="0">
+          <span class="help-text text-danger"></span>
+      </div>
+      <div class="form-group">
           <label for="service">Service</label>
           <select name="service_id" id="service_id" class="form-control">
             <option selected disabled>Select Service</option>

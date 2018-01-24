@@ -99,6 +99,8 @@
                   icon: "error"
                 });
             }
+            $("#clients-table").DataTable().ajax.url( '/admin/get-clients' ).load();
+            $('.modal').modal('hide');
           },
           error: function(xhr,status,error){
             var response_object = JSON.parse(xhr.responseText); 

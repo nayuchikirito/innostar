@@ -15,6 +15,8 @@ class CreateAssignSuppliersTable extends Migration
     {
         Schema::create('assign_suppliers', function (Blueprint $table) {
             $table->increments('id');
+            $table->decimal('price');
+            $table->enum('status', ['pending', 'confirmed', 'declined']);
 
             $table->unsignedInteger('supplier_id');
             $table->foreign('supplier_id')->references('id')->on('suppliers');

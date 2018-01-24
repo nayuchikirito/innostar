@@ -61,6 +61,7 @@ class GuestController extends Controller
                 $reservation->date        = $request->get('date').' '.$request->get('time').':00';
                 $reservation->status        = $request->get('status');
                 $reservation->balance      = $request->get('balance');
+                $reservation->assigned      = $request0>get('assigned');
                 $reservation->client_id     = $request->get('client_id');
                 $reservation->package_id      = $request->get('package_id');
                 $reservation->save();
@@ -174,12 +175,22 @@ class GuestController extends Controller
             ->AddColumn('actions', function($column){
               
                 return '
-                            <button class="btn-sm btn btn-danger delete-data-btn" data-id="'.$column->id.'">
+                            <button class="btn-sm btn btn-danger request-data-btn" data-id="'.$column->id.'">
                                 <i class="fa fa-trash-o"></i> Request for Cancellation
                             </button> 
                         ';
             }) 
             ->rawColumns(['actions'])
             ->make(true);    
+    }
+
+    public function requestCancel()
+    {
+        Auth::user()->notify(new UserRequests());
+    }
+
+    public function pay()
+    {
+        return view('client.clients.paypal');
     }
 }

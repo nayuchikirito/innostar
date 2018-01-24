@@ -5,9 +5,9 @@
 @endsection
       @include('navigations.client-nav')
 @section('content') 
-    <section class="bg-primary">
+    <section>
     @include('parts.my-reservations')
-</section>
+  </section>
 
 @endsection
 

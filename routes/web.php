@@ -29,7 +29,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 	Route::get('/home', 'HomeController@index');
 
 	Route::get('/report/test', 'ReportsController@index');	
-	Route::get('/report/service', 'ReportsController@service');	
+	Route::get('/report/service/yearly', 'ReportsController@service');	
+	Route::get('/report/user', 'ReportsController@user');	
 	
 	Route::resource('/users', 'UsersController');
 	Route::get('/get-users', 'UsersController@all');

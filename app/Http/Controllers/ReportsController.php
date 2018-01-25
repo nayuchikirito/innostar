@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Charts;
 use App\User;
 use App\Service;
+use App\Reservation;
 
 class ReportsController extends Controller
 {
@@ -32,13 +33,35 @@ class ReportsController extends Controller
 
     public function service()
     {
-        $chart = Charts::multiDatabase('bar', 'material')
+        $chart = Charts::multiDatabase('bar', 'material')->dateColumn('date')
             ->colors(['#2196F3', '#F44336', '#FFC107', '#1a8217'])
-            ->dataset('Admin', User::all()->where('user_type', 'Admin'))
-            ->dataset('Secretary', User::all()->where('user_type', 'Secretary'))
-            ->dataset('Supplier', User::all()->where('user_type', 'Suppliers'))
-            ->dataset('Client', User::all()->where('user_type', 'Client'))
-            ->groupByMonth(2018, true);
+            ->dataset('Wedding', Reservation::whereHas('package.service', function ($query){
+                $query->where('name', 'Wedding');
+            })->get())
+            ->dataset('Christening', Reservation::whereHas('package.service', function ($query){
+                $query->where('name', 'Christening');
+            })->get())
+            ->dataset('Debut', Reservation::whereHas('package.service', function ($query){
+                $query->where('name', 'Debut');
+            })->get())
+            ->dataset('Birthday', Reservation::whereHas('package.service', function ($query){
+                $query->where('name', 'Birthday');
+            })->get())
+            // ->dataset('Christening', Reservation::where('package->service->name')->count(), 'Christening')
+            // ->dataset('Birthday', Reservation::where('package->service->name')->count(), 'Debut')
+            // ->dataset('Debut', Reservation::where('package->service->name')->count(), 'Birthday')
+            ->groupByMonth();
         return view('reports.service', ['chart' => $chart]);
+    }
+
+    public function user()
+    {
+        $chart = Charts::database(User::all()->where('user_type', 'Client'), 'area', 'highcharts')
+            ->title('Client Registrations')
+            ->elementLabel("Client")
+            ->dimensions(1000, 500)
+            ->responsive(false)
+            ->groupByMonth();
+        return view('reports.user', ['chart' => $chart]);
     }
 }

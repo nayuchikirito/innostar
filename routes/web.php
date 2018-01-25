@@ -28,10 +28,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
 	Route::get('/home', 'HomeController@index');
 
-	Route::get('/report/test', 'ReportsController@index');	
-	Route::get('/report/service/yearly', 'ReportsController@service');	
-	Route::get('/report/user', 'ReportsController@user');	
-	
+	Route::get('/report/test', 'ReportsController@index');
+	Route::get('/report/service/yearly', 'ReportsController@service');
+	Route::get('/report/user', 'ReportsController@user');
+
 	Route::resource('/users', 'UsersController');
 	Route::get('/get-users', 'UsersController@all');
 
@@ -46,6 +46,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
 	Route::resource('/reservations', 'ReservationsController');
 	Route::get('/get-reservations', 'ReservationsController@all');
+  Route::get('/reservations/{reservation}/assign-suppliers', 'ReservationsController@assignSuppliers')->name('reservations.assign-suppliers');
 
 	Route::resource('/coordinations', 'CoordinationsController');
 	Route::get('/get-coordinations', 'CoordinationsController@all');
@@ -64,15 +65,15 @@ Route::middleware('client')->prefix('client')->group(function () {
 	Route::resource('/reservations', 'GuestController');
 	Route::resource('/register', 'RegisterClientController');
 	Route::get('/pay', 'GuestController@pay')->name('clients.pay');
-	Route::get('/clients/reservations', 'GuestController@reservations')->name('clients.reservations');	
+	Route::get('/clients/reservations', 'GuestController@reservations')->name('clients.reservations');
 	Route::get('/get-reservations', 'GuestController@all');
-	Route::get('/home', 'GuestController@index')->name('clients.home');	
+	Route::get('/home', 'GuestController@index')->name('clients.home');
 
 });
 
 Route::get('select_service/{data}', 'SelectionController@selectService')->name('select-service');
-Route::get('select_package/{data}', 'SelectionController@selectPackage')->name('select-package'); 
-Route::get('select_balance/{data}', 'SelectionController@selectBalance')->name('select-balance'); 
+Route::get('select_package/{data}', 'SelectionController@selectPackage')->name('select-package');
+Route::get('select_balance/{data}', 'SelectionController@selectBalance')->name('select-balance');
 
 Route::middleware('admin')->prefix('gallery')->group(function () {
 	Route::get('/', array('as' => 'index','uses' => 'AlbumsController@getList'));
@@ -90,7 +91,7 @@ Route::middleware('admin')->prefix('gallery')->group(function () {
 
 Route::middleware('admin')->prefix('reports')->group(function () {
 	Route::get('/registrations', 'GenerateReportController@registration')->name('generate.registration');
-	Route::get('/registrations/pdf', 'GenerateReportController@reportRegistrations')->name('pdf.registrations');	
+	Route::get('/registrations/pdf', 'GenerateReportController@reportRegistrations')->name('pdf.registrations');
 
 	Route::get('/services', 'GenerateReportController@services')->name('generate.services');
 	Route::get('/services/pdf', 'GenerateReportController@reportServices')->name('pdf.services');

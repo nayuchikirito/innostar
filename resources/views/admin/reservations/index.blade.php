@@ -38,7 +38,7 @@
             </div>
           </div>
       </div>
-      <!-- /.row --> 
+      <!-- /.row -->
 
     </section>
     <!-- /.content -->
@@ -49,6 +49,7 @@
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="editmodal"></div>
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="showmodal"></div>
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="paymodal"></div>
+  <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="assignsuppliersmodal"></div>
 @endsection
 
 @section('scripts')
@@ -59,21 +60,21 @@
       bServerSide: false,
       sServerMethod: "GET",
       'ajax': '/admin/get-reservations',
-      searching: true, 
-      paging: true, 
-      filtering:false, 
+      searching: true,
+      paging: true,
+      filtering:false,
       bInfo: true,
       responsive: true,
       // dom: 'Bfrtip',
       // lengthChange: false,
       // buttons: [
       //       {
-      //           extend: 'pdf', 
+      //           extend: 'pdf',
       //           exportOptions: {
       //               columns: ':visible'
       //           }
       //       },
-            
+
       //       'excel', 'print', 'colvis',
       // ],
       language:{
@@ -82,68 +83,82 @@
           "previous":   "<i class='fa fa-chevron-left'></i>"
         }
       },
-      "columns": [ 
+      "columns": [
         {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
-        {data: 'client',  name: 'client', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'service',  name: 'service', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'client',  name: 'client', className: 'col-md-2 text-left',  searchable: true, sortable: true},
+        {data: 'service',  name: 'service', className: 'col-md-2 text-left',  searchable: true, sortable: true},
         {data: 'date',  name: 'date', className: 'col-md-2  text-left',   searchable: true, sortable: true},
         {data: 'status',  name: 'status', className: 'col-md-2  text-left',   searchable: true, sortable: true},
         {data: 'actions',   name: 'actions', className: 'col-md-4 text-left',  searchable: false,  sortable: false},
-      ], 
+      ],
       'order': [[0, 'asc']]
     });
 
-    // $(".add_data-btn").click(function(x){  
+    // $(".add_data-btn").click(function(x){
     //       x.preventDefault();
     //       var that = this;
     //       $("#addmodal").html('');
     //       $("#addmodal").modal();
     //       $.ajax({
-    //         url: '/admin/reservations/create',         
+    //         url: '/admin/reservations/create',
     //         success: function(data) {
     //           $("#addmodal").html(data);
     //         }
-    //       }); 
+    //       });
     // });
     $(document).off('click','.pay-data-btn').on('click','.pay-data-btn', function(e){
       e.preventDefault();
-      var that = this; 
+      var that = this;
       $("#paymodal").html('');
       $("#paymodal").modal();
       $.ajax({
-        url: '/admin/payments_walkin/'+that.dataset.id,         
+        url: '/admin/payments_walkin/'+that.dataset.id,
         success: function(data) {
           $("#paymodal").html(data);
         }
-      }); 
+      });
     });
     $(document).off('click','.show-data-btn').on('click','.show-data-btn', function(e){
       e.preventDefault();
-      var that = this; 
+      var that = this;
       $("#showmodal").html('');
       $("#showmodal").modal();
       $.ajax({
-        url: '/admin/reservations/'+that.dataset.id,         
+        url: '/admin/reservations/'+that.dataset.id,
         success: function(data) {
           $("#showmodal").html(data);
         }
-      }); 
+      });
     });
+
+    $(document).off('click','.assign-data-btn').on('click','.assign-data-btn', function(e){
+      e.preventDefault();
+      var that = this;
+      $("#assignsuppliersmodal").html('');
+      $("#assignsuppliersmodal").modal();
+      $.ajax({
+        url: '/admin/reservations/'+that.dataset.id+'/assign-suppliers',
+        success: function(data) {
+          $("#assignsuppliersmodal").html(data);
+        }
+      });
+    });
+
     $(document).off('click','.edit-data-btn').on('click','.edit-data-btn', function(e){
       e.preventDefault();
-      var that = this; 
+      var that = this;
       $("#editmodal").html('');
       $("#editmodal").modal();
       $.ajax({
-        url: '/admin/reservations/'+that.dataset.id+'/edit',         
+        url: '/admin/reservations/'+that.dataset.id+'/edit',
         success: function(data) {
           $("#editmodal").html(data);
         }
-      }); 
+      });
     });
     $(document).off('click','.delete-data-btn').on('click','.delete-data-btn', function(e){
       e.preventDefault();
-      var that = this; 
+      var that = this;
             bootbox.confirm({
               title: "Confirm Delete Data?",
               className: "del-bootbox",
@@ -160,7 +175,7 @@
               },
               callback: function (result) {
                  if(result){
-                  var token = '{{csrf_token()}}'; 
+                  var token = '{{csrf_token()}}';
                   $.ajax({
                   url:'/admin/reservations/'+that.dataset.id,
                   type: 'post',
@@ -172,10 +187,12 @@
                         icon: "success"
                       });
                   }
-                  }); 
+                  });
                  }
               }
           });
+
+
     });
   });
 </script>

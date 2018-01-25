@@ -37,9 +37,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css">
-
-
-<!-- 
+<!--
   <link rel="stylesheet" href="/images/sort_asc.png">
   <link rel="stylesheet" href="/images/sort_asc_disabled.png">
   <link rel="stylesheet" href="/images/sort_both.png">

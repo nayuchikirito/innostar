@@ -22,6 +22,8 @@
 
 <script src="{{asset('admin/bower_components/bootstrap-slider/bootstrap-slider.js')}}"></script>  
 
+<script src="{{ url('https://cdnjs.cloudflare.com/ajax/libs/highcharts/5.0.7/js/modules/exporting.js') }}"></script>
+
 
 <!-- datatables css and js -->
 <link rel="stylesheet" type="text/css" href="/css/datatables.min.css"/>

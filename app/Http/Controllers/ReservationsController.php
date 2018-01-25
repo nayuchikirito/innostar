@@ -202,10 +202,23 @@ class ReservationsController extends Controller
                             <button class="btn-sm btn btn-danger delete-data-btn" data-id="'.$column->id.'">
                                 <i class="fa fa-trash-o"></i> Delete
                             </button> 
+                            <button class="btn-sm btn btn-primary assign-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-trash-o"></i> Assign
+                            </button> 
                         ';
             }) 
             ->rawColumns(['actions'])
             ->make(true);    
     }
 
+
+    public function assignSuppliers($clientId)
+    {   
+        $services = \App\Service::all();
+        $client = \App\Client::where('user_id', $id)->first();
+        // return response()->json($client);
+        return view('admin.clients.reserve', compact(['services', 'client']));
+        // ->with('services', $services)
+        // ->with('client', $client);
+    }
 }

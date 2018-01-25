@@ -79,7 +79,9 @@
                 <ul class="treeview-menu">
                   <li class="{{ Request::segment(2) == 'yearly report' ? 'active':'' }}"><a href="{{url('admin/report/service/yearly')}}"><i class="fa fa-users"></i> <span>Yearly Report</span></a></li>
 
-                  <li class="{{ Request::segment(2) == 'yearly report' ? 'active':'' }}"><a href="{{url('admin/report/service/overall')}}"><i class="fa fa-users"></i> <span>Overall</span></a></li>
+                  <li class="{{ Request::segment(2) == 'monthly report' ? 'active':'' }}"><a href="{{url('admin/report/service/monthly')}}"><i class="fa fa-users"></i> <span>Monthly Report</span></a></li>
+
+                  <li class="{{ Request::segment(2) == 'overall' ? 'active':'' }}"><a href="{{url('admin/report/service/overall')}}"><i class="fa fa-users"></i> <span>Overall</span></a></li>
                 </ul>
               </li>
 
@@ -91,11 +93,12 @@
                   <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                  <li class="{{ Request::segment(2) == 'packages purchased' ? 'active':'' }}"><a href="{{url('admin/report/test')}}"><i class="fa fa-users"></i> <span>Yearly Report</span></a></li>
+                  <li class="{{ Request::segment(2) == 'yearly' ? 'active':'' }}"><a href="{{url('admin/report/package/yearly')}}"><i class="fa fa-users"></i> <span>Yearly Report</span></a></li>
 
-                  <li class="{{ Request::segment(2) == 'packages purchased' ? 'active':'' }}"><a href="{{url('admin/report/test')}}"><i class="fa fa-users"></i> <span>Packages Purchased</span></a></li>
+                  <li class="{{ Request::segment(2) == 'yearly report' ? 'active':'' }}"><a href="{{url('admin/report/package/monthly')}}"><i class="fa fa-users"></i> <span>Monthly Report</span></a></li>
 
-                  <li class="{{ Request::segment(2) == 'packages purchased' ? 'active':'' }}"><a href="{{url('admin/report/test')}}"><i class="fa fa-users"></i> <span>Packages Purchased</span></a></li>
+                  <li class="{{ Request::segment(2) == 'overall' ? 'active':'' }}"><a href="{{url('admin/report/package/overall')}}"><i class="fa fa-users"></i> <span>Overall</span></a></li>
+
                 </ul>
               </li>
 

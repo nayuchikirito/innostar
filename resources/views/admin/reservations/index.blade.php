@@ -129,6 +129,19 @@
         }
       }); 
     });
+
+    $(document).off('click','.assign-data-btn').on('click','.assign-data-btn', function(e){
+      e.preventDefault();
+      var that = this; 
+      $("#showmodal").html('');
+      $("#showmodal").modal();
+      $.ajax({
+        url: '/admin/reservations/'+that.dataset.id,         
+        success: function(data) {
+          $("#showmodal").html(data);
+        }
+      }); 
+    });
     $(document).off('click','.edit-data-btn').on('click','.edit-data-btn', function(e){
       e.preventDefault();
       var that = this; 

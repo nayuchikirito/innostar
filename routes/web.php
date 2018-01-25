@@ -29,7 +29,13 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 	Route::get('/home', 'HomeController@index');
 
 	Route::get('/report/test', 'ReportsController@index');	
-	Route::get('/report/service/yearly', 'ReportsController@service');	
+	Route::get('/report/printpdf', 'ReportsController@printPdf');	
+	Route::get('/report/service/yearly', 'ReportsController@yearly_service');
+	Route::get('/report/service/monthly', 'ReportsController@monthly_service');	
+	Route::get('/report/service/overall', 'ReportsController@overall');	
+	Route::get('/report/package/monthly', 'ReportsController@monthly_package');
+	Route::get('/report/package/yearly', 'ReportsController@yearly_package');	
+	Route::get('/report/package/overall', 'ReportsController@overall_package');	
 	Route::get('/report/user', 'ReportsController@user');	
 	
 	Route::resource('/users', 'UsersController');
@@ -45,6 +51,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 	Route::get('/get-packages', 'PackagesController@all');
 
 	Route::resource('/reservations', 'ReservationsController');
+	Route::get('/reservations/{client}/assign-suppliers', 'ReservationsController@reserve')->name('clients.reserve');
+
 	Route::get('/get-reservations', 'ReservationsController@all');
 
 	Route::resource('/coordinations', 'CoordinationsController');

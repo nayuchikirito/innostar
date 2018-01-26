@@ -7,17 +7,22 @@
                 {!! $chart->html() !!}
             </center>
         </div>
-        <form action="{{ url('/admin/report/printpdf') }}" method="GET">
-        <div class="text-center">
-
-        <button type="submit" class="btn submit-btn btn-success btn-gradient">Print</button>
-
-    </div>
-</form>
+    
     </div>
         <!-- End Of Main Application -->
         {!! Charts::scripts() !!}
         {!! $chart->script() !!}
 @endsection
 
-@section('scripts')
+<!-- @section('scripts')
+    <script type="text/javascript">
+        Highcharts.chart('container', {
+                    buttons: {
+                    contextButton: {
+                        menuItems: ['downloadPNG', 'downloadSVG', 'separator', 'label']
+                    }
+                }
+        });
+    </script>
+@endsection
+ -->

@@ -22,14 +22,14 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>150</h3>
+              <h3 class="counter" data-count="{{ \App\Reservation::where('status', 'pending')->count() }}">0</h3>
 
-              <p>New Orders</p>
+              <p>Package Reservations</p>
             </div>
             <div class="icon">
               <i class="ion ion-bag"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ url('/report/package/overall') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -37,14 +37,14 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3>53<sup style="font-size: 20px">%</sup></h3>
+              <h3 class="counter" data-count="{{ \App\Coordination::where('status', 'pending')->count() }}">0</h3>
 
-              <p>Bounce Rate</p>
+              <p>Coordinations</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
             </div>
-            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ url('/report/package/overall') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -52,7 +52,7 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>44</h3>
+              <h3 class="counter" data-count="{{ \App\Client::all()->count() }}">0</h3>
 
               <p>User Registrations</p>
             </div>
@@ -67,7 +67,7 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3>65</h3>
+              <h3 class="counter" data-count="{{ \Visitor::count() }}">0</h3>
 
               <p>Unique Visitors</p>
             </div>
@@ -80,10 +80,48 @@
         <!-- ./col -->
       </div>
       <!-- /.row --> 
-
+      <div class="row">
+        <div id='calendar'></div>
+      </div>
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
+@endsection
+
+@section('scripts')
+  <script type="text/javascript">
+    $('.counter').each(function() {
+      var $this = $(this),
+          countTo = $this.attr('data-count');
+      
+      $({ countNum: $this.text()}).animate({
+        countNum: countTo
+      },
+
+      {
+
+        duration: 1000,
+        easing:'linear',
+        step: function() {
+          $this.text(Math.floor(this.countNum));
+        },
+        complete: function() {
+          $this.text(this.countNum);
+          //alert('finished');
+        }
+
+      });  
+
+          $(document).ready(function() {
+            // $('#calendar').fullCalendar('next');
+        // page is now ready, initialize the calendar...
+
+          $('#calendar').fullCalendar({
+          })
+
+    });
+});
+  </script>
 @endsection

@@ -212,13 +212,25 @@ class ReservationsController extends Controller
     }
 
 
-    public function assignSuppliers($clientId)
-    {   
-        $services = \App\Service::all();
-        $client = \App\Client::where('user_id', $id)->first();
-        // return response()->json($client);
-        return view('admin.clients.reserve', compact(['services', 'client']));
-        // ->with('services', $services)
-        // ->with('client', $client);
+    public function assignSuppliers($id)
+    {
+        $suppliers = ['Florist','Photo & Video','Reception','Souvenir','Invitation'];
+        $reservation = \App\Reservation::find($id);
+        $suppliersList = collect();
+        foreach ($suppliers as $key => $s) {
+          // $suppliersQ = \App\Supplier::where('type', $s);
+          $suppliersQ = \App\Supplier::whereRaw('type = ?', [$s])->orderBy('created_at')->get();
+          $users = [];
+          foreach ($suppliersQ as $supKey => $sup) {
+            $user = \App\User::find($sup->user_id);
+            array_push($users, $user);
+          }
+          $suppliersList[$s] = $users;
+        }
+        // var_dump($suppliersList);return;
+        return view('admin.reservations.assign-suppliers')
+        ->with('reservation', $reservation)
+        ->with('suppliers', $suppliers)
+        ->with('suppliersList', $suppliersList);
     }
 }

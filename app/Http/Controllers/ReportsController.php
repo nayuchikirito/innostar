@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Charts;
-use PDF;
+// use PDF;
 use App\User;
 use App\Service;
 use App\Reservation;
+use App\Coordination;
 
 class ReportsController extends Controller
 {
@@ -49,11 +50,9 @@ class ReportsController extends Controller
             ->dataset('Birthday', Reservation::whereHas('package.service', function ($query){
                 $query->where('name', 'Birthday');
             })->get())
-            // ->dataset('Christening', Reservation::where('package->service->name')->count(), 'Christening')
-            // ->dataset('Birthday', Reservation::where('package->service->name')->count(), 'Debut')
-            // ->dataset('Debut', Reservation::where('package->service->name')->count(), 'Birthday')
+
             ->groupByYear();
-        return view('reports.service', ['chart' => $chart]);
+        return view('reports.generate', ['chart' => $chart]);
     }
 
     public function monthly_service()
@@ -73,11 +72,9 @@ class ReportsController extends Controller
             ->dataset('Birthday', Reservation::whereHas('package.service', function ($query){
                 $query->where('name', 'Birthday');
             })->get())
-            // ->dataset('Christening', Reservation::where('package->service->name')->count(), 'Christening')
-            // ->dataset('Birthday', Reservation::where('package->service->name')->count(), 'Debut')
-            // ->dataset('Debut', Reservation::where('package->service->name')->count(), 'Birthday')
+
             ->groupByMonth();
-        return view('reports.service', ['chart' => $chart]);
+        return view('reports.generate', ['chart' => $chart]);
     }
 
     public function user()
@@ -112,7 +109,7 @@ class ReportsController extends Controller
         ->values([$wedding, $christening, $debut, $birthday])
         ->dimensions(1000,500)
         ->responsive(false);
-        return view('reports.service', ['chart' => $chart]);
+        return view('reports.generate', ['chart' => $chart]);
     }
 
     public function overall_package()
@@ -133,7 +130,7 @@ class ReportsController extends Controller
         ->values([$golden, $silver, $bronze])
         ->dimensions(1000,500)
         ->responsive(false);
-        return view('reports.service', ['chart' => $chart]);
+        return view('reports.generate', ['chart' => $chart]);
     }
 
     public function monthly_package()
@@ -150,11 +147,8 @@ class ReportsController extends Controller
             ->dataset('Bronze Package', Reservation::whereHas('package', function ($query){
                 $query->where('name', 'Bronze Package');
             })->get())
-            // ->dataset('Christening', Reservation::where('package->service->name')->count(), 'Christening')
-            // ->dataset('Birthday', Reservation::where('package->service->name')->count(), 'Debut')
-            // ->dataset('Debut', Reservation::where('package->service->name')->count(), 'Birthday')
             ->groupByMonth();
-        return view('reports.service', ['chart' => $chart]);
+        return view('reports.generate', ['chart' => $chart]);
     }
 
     public function yearly_package()
@@ -171,34 +165,45 @@ class ReportsController extends Controller
             ->dataset('Bronze Package', Reservation::whereHas('package', function ($query){
                 $query->where('name', 'Bronze Package');
             })->get())
-            // ->dataset('Christening', Reservation::where('package->service->name')->count(), 'Christening')
-            // ->dataset('Birthday', Reservation::where('package->service->name')->count(), 'Debut')
-            // ->dataset('Debut', Reservation::where('package->service->name')->count(), 'Birthday')
             ->groupByYear();
-        return view('reports.service', ['chart' => $chart]);
+        return view('reports.generate', ['chart' => $chart]);
     }
 
-    public function printPdf()
+    public function yearly_reservation()
     {
-        $wedding = Reservation::whereHas('package.service', function ($query){
-                $query->where('name', 'Wedding');
-            })->count();
-        $christening = Reservation::whereHas('package.service', function ($query){
-                        $query->where('name', 'Christening');
-                    })->count();
-        $debut = Reservation::whereHas('package.service', function ($query){
-                        $query->where('name', 'Debut');
-                    })->count();
-        $birthday = Reservation::whereHas('package.service', function ($query){
-                        $query->where('name', 'Birthday');
-                    })->count();
-        $chart = Charts::create('pie', 'highcharts')
-            ->title('Service Chart')
+        $chart = Charts::multiDatabase('bar', 'material')->dateColumn('date')
+            ->title('Packages Yearly Report') 
             ->colors(['#2196F3', '#F44336', '#FFC107', '#1a8217'])
-            ->labels(['Wedding', 'Christening', 'Debut', 'Birthday'])  
-            ->values([$wedding, $christening, $debut, $birthday])
-            ->dimensions(1000,500);
-        $pdf = PDF::loadView('report.service', ['chart' => $chart]);
-        return $pdf->stream();
+            ->dataset('Reservation', Reservation::all())
+            ->dataset('Coordination', Coordination::all())
+            ->groupByYear();
+        return view('reports.generate', ['chart' => $chart]);
     }
+
+    public function monthly_reservation()
+    {
+        $chart = Charts::multiDatabase('bar', 'material')->dateColumn('date')
+            ->title('Packages Yearly Report') 
+            ->colors(['#2196F3', '#F44336', '#FFC107', '#1a8217'])
+            ->dataset('Package Reservation', Reservation::all())
+            ->dataset('Coordination', Coordination::all())
+            ->groupByMonth();
+        return view('reports.generate', ['chart' => $chart]);
+    }
+
+    public function overall_reservation()
+    {
+        $reservation = Reservation::all()->count();
+        $coordination = Coordination::all()->count();
+        $chart = Charts::create('pie', 'highcharts')
+        ->title('Package Chart')
+        ->colors(['#2196F3', '#F44336', '#FFC107', '#1a8217'])
+        ->labels(['Package Reservation', 'Coordination'])  
+        ->values([$reservation, $coordination])
+        ->dimensions(1000,500)
+        ->responsive(false);
+        return view('reports.generate', ['chart' => $chart]);
+    }
+
+
 }

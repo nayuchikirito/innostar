@@ -38,8 +38,10 @@
 
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css">
 
+  <link rel='stylesheet' href="{{ url('https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.0/fullcalendar.min.css') }}">
 
-<!-- 
+  <link rel='stylesheet' href="{{ url('https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.0/fullcalendar.print.css') }}">
+<!--
   <link rel="stylesheet" href="/images/sort_asc.png">
   <link rel="stylesheet" href="/images/sort_asc_disabled.png">
   <link rel="stylesheet" href="/images/sort_both.png">

@@ -67,7 +67,7 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3 class="counter" data-count="{{ \Visitor::count() }}">0</h3>
+              {{--<h3 class="counter" data-count="{{ \Visitor::count() }}">0</h3>--}}
 
               <p>Unique Visitors</p>
             </div>
@@ -79,7 +79,7 @@
         </div>
         <!-- ./col -->
       </div>
-      <!-- /.row --> 
+      <!-- /.row -->
       <div class="row">
         <div id='calendar'></div>
       </div>
@@ -95,7 +95,7 @@
     $('.counter').each(function() {
       var $this = $(this),
           countTo = $this.attr('data-count');
-      
+
       $({ countNum: $this.text()}).animate({
         countNum: countTo
       },
@@ -112,7 +112,7 @@
           //alert('finished');
         }
 
-      });  
+      });
 
           $(document).ready(function() {
             // $('#calendar').fullCalendar('next');

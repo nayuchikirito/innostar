@@ -42,10 +42,10 @@ class ReservationsController extends Controller
         // $data = request()->validate([
         //     'date' => 'required',
         //     'time' => 'required',
-            
+
         // ]);
         // if($data['password']){
-        //     $data['password'] = bcrypt($data['password']);          
+        //     $data['password'] = bcrypt($data['password']);
         // // }
         $dateCount = \App\Reservation::whereDate('date', $request->get('date'))->count();
         $dateCountCoord = \App\Coordination::whereDate('date', $request->get('date'))->count();
@@ -74,9 +74,9 @@ class ReservationsController extends Controller
                     }catch(\Exception $e){
                         DB::rollback();
                         return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
-                    } 
+                    }
         }
-        // $status = \App\Reservation::create($data); 
+        // $status = \App\Reservation::create($data);
         // if($status){
         //     return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
         // }else{
@@ -146,7 +146,7 @@ class ReservationsController extends Controller
                     }catch(\Exception $e){
                         DB::rollback();
                         return response()->json(['success' => false, 'msg' => 'An error occured while editing data!']);
-                    } 
+                    }
                 }
     }
 
@@ -159,7 +159,7 @@ class ReservationsController extends Controller
     public function destroy($id)
     {
         try{
-            $status = \App\Reservation::destroy($id); 
+            $status = \App\Reservation::destroy($id);
             if($status){
                 return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
             }else{
@@ -183,12 +183,12 @@ class ReservationsController extends Controller
             })
             ->AddColumn('client', function($column){
                return $column->client->user->lname.', '.$column->client->user->fname.' '.substr($column->client->user->midname, 0, 1).'.';
-            }) 
+            })
             ->AddColumn('service', function($column){
                return $column->package->service->name;
-            }) 
+            })
             ->AddColumn('actions', function($column){
-              
+
                 return '
                             <button class="btn-sm btn btn-success pay-data-btn" data-id="'.$column->id.'">
                                 <i class="fa fa-money"></i> Pay
@@ -201,14 +201,14 @@ class ReservationsController extends Controller
                             </button>
                             <button class="btn-sm btn btn-danger delete-data-btn" data-id="'.$column->id.'">
                                 <i class="fa fa-trash-o"></i> Delete
-                            </button> 
+                            </button>
                             <button class="btn-sm btn btn-primary assign-data-btn" data-id="'.$column->id.'">
                                 <i class="fa fa-trash-o"></i> Assign
-                            </button> 
+                            </button>
                         ';
-            }) 
+            })
             ->rawColumns(['actions'])
-            ->make(true);    
+            ->make(true);
     }
 
 
@@ -220,9 +220,18 @@ class ReservationsController extends Controller
         foreach ($suppliers as $key => $s) {
           // $suppliersQ = \App\Supplier::where('type', $s);
           $suppliersQ = \App\Supplier::whereRaw('type = ?', [$s])->orderBy('created_at')->get();
+          $assignedSuppliers = \App\AssignSupplier::where('reservation_id', $id)->get();
           $users = [];
           foreach ($suppliersQ as $supKey => $sup) {
             $user = \App\User::find($sup->user_id);
+            $user["supplierId"] = $sup->id;
+            foreach($assignedSuppliers as $as){
+              if($as->supplier_id == $sup->id){
+                $user["assignedSupplierId"] = $as->id;
+                $user["assignedPrice"] = $as->price;
+                $user["assignedStatus"] = $as->status;
+              }
+            }
             array_push($users, $user);
           }
           $suppliersList[$s] = $users;
@@ -231,6 +240,7 @@ class ReservationsController extends Controller
         return view('admin.reservations.assign-suppliers')
         ->with('reservation', $reservation)
         ->with('suppliers', $suppliers)
-        ->with('suppliersList', $suppliersList);
+        ->with('suppliersList', $suppliersList)
+        ->with('reservationId', $id);
     }
 }

@@ -8,10 +8,7 @@
 	        <div class="collapse navbar-collapse" id="navbarResponsive">
 	          <ul class="navbar-nav ml-auto">
 	            <li class="nav-item">
-	              <a class="nav-link js-scroll-trigger" href="#about">View Reservations</a>
-	            </li>
-	            <li class="nav-item">
-	              <a class="nav-link js-scroll-trigger" href="#services">View Events</a>
+	              <a class="nav-link js-scroll-trigger" href="#about">Requests</a>
 	            </li>
 	            <li class="nav-item">
                   <a class="nav-link js-scroll-trigger" href="{{ route('logout') }}" onclick="event.preventDefault(); 

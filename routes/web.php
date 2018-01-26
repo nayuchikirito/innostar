@@ -81,6 +81,8 @@ Route::middleware('client')->prefix('client')->group(function () {
 	Route::get('/clients/reservations', 'GuestController@reservations')->name('clients.reservations');
 	Route::get('/get-reservations', 'GuestController@all');
 	Route::get('/home', 'GuestController@index')->name('clients.home');
+	Route::get('/payments_bank/{res_id}', 'GuestController@pay')->name('admin.payments');
+	Route::post('/payments', 'GuestController@payment');
 
 });
 
@@ -111,4 +113,12 @@ Route::middleware('admin')->prefix('reports')->group(function () {
 
 	Route::get('/packages', 'GenerateReportController@packages')->name('generate.packages');
 	Route::get('/packages/pdf', 'GenerateReportController@reportPackages')->name('pdf.packages');
+});
+
+Route::prefix('supplier')->group(function(){
+	Route::get('/home', 'SuppliersController@index')->name('suppliers.home');
+});
+
+Route::prefix('secretary')->group(function(){
+	Route::get('/home', 'SecretaryController@index')->name('secretary.home');
 });

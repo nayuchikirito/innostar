@@ -1,167 +1,69 @@
-@extends('admin.includes.app')
-@section('content')
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        Suppliers
-        <small>Add/Edit/Delete/View Suppliers</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li><a href="{{ url('admin/home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Suppliers</li>
-      </ol>
-    </section>
+@extends('client.includes.app')
 
-    <!-- Main content -->
-    <section class="content">
-
-
-        <div class="box">
-            <div class="box-header with-border">
-              <h3 class="box-title">Suppliers Table</h3>
-              <button class="btn-sm btn btn-success add-data-btn pull-right">
-              <i class="fa fa-plus"></i> Add
-                </button>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table class="table table-hover" id="suppliers-table">
-                <thead>
-                  <th>#</th>
-                  <th>Name</th>
-                  <th>Actions</th>
-                </thead>
-              </table>
-            </div>
+@section('title')
+    Innovation Star
+@endsection
+      @include('navigations.supplier-nav')
+@section('content') 
+ <header class="masthead text-center text-white d-flex">
+      <div class="container my-auto">
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <h1 class="text-uppercase">
+              <strong>Innovation Star</strong>
+            </h1>
+            <hr>
           </div>
+          <div class="col-lg-8 mx-auto">
+            <p class="text-white mb-5">Events Coordinating and Planning Team</p>
+            <a class="btn btn-primary" href="{{ route('clients.reservations') }}">View Reservations</a>
+          </div>
+        </div>
       </div>
-      <!-- /.row --> 
+    </header>
 
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+    @include('parts.about')
 
-  <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="addmodal"></div>
-  <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="editmodal"></div>
-  <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="showmodal"></div>
+    @include('parts.services')
+
+    @include('parts.portfolio')
+
+    @include('parts.contact')
+    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="addmodal">
+        <div class="modal-dialog modal-lg add-user-form">
+          <div class="modal-content" id="modal-content">
+            
+          
+          
+
+           </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('scripts')
-<script type="text/javascript">
-  $(function(){
-    var table = $('#suppliers-table').DataTable({
-      bProcessing: true,
-      bServerSide: false,
-      sServerMethod: "GET",
-      'ajax': '/admin/get-suppliers',
-      searching: true, 
-      paging: true, 
-      filtering:false, 
-      bInfo: true,
-      responsive: true,
-      dom: 'Bfrtip',
-      lengthChange: false,
-      buttons: [
-            {
-                extend: 'pdf', 
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            
-            'excel', 'print', 'colvis',
-      ],
-      language:{
-        "paginate": {
-          "next":       "<i class='fa fa-chevron-right'></i>",
-          "previous":   "<i class='fa fa-chevron-left'></i>"
-        }
-      },
-      "columns": [ 
-        {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
-        {data: 'name',  name: 'name', className: 'col-md-6  text-left',   searchable: true, sortable: true},
-        {data: 'actions',   name: 'actions', className: 'col-md-6 text-left',  searchable: false,  sortable: false},
-      ], 
-      'order': [[0, 'asc']]
-    });
+  <script type="text/javascript">
+    $(function(){
+      $(document).off('click','reserve-data-btn').on('click','.reserve-data-btn', function(e){
+        e.preventDefault();
+        var that = this;
+        $("#addmodal").modal();
+        $("#addmodal .modal-content").load('/client/reservations/create');
+      });
 
-    $(".add-data-btn").click(function(x){  
-          x.preventDefault();
-          var that = this;
-          $("#addmodal").html('');
-          $("#addmodal").modal();
-          $.ajax({
-            url: '/admin/suppliers/create',         
-            success: function(data) {
-              $("#addmodal").html(data);
-            }
-          }); 
-    });
+      
 
-    $(document).off('click','.show-data-btn').on('click','.show-data-btn', function(e){
-      e.preventDefault();
-      var that = this; 
-      $("#showmodal").html('');
-      $("#showmodal").modal();
-      $.ajax({
-        url: '/admin/suppliers/'+that.dataset.id,         
-        success: function(data) {
-          $("#showmodal").html(data);
-        }
-      }); 
-    });
-
-    $(document).off('click','.edit-data-btn').on('click','.edit-data-btn', function(e){
-      e.preventDefault();
-      var that = this; 
-      $("#editmodal").html('');
-      $("#editmodal").modal();
-      $.ajax({
-        url: '/admin/suppliers/'+that.dataset.id+'/edit',         
-        success: function(data) {
-          $("#editmodal").html(data);
-        }
-      }); 
-    });
-    $(document).off('click','.delete-data-btn').on('click','.delete-data-btn', function(e){
-      e.preventDefault();
-      var that = this; 
-            bootbox.confirm({
-              title: "Confirm Delete Data?",
-              className: "del-bootbox",
-              message: "Are you sure you want to delete record?",
-              buttons: {
-                  confirm: {
-                      label: 'Yes',
-                      className: 'btn-success'
-                  },
-                  cancel: {
-                      label: 'No',
-                      className: 'btn-danger'
-                  }
-              },
-              callback: function (result) {
-                 if(result){
-                  var token = '{{csrf_token()}}'; 
-                  $.ajax({
-                  url:'/admin/suppliers/'+that.dataset.id,
-                  type: 'post',
-                  data: {_method: 'delete', _token :token},
-                  success:function(result){
-                    $("#suppliers-table").DataTable().ajax.url( '/admin/get-suppliers' ).load();
-                    swal({
-                        title: result.msg,
-                        icon: "success"
-                      });
-                  }
-                  }); 
-                 }
-              }
-          });
-    });
+      // $(document).off('click','request-data-btn').on('click','.request-data-btn', function(e){
+      //   e.preventDefault();
+      //   var that = this;
+      //   Auth::user()->notify(new UserRequests());
+      // });
   });
-</script>
+
+  </script>
 @endsection
+
+    
+
+    

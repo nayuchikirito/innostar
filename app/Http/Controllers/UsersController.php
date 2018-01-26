@@ -113,6 +113,7 @@ class UsersController extends Controller
         $user->location = $request->get('location');
         $user->contact = $request->get('contact');
         $user->user_type = $request->get('user_type');
+        $user->email = $request->get('email');
         $user->password     = $request->get('password');
  
         if($user->save()){

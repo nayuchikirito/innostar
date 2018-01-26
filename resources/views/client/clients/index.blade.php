@@ -16,8 +16,8 @@
           </div>
           <div class="col-lg-8 mx-auto">
             <p class="text-white mb-5">Events Coordinating and Planning Team</p>
-            <button class="btn btn-primary reserve-data-btn">Reserve</button>
-            <button class="btn btn-primary" href="/client/pay">Pay</button>
+            <a class="btn btn-primary reserve-data-btn">Reserve</a>
+            <a class="btn btn-primary" href="{{ route('clients.reservations') }}">Pay</a>
           </div>
         </div>
       </div>
@@ -52,6 +52,8 @@
         $("#addmodal").modal();
         $("#addmodal .modal-content").load('/client/reservations/create');
       });
+
+      
 
       // $(document).off('click','request-data-btn').on('click','.request-data-btn', function(e){
       //   e.preventDefault();

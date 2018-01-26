@@ -175,12 +175,20 @@ class GuestController extends Controller
             ->AddColumn('actions', function($column){
               
                 return '
+                            <a class="btn-sm btn btn-success pay-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-money"></i> Pay
+                            </a> 
+
+                            <button class="btn-sm btn btn-warning request-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-trash-o"></i> Change
+                            </button> 
+
                             <button class="btn-sm btn btn-danger request-data-btn" data-id="'.$column->id.'">
-                                <i class="fa fa-trash-o"></i> Request for Cancellation
+                                <i class="fa fa-trash-o"></i> Cancellation
                             </button> 
                         ';
             }) 
-            ->rawColumns(['actions'])
+            ->rawColumns(['actions', 'requests'])
             ->make(true);    
     }
 
@@ -189,8 +197,44 @@ class GuestController extends Controller
         Auth::user()->notify(new UserRequests());
     }
 
-    public function pay()
+    public function pay($id)
     {
-        return view('client.clients.paypal');
+        $reservation = \App\Reservation::find($id);
+        return view('client.clients.bank')
+        ->with('reservation', $reservation);
+    }
+
+    public function payment(Request $request)
+    {
+        $data = request()->validate([
+            'amount' => 'required|numeric',
+            'or' => 'required|string',
+        ]);
+         try{
+
+            DB::beginTransaction();
+
+                $payment = new \App\Payment;
+                $payment->or    = $request->get('or');
+                $payment->amount     = $request->get('amount');
+                $payment->type      = $request->get('type');
+                $payment->reservation_id     = $request->get('reservation_id');
+                $payment->save();
+
+                $reservation = \App\Reservation::find($payment->reservation->id);
+                $reservation->balance = $reservation->balance-$request->get('amount');
+                if($reservation->balance <= $reservation->package->price-($reservation->package->price * .2)){
+                        $reservation->status = 'confirmed';
+                    }
+                $reservation->save();
+
+                DB::commit();
+
+                return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+
+            }catch(\Exception $e){
+                DB::rollback();
+                return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+            } 
     }
 }

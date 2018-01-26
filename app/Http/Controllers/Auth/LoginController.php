@@ -37,11 +37,11 @@ class LoginController extends Controller
                 break;
             
             case 'Secretary':
-                return redirect("/admin/home");
+                return redirect("/secretary/home");
                 break;
             
             case 'Supplier':
-                return redirect("/admin/home");
+                return redirect("/supplier/home");
                 break;
             
             case 'Client':

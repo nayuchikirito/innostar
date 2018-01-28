@@ -17,6 +17,8 @@
   <!-- iCheck -->
   <link rel="stylesheet" href="{{asset('admin/plugins/iCheck/square/blue.css')}}">
 
+  <link href="{{asset('css/creative.min.css') }}" rel="stylesheet">
+
   <!-- HTML5 Shim and Respond.js')}} IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js')}} doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -30,7 +32,8 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href=""><b>Innovation</b>Star</a>
+    <a href="/"><img src="{{asset('/img/logo.png')}}" border="0" width="150px" height="150px">
+      <div><p><b>Innovation</b>Star</p></div></a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
@@ -75,7 +78,7 @@
     <!-- /.social-auth-links -->
 
     <a href="{{ route('password.request') }}">I forgot my password</a><br>
-    <a href="#" class="text-center">Register a new membership</a>
+    <a href="/register" class="text-center">Register a new membership</a>
 
   </div>
   <!-- /.login-box-body -->

@@ -36,7 +36,7 @@
   <div class="register-box-body">
     <p class="register-box-msg">Register</p>
 
-  <form action="{{ route('register') }}" method="POST" id="add-clients-form">
+  <form action="{{ url('/admin/clients') }}" method="POST" id="add-clients-form">
     {{ csrf_field() }}
       <input type="hidden" name="user_type" value="Client">
       <div class="form-group">
@@ -78,7 +78,7 @@
           <input type="text" class="form-control" id="contact" name="contact" placeholder="Enter Contact" autocomplete="false">
           <span class="help-text text-danger"></span>
       </div>
-    <div class="pull-right">
+    <div class="form-group pull-right">
       <button type="button" class="btn btn-danger" href="#">Back</button>
       <button type="submit" class="btn btn-success btn-gradient">Submit</button>
     </div>
@@ -94,63 +94,5 @@
 <!-- Bootstrap 3.3.7 -->
 <script src="{{asset('admin/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
 <!-- iCheck -->
-<script src="{{asset('admin/plugins/iCheck/icheck.min.js')}}"></script>
-<script>
-  $(function () {
-    $('input').iCheck({
-      checkboxClass: 'icheckbox_square-blue',
-      radioClass: 'iradio_square-blue',
-      increaseArea: '20%' // optional
-    });
-
-    $("#add-clients-form").on('submit', function(e){
-        e.preventDefault(); //keeps the form from behaving like a normal (non-ajax) html form
-        var $form = $(this);
-        var $url = $form.attr('action');
-        var formData = {};
-        //submit a POST request with the form data
-        $form.find('input', 'select').each(function(){
-            formData[ $(this).attr('name') ] = $(this).val();
-        });
-        //submits an array of key-value pairs to the form's action URL
-     /*   $.post(url, formData, function(response)
-        {
-            //handle successful validation
-            alert(1);
-        }).fail(function(response)
-        {
-            //handle failed validation
-            alert(1);
-            associate_errors(response['errors'], $form);
-        });*/
-
-        $.ajax({
-          type: 'POST',
-          url: $url,
-          data: $("#add-clients-form").serialize(), 
-          success: function(result){
-            if(result.success){
-              swal({
-                  title: result.msg,
-                  icon: "success"
-                });
-            }else{
-              swal({
-                  title: result.msg,
-                  icon: "error"
-                });
-            }
-            $("#clients-table").DataTable().ajax.url( '/admin/get-clients' ).load();
-            $('.modal').modal('hide');
-          },
-          error: function(xhr,status,error){
-            var response_object = JSON.parse(xhr.responseText); 
-            associate_errors(response_object.errors, $form);
-          }
-        });
-
-      });
-  });
-</script>
 </body>
 </html>

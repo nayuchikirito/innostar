@@ -67,7 +67,7 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              {{--<h3 class="counter" data-count="{{ \Visitor::count() }}">0</h3>--}}
+              <h3 class="counter" data-count="{{ \Visitor::count() }}">0</h3>
 
               <p>Unique Visitors</p>
             </div>

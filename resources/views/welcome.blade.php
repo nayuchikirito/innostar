@@ -15,7 +15,7 @@
             <hr>
           </div>
           <div class="col-lg-8 mx-auto">
-            <p class="text-white mb-5">Events Coordinating and Planning Team</p>
+            <p class="white-text mb-5 ">Events Coordinating and Planning Team</p>
             <a class="btn btn-primary btn-xl js-scroll-trigger" href="#login">Log in</a>
           </div>
         </div>
@@ -27,9 +27,9 @@
         <div class="row">
           <div class="col-lg-3 col-md-6 text-center">
             <div class="service-box mt-5 mx-auto">
-              <i class="fa fa-4x fa-user-o text-primary mb-3 sr-icons"></i>
+              <i class="fa fa-4x fa-user-o color-yellow mb-3 sr-icons"></i>
               <h3 class="mb-3">Admistrator</h3>
-              <p class="text-muted mb-0">Our templates are updated regularly so they don't break.</p>
+              <p class="text-muted mb-0 ">Our templates are updated regularly so they don't break.</p>
               <hr>
               <a class="btn btn-light btn-xl sr-button" href="/login">Login</a>
             </div>
@@ -37,9 +37,9 @@
 
           <div class="col-lg-3 col-md-6 text-center">
             <div class="service-box mt-5 mx-auto">
-              <i class="fa fa-4x fa-user-o text-primary mb-3 sr-icons"></i>
+              <i class="fa fa-4x fa-user-o color-yellow mb-3 sr-icons"></i>
               <h3 class="mb-3">Secretary</h3>
-              <p class="text-muted mb-0">Our templates are updated regularly so they don't break.</p>
+              <p class="text-muted mb-0 ">Our templates are updated regularly so they don't break.</p>
               <hr>
               <a class="btn btn-light btn-xl sr-button" href="/login">Login</a>
             </div>
@@ -47,9 +47,9 @@
 
           <div class="col-lg-3 col-md-6 text-center">
             <div class="service-box mt-5 mx-auto">
-              <i class="fa fa-4x fa-user text-primary mb-3 sr-icons"></i>
+              <i class="fa fa-4x fa-user color-yellow mb-3 sr-icons"></i>
               <h3 class="mb-3">Supplier</h3>
-              <p class="text-muted mb-0">You can use this theme as is, or you can make changes!</p>
+              <p class="text-muted mb-0 ">You can use this theme as is, or you can make changes!</p>
               <hr>
               <a class="btn btn-light btn-xl sr-button"  href="/login">Login</a>
             </div>
@@ -57,16 +57,16 @@
 
           <div class="col-lg-3 col-md-6 text-center">
             <div class="service-box mt-5 mx-auto">
-              <i class="fa fa-4x fa-users text-primary mb-3 sr-icons"></i>
+              <i class="fa fa-4x fa-users color-yellow mb-3 sr-icons"></i>
               <h3 class="mb-3">Client</h3>
-              <p class="text-muted mb-0">We update dependencies to keep things fresh.</p>
+              <p class="text-muted mb-0 ">We update dependencies to keep things fresh.</p>
               <hr>
               <a class="btn btn-light btn-xl sr-button"  href="/login">Login</a>
-              <button class="btn btn-light btn-xl add-data-btn sr-button ">Register</button>
+              <a class="btn btn-light btn-xl sr-button" href="/register">Register</a>
             </div>
           </div>
       </div>
-      <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="addmodal">
+      <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="loginmodal">
         <div class="modal-dialog modal-lg add-user-form">
           <div class="modal-content">
           </div>
@@ -100,13 +100,13 @@
     //           }
     //         }); 
     //   });
-    $(document).off('click','add-data-btn').on('click','.add-data-btn', function(e){
-      dd();
-        e.preventDefault();
-        var that = this;
-        $("#addmodal").modal();
-        $("#addmodal .modal-content").load('/client/register/create');
-      });
+    // $(document).off('click','add-data-btn').on('click','.add-data-btn', function(e){
+    //   dd();
+    //     e.preventDefault();
+    //     var that = this;
+    //     $("#addmodal").modal();
+    //     $("#addmodal .modal-content").load('/client/register/create');
+    //   });
   });
 @endsection
 

@@ -3,8 +3,9 @@
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
       <h4 class="modal-title">Assign Suppliers</h4>
+      <div id="assign-suppliers-url" data="{{ url('/admin/reservations/assign-suppliers') }}"></div>
+      <input type="hidden" id="_token" value="{{ csrf_token() }}" />
     </div>
-    <form action="{{ url('/admin/reservations/'.$reservation->id.'/assign-suppliers') }}" method="PATCH" id="assign-suppliers-form">
     {{ csrf_field() }}
     <div class="modal-body">
       <!-- <h3 class="text-center">Package Reservation</h3> -->
@@ -13,7 +14,7 @@
           <input type="datetime-local" name="datetime" class="form-control" value="{{ $reservation->date }}">
           <span class="help-text text-danger"></span>
       </div> -->
-      <div class="row form-group">
+      <!-- <div class="row form-group">
             <div class="col-xs-12">
                 <ul class="nav nav-pills nav-justified thumbnail setup-panel">
                   @foreach($suppliers as $key=>$supplier)
@@ -22,40 +23,47 @@
                         <p class="list-group-item-text">First step description</p>
                     </a></li>
                   @endforeach
-
-                    <!-- <li class="disabled"><a href="#step-2">
-                        <h4 class="list-group-item-heading">Step 2</h4>
-                        <p class="list-group-item-text">Second step description</p>
-                    </a></li>
-                    <li class="disabled"><a href="#step-3">
-                        <h4 class="list-group-item-heading">Step 3</h4>
-                        <p class="list-group-item-text">Third step description</p>
-                    </a></li> -->
                 </ul>
             </div>
-    	</div>
+    	</div> -->
         @foreach($suppliers as $key=>$supplier)
+        {{$assignedPrice = null}}
+        {{$noSpaceSupp = preg_replace("/[^A-Za-z0-9]/", "", $supplier)}}
+        {{$statusConfirmed = false}}
           <div class="row setup-content" id={{"step-".$key}}>
               <div class="col-xs-12">
-                  <div class="col-md-8">
+                  <div class="col-md-6">
                     <div class="form-group">
                         <label for="service">{{$supplier}}</label>
-                        <select name={{"supplier_".$supplier}} id={{"supplier_".$supplier}} class="form-control">
+                        <select name="supplier_{{$supplier}}" id="supplier_{{$noSpaceSupp}}" class="form-control">
                           <option selected disabled>Select {{$supplier}}</option>
                           @foreach($suppliersList as $slKey=>$slist)
                             @if($slKey == $supplier)
                               @foreach($slist as $sl)
-                                <option value={{$sl->id}}>{{$sl->lname.", ".$sl->fname." ".$sl->midname}}</option>
+                                @if($sl->assignedPrice != null)
+                                  {{$assignedPrice = $sl->assignedPrice}}
+                                @endif
+                                @if($sl->assignedStatus == 'confirmed')
+                                  {{$statusConfirmed = true}}
+                                @endif
+                                <option name="optn-{{$noSpaceSupp}}" value="{{$sl->supplierId}}" {{ ($sl->assignedSupplierId != null ? "selected":"") }}>{{$sl->lname.", ".$sl->fname." ".$sl->midname}}</option>
                               @endforeach
                             @endif
                           @endforeach
                         </select>
                         <span class="help-text text-danger"></span>
+
                     </div>
                   </div>
                   <div class="col-md-4">
+                    <label for="fname">Price</label>
+                    <input type="text" class="form-control" id="supplier_price_{{$noSpaceSupp}}" placeholder="Price" autocomplete="false" value={{$assignedPrice}}>
+                  </div>
+                  <div class="col-md-2">
                     <br>
-                    <button id={"activate-".$key} class="btn btn-primary" onclick={assignSupplier()}>Save</button>
+                    @if($statusConfirmed == false)
+                      <button id="assign-supplier-{{$key}}" class="btn btn-primary" onclick="assignSupplier('{{$noSpaceSupp}}','{{$reservationId}}')">Assign</button>
+                    @endif
                   </div>
               </div>
           </div>
@@ -78,16 +86,10 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      <button type="submit" class="btn btn-success btn-gradient pull-right">Submit</button>
+      <!-- <button type="submit" class="btn btn-success btn-gradient pull-right">Submit</button> -->
     </div>
-    </form>
 
     <script type="text/javascript">
-    function assignSupplier(){
-      alert("yes!");
-
-      return false;
-    }
 
   $(function(){
 

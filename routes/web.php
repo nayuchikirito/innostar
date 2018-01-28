@@ -28,23 +28,23 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
 	Route::get('/home', 'HomeController@index');
 
-	Route::get('/report/test', 'ReportsController@index');	
-	Route::get('/report/printpdf', 'ReportsController@printPdf');	
+	Route::get('/report/test', 'ReportsController@index');
+	Route::get('/report/printpdf', 'ReportsController@printPdf');
 
 	Route::get('/report/service/yearly', 'ReportsController@yearly_service');
-	Route::get('/report/service/monthly', 'ReportsController@monthly_service');	
-	Route::get('/report/service/overall', 'ReportsController@overall');	
+	Route::get('/report/service/monthly', 'ReportsController@monthly_service');
+	Route::get('/report/service/overall', 'ReportsController@overall');
 
 	Route::get('/report/package/monthly', 'ReportsController@monthly_package');
-	Route::get('/report/package/yearly', 'ReportsController@yearly_package');	
-	Route::get('/report/package/overall', 'ReportsController@overall_package');	
+	Route::get('/report/package/yearly', 'ReportsController@yearly_package');
+	Route::get('/report/package/overall', 'ReportsController@overall_package');
 
 	Route::get('/report/reservation/monthly', 'ReportsController@monthly_reservation');
-	Route::get('/report/reservation/yearly', 'ReportsController@yearly_reservation');	
-	Route::get('/report/reservation/overall', 'ReportsController@overall_reservation');	
+	Route::get('/report/reservation/yearly', 'ReportsController@yearly_reservation');
+	Route::get('/report/reservation/overall', 'ReportsController@overall_reservation');
 
-	Route::get('/report/user', 'ReportsController@user');	
-	
+	Route::get('/report/user', 'ReportsController@user');
+
 	Route::resource('/users', 'UsersController');
 	Route::get('/get-users', 'UsersController@all');
 
@@ -59,7 +59,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
 	Route::resource('/reservations', 'ReservationsController');
 	Route::get('/get-reservations', 'ReservationsController@all');
-  	Route::get('/reservations/{reservation}/assign-suppliers', 'ReservationsController@assignSuppliers')->name('reservations.assign-suppliers');
+  Route::get('/reservations/{reservation}/assign-suppliers', 'ReservationsController@assignSuppliers')->name('reservations.assign-suppliers');
+  Route::post('/reservations/assign-suppliers', 'AssignSuppliersController@assign');
 
 	Route::resource('/coordinations', 'CoordinationsController');
 	Route::get('/get-coordinations', 'CoordinationsController@all');

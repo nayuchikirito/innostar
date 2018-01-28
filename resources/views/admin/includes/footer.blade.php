@@ -49,3 +49,4 @@
 <script src="{{ asset('js/sweetalert2.all.js') }}"></script>
 <script src="{{ asset('js/bootbox.min.js') }}"></script>
 <script src="{{ asset('js/steps.js') }}"></script>
+<script src="{{ asset('js/action.js') }}"></script>

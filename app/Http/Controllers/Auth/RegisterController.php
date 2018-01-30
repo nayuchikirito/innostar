@@ -6,6 +6,9 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Auth;
+use DataTables;
+use DB;
 
 class RegisterController extends Controller
 {
@@ -27,7 +30,32 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/client/home';
+    // protected $redirectTo = '/';
+    protected function redirectTo()
+    {
+        switch (Auth::user()->user_type) {
+            case 'Admin':
+                return redirect("/admin/home");
+                break;
+            
+            case 'Secretary':
+                return redirect("/secretary/home");
+                break;
+            
+            case 'Suppliers':
+                return redirect("/supplier/home");
+                break;
+            
+            case 'Client':
+                return redirect("/client/home");
+                break;
+
+            default:
+                return redirect("/404");
+                break;
+            }
+    }
+
 
     /**
      * Create a new controller instance.
@@ -67,7 +95,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'fname' => $data['fname'], 
             'lname' => $data['lname'],
             'midname' => $data['midname'],
@@ -77,6 +105,14 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => $data['password'],
         ]);
+
+        $user->client = Client::create([
+            'user_id' => $user->id,
+        ]);
+
+        return $user;
     }
+
+    
 
 }

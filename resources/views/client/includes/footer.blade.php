@@ -8,8 +8,7 @@
 
  <!--    Custom scripts for this template -->
     <script src="{{asset('js/creative.min.js') }}"></script>
-<!--     <script src="https://datatables.yajrabox.com/js/jquery.dataTables.min.js') }}"></script>
-    <script src="https://datatables.yajrabox.com/js/datatables.bootstrap.js') }}"></script> -->
-    <script src="{{asset('js/datatables.min.js') }}"></script>
+    <!-- <script src="{{asset('js/datatables.min.js') }}"></script> -->
+    <script src="{{url('https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('js/sweetalert.min.js') }}"></script>
     <!-- <script src="https://www.paypalobjects.com/api/checkout.js"></script> -->

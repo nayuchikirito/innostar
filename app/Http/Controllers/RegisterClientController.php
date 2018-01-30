@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DataTables;
+use DB;
 
 class RegisterClientController extends Controller
 {
@@ -13,7 +15,7 @@ class RegisterClientController extends Controller
      */
     public function index()
     {
-        //
+        return view('auth.register');
     }
 
     /**
@@ -23,7 +25,7 @@ class RegisterClientController extends Controller
      */
     public function create()
     {
-        return view('client.clients.create');
+        
     }
 
     /**
@@ -44,6 +46,7 @@ class RegisterClientController extends Controller
         'email' => 'required|string|email|max:255|unique:users',
         'password' => 'required|string|min:6|same:password_confirm',
         ]);
+
 
         try{
 
@@ -66,7 +69,8 @@ class RegisterClientController extends Controller
 
                 DB::commit();
 
-                return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+                return view('auth.login');
+                // return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
 
             }catch(\Exception $e){
                 DB::rollback();

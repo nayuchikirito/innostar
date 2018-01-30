@@ -20,6 +20,7 @@ Auth::routes();
 
 //NORMAL USER SIDE
 Route::get('/home', 'HomeController@index')->name('home');
+Route::resource('/client/register', 'RegisterClientController');
 
 
 //ADMIN USERS
@@ -77,7 +78,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
 Route::middleware('client')->prefix('client')->group(function () {
 	Route::resource('/reservations', 'GuestController');
-	Route::resource('/register', 'RegisterClientController');
 	Route::get('/pay', 'GuestController@pay')->name('clients.pay');
 	Route::get('/clients/reservations', 'GuestController@reservations')->name('clients.reservations');
 	Route::get('/get-reservations', 'GuestController@all');
@@ -91,19 +91,19 @@ Route::get('select_service/{data}', 'SelectionController@selectService')->name('
 Route::get('select_package/{data}', 'SelectionController@selectPackage')->name('select-package');
 Route::get('select_balance/{data}', 'SelectionController@selectBalance')->name('select-balance');
 
-Route::middleware('admin')->prefix('gallery')->group(function () {
-	Route::get('/', array('as' => 'index','uses' => 'AlbumsController@getList'));
-	Route::get('/createalbum', array('as' => 'create_album_form','uses' => 'AlbumsController@getForm'));
-	Route::post('/createalbum', array('as' => 'create_album','uses' => 'AlbumsController@postCreate'));
-	Route::get('/deletealbum/{id}', array('as' => 'delete_album','uses' => 'AlbumsController@getDelete'));
-	Route::get('/album/{id}', array('as' => 'show_album','uses' => 'AlbumsController@getAlbum'));
+// Route::middleware('admin')->prefix('gallery')->group(function () {
+// 	Route::get('/', array('as' => 'index','uses' => 'AlbumsController@getList'));
+// 	Route::get('/createalbum', array('as' => 'create_album_form','uses' => 'AlbumsController@getForm'));
+// 	Route::post('/createalbum', array('as' => 'create_album','uses' => 'AlbumsController@postCreate'));
+// 	Route::get('/deletealbum/{id}', array('as' => 'delete_album','uses' => 'AlbumsController@getDelete'));
+// 	Route::get('/album/{id}', array('as' => 'show_album','uses' => 'AlbumsController@getAlbum'));
 
-	Route::get('/addimage/{id}', array('as' => 'add_image','uses' => 'ImageController@getForm'));
-	Route::post('/addimage', array('as' => 'add_image_to_album','uses' => 'ImageController@postAdd'));
-	Route::get('/deleteimage/{id}', array('as' => 'delete_image','uses' => 'ImageController@getDelete'));
+// 	Route::get('/addimage/{id}', array('as' => 'add_image','uses' => 'ImageController@getForm'));
+// 	Route::post('/addimage', array('as' => 'add_image_to_album','uses' => 'ImageController@postAdd'));
+// 	Route::get('/deleteimage/{id}', array('as' => 'delete_image','uses' => 'ImageController@getDelete'));
 
-	Route::post('/moveimage', array('as' => 'move_image', 'uses' => 'ImageController@postMove'));
-});
+// 	Route::post('/moveimage', array('as' => 'move_image', 'uses' => 'ImageController@postMove'));
+// });
 
 Route::middleware('admin')->prefix('reports')->group(function () {
 	Route::get('/registrations', 'GenerateReportController@registration')->name('generate.registration');

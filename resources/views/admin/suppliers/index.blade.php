@@ -16,7 +16,7 @@
           </div>
           <div class="col-lg-8 mx-auto">
             <p class="text-white mb-5">Events Coordinating and Planning Team</p>
-            <a class="btn btn-primary" href="{{ route('clients.reservations') }}">View Reservations</a>
+            <a class="btn btn-primary btn-xl" href="{{ route('clients.reservations') }}">View Reservations</a>
           </div>
         </div>
       </div>

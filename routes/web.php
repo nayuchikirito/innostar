@@ -78,12 +78,14 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
 Route::middleware('client')->prefix('client')->group(function () {
 	Route::resource('/reservations', 'GuestController');
+	Route::get('/reservations/coordination', 'GuestController@coordination');
 	Route::get('/pay', 'GuestController@pay')->name('clients.pay');
 	Route::get('/clients/reservations', 'GuestController@reservations')->name('clients.reservations');
 	Route::get('/get-reservations', 'GuestController@all');
 	Route::get('/home', 'GuestController@index')->name('clients.home');
 	Route::get('/payments_bank/{res_id}', 'GuestController@pay')->name('admin.payments');
 	Route::post('/payments', 'GuestController@payment');
+	Route::get('/button', 'GuestController@button');
 
 });
 

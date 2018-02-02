@@ -30,7 +30,19 @@ class GuestController extends Controller
         $services = \App\Service::all();
         $user = Auth::user();
         $client = \App\Client::find($user->client->id);
-        return view('admin.reservations.create', compact('services', 'client'));
+        return view('client.reservation.create', compact('services', 'client'));
+    }
+
+    public function coordination()
+    {
+        $services = \App\Service::all();
+        $client = \App\Client::find($user->client->id);
+        return view('client.reservation.coordination', compact('services', 'client'));
+    }
+
+    public function button()
+    {
+        return view('client.reservation.button');
     }
 
     /**

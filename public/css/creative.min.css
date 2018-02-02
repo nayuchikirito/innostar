@@ -23,12 +23,15 @@
  a:hover {
      color: #C5CA00;
 }
- h2,  h4, h5, h6 {
+ h2,  h5,  h6 {
      font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
 }
- h1, h2, h3
+ h1, h2, h3, h4
     {
      font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif !important;
+}
+h5.white{
+    color: white !important;
 }
  .color-yellow {
      color: #C5CA00 !important;
@@ -44,6 +47,27 @@
 
  .bg-yellow {
      background-color: #C6C61A !important;
+}
+ .bg-vermillion {
+     background-color: #FC4A1A !important;
+}
+ .bg-fresh {
+     background-color: #4ABDAC !important;
+}
+ .bg-sunflower {
+     background-color: #FFCE00 !important;
+}
+ .bg-starry {
+     background-color: #0375B4 !important;
+}
+ .bg-lights {
+     background-color: #4EC5C1 !important;
+}
+ .bg-cyan {
+     background-color: #37c3d6 !important;
+}
+ .bg-violet {
+     background-color: #ad50d8 !important;
 }
  .bg-primary {
      background-color: #C6C61A !important;
@@ -274,3 +298,51 @@
      box-shadow: 0 0 0 0.2rem rgba(247, 253, 0, 0.5) !important;
 }
  
+ .row-centered{
+    text-align:center;
+    float:none;
+    margin: auto;
+}
+
+.my-button {
+    border: none;
+    padding: 32px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    max-width: 400px;
+    max-height: 400px;
+    min-height: 250px;
+    min-width: 250px;
+    border-radius: 4px;
+    transition-duration: 0.4s;
+    color: #212529;
+    background-color: #C5CA00; 
+}
+
+
+.my-button:hover {
+    background-color: #2e3006; 
+    color: #C6C61A !important;
+    /*border: 2px solid #C5CA00;*/
+}
+
+.my-button:focus {
+    background-color: #2e3006; 
+    color: #C6C61A !important;
+    box-shadow: 0 0 0 0.2rem
+}
+
+
+
+h5.thicker{
+    font-weight:900;
+}
+
+div.button-text {
+    text-align: center;
+    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif !important;
+    text-align: justify;
+    text-justify: inter-word;
+}

@@ -71,14 +71,13 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 	Route::get('/get-payments', 'PaymentsController@all');
 
 	Route::resource('/clients', 'ClientsController');
-	// Route::get('/choose_reservation', 'ClientsController@choose')->name('clients.choose');
 	Route::get('/clients/{client}/reserve', 'ClientsController@reserve')->name('clients.reserve');
 	Route::get('/get-clients', 'ClientsController@all');
 });
 
 Route::middleware('client')->prefix('client')->group(function () {
 	Route::resource('/reservations', 'GuestController');
-	Route::get('/reservations/coordination', 'GuestController@coordination');
+	Route::get('/reservations_coordination', 'GuestController@coordination');
 	Route::get('/pay', 'GuestController@pay')->name('clients.pay');
 	Route::get('/clients/reservations', 'GuestController@reservations')->name('clients.reservations');
 	Route::get('/get-reservations', 'GuestController@all');

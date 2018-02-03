@@ -16,7 +16,7 @@ class CreateCoordinationsTable extends Migration
         Schema::create('coordinations', function (Blueprint $table) {
             $table->increments('id');
             $table->datetime('date');
-            $table->enum('status', ['confirmed', 'pending']);
+            $table->enum('status', ['blocked', 'pending']);
             $table->decimal('balance');
 
             $table->unsignedInteger('client_id');

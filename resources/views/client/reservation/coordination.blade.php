@@ -1,17 +1,15 @@
-    <div class="modal-header">
+<div class="modal-header">
     <h4 class="modal-title">Add Reservations</h4>
     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
     </div>
-    <!-- form for coordination -->
-    <form action="{{ url('/admin/coordinations') }}" method="POST" id="add-coordinations-form" class="hidden">
+   <!--  <div class="text-center">
+        <button class="btn-md btn btn-success package-data-btn"><i class="fa fa-calendar"></i> Package</button>
+        <button class="btn-md btn btn-primary coord-data-btn"><i class="fa fa-calendar-check-o"></i> On-the-day Coordination</button>
+      </div> -->
+    <form action="{{ url('/admin/coordinations') }}" method="POST" id="add-coordinations-form">
     {{ csrf_field() }}
     <div class="modal-body">
       <h3 class="text-center">On-the-day Coordination</h3>
-      <!-- <div class="form-group">
-          Date and Time
-          <input type="datetime-local" name="datetime" class="form-control">
-          <span class="help-text text-danger"></span>
-      </div> -->
       <div class="form-group">
           Date
           <input type="date" name="date" class="form-control">
@@ -52,9 +50,9 @@
     </div>
     </form>
 
-
  
 <script type="text/javascript">
+
   $(function(){ 
 
         $("#add-coordinations-form").on('submit', function(e){
@@ -104,22 +102,21 @@
 
       });
 
-       $('#service_id').change(function(){
-        var serviceID = $(this).val();
-        var that = this;
-        var token = $("input[name='_token']").val();
-        $.ajax({
-              url: "{{url('select_service')}}/"+serviceID,
-              method: 'GET',
-              success: function(data) {
-                $("select[name='package_id'").html('');
-                $("select[name='package_id'").html(data);
-                $('#package_id').change();
-              }
-          });
-      });
-    //$('#service_id').change();
-
+      //  $('#service_id').change(function(){
+      //   var serviceID = $(this).val();
+      //   var that = this;
+      //   var token = $("input[name='_token']").val();
+      //   $.ajax({
+      //         url: "{{url('select_service')}}/"+serviceID,
+      //         method: 'GET',
+      //         success: function(data) {
+      //           $("select[name='package_id'").html('');
+      //           $("select[name='package_id'").html(data);
+      //           $('#package_id').change();
+      //         }
+      //     });
+      // });
   
+
   });  
  </script> 

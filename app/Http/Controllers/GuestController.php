@@ -35,7 +35,9 @@ class GuestController extends Controller
 
     public function coordination()
     {
+
         $services = \App\Service::all();
+        $user = Auth::user();
         $client = \App\Client::find($user->client->id);
         return view('client.reservation.coordination', compact('services', 'client'));
     }
@@ -73,7 +75,7 @@ class GuestController extends Controller
                 $reservation->date        = $request->get('date').' '.$request->get('time').':00';
                 $reservation->status        = $request->get('status');
                 $reservation->balance      = $request->get('balance');
-                $reservation->assigned      = $request0>get('assigned');
+                $reservation->assigned      = $request->get('assigned');
                 $reservation->client_id     = $request->get('client_id');
                 $reservation->package_id      = $request->get('package_id');
                 $reservation->save();
@@ -236,7 +238,7 @@ class GuestController extends Controller
                 $reservation = \App\Reservation::find($payment->reservation->id);
                 $reservation->balance = $reservation->balance-$request->get('amount');
                 if($reservation->balance <= $reservation->package->price-($reservation->package->price * .2)){
-                        $reservation->status = 'confirmed';
+                        $reservation->status = 'blocked';
                     }
                 $reservation->save();
 

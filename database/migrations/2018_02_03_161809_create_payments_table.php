@@ -15,9 +15,9 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('or');
+            $table->string('details');
             $table->decimal('amount');
-            $table->enum('type', ['Paypal', 'Cash']);
+            $table->enum('type', ['Bank', 'Cash']);
 
             $table->unsignedInteger('reservation_id');
             $table->foreign('reservation_id')->references('id')->on('reservations');

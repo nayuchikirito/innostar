@@ -43,7 +43,7 @@ class PaymentsController extends Controller
             'amount' => 'required|numeric',
             'or' => 'required|string',
         ]);
-         try{
+         // try{
 
             DB::beginTransaction();
 
@@ -57,7 +57,7 @@ class PaymentsController extends Controller
                 $reservation = \App\Reservation::find($payment->reservation->id);
                 $reservation->balance = $reservation->balance-$request->get('amount');
                 if($reservation->balance <= $reservation->package->price-($reservation->package->price * .2)){
-                        $reservation->status = 'confirmed';
+                        $reservation->status = 'blocked';
                     }
                 $reservation->save();
 
@@ -65,10 +65,10 @@ class PaymentsController extends Controller
 
                 return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
 
-            }catch(\Exception $e){
-                DB::rollback();
-                return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
-            } 
+            // }catch(\Exception $e){
+            //     DB::rollback();
+            //     return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+            // } 
     }
 
     /**
@@ -124,6 +124,9 @@ class PaymentsController extends Controller
 
                 $reservation = \App\Reservation::find($payment->reservation->id);
                 $reservation->balance = $reservation->balance+$oldAmount-$request->get('amount');
+                if($reservation->balance <= $reservation->package->price-($reservation->package->price * .2)){
+                        $reservation->status = 'blocked';
+                    }
                 $reservation->save();
 
                 DB::commit();

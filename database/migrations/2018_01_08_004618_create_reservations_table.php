@@ -16,7 +16,7 @@ class CreateReservationsTable extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->increments('id');
             $table->datetime('date');
-            $table->enum('status', ['confirmed', 'pending']);
+            $table->enum('status', ['blocked', 'pending']);
             $table->decimal('balance');
             $table->boolean('assigned');
 

@@ -6,12 +6,14 @@
 	          <span class="navbar-toggler-icon"></span>
 	        </button>
 	        <div class="collapse navbar-collapse" id="navbarResponsive">
-	          <ul class="navbar-nav ml-auto">
+	          <ul class="navbar-nav ml-auto ">
 	            <li class="nav-item">
-	              <a class="nav-link js-scroll-trigger" href="#about">Requests</a>
+	              <a class="nav-link js-scroll-trigger text-white" href="#about">Requests
+	              	 <span class="badge badge-pill badge-danger display-5">0</span>
+	              </a>
 	            </li>
 	            <li class="nav-item">
-                  <a class="nav-link js-scroll-trigger" href="{{ route('logout') }}" onclick="event.preventDefault(); 
+                  <a class="nav-link js-scroll-trigger text-white" href="{{ route('logout') }}" onclick="event.preventDefault(); 
                   	document.getElementById('logout-form').submit();">
                                             Logout
                   </a>

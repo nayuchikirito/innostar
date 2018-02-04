@@ -20,7 +20,7 @@ class SuppliersController extends Controller
      */
     public function index()
     {
-        return view('admin.suppliers.index');
+        return view('client.suppliers.index');
     }
 
     /**

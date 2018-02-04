@@ -21,8 +21,8 @@
         <div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">Packages Table</h3>
-              <button class="btn-sm btn btn-primary add-detail-data-btn pull-right">
-              <i class="fa fa-plus"></i> Add Package Details
+              <button class="btn-sm btn btn-primary add-detail-data-btn pull-right" style="margin: 0px 10px;">
+              <i class="fa fa-plus"></i>  Package Details
                 </button>
                 
               <button class="btn-sm btn btn-success add-data-btn pull-right">

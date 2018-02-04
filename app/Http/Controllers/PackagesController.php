@@ -192,28 +192,32 @@ class PackagesController extends Controller
     public function details_store(Request $request)
     {
 
-         $data = request()->validate([
+/*         $data = request()->validate([
             'package_id' => 'required',
             'description_id' => 'required',
             'price' => 'required|numeric|min:0',
         ]);
+*/
 
-         try{
+         /*try{*/
 
              DB::beginTransaction();
-                $package_detail = new \App\PackageDetail;
-                $package_detail->package_id        = $request->get('package_id');
-                $package_detail->description_id    = $request->get('description_id');
-                $package_detail->price        = $request->get('price');
-                $package_detail->save();
-                
+                $descriptions = \App\PackageDescription::all();
+                foreach($descriptions as $description){
+                    $package_detail = new \App\PackageDetail;
+                    $package_detail->package_id        = $request->get('package_id');
+                    $package_detail->description_id    = $description->id;
+                    $package_detail->price        = $request->get($description->id);
+                    $package_detail->save();                    
+                    
+                }
                 DB::commit();
+                DB::rollback();
 
-                return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+            /*    return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
 
             }catch(\Exception $e){
-                DB::rollback();
                 return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
-            }
+            }*/
     }
 }

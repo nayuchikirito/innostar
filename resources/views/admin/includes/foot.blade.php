@@ -1,4 +1,4 @@
-
+<script src="{{asset('js/accounting.min.js')}}"></script>
 	<script type="text/javascript">
 		function associate_errors(errors, $form)
 		{	 
@@ -10,6 +10,11 @@
 		        $('#'+value).parent().addClass('has-error').find('.help-text').text(index);
 		    });
 		}
+
+		$(document).off('blur', '.money_input').on('blur', '.money_input', function(){
+			var value = $(this).val();
+			$(this).val(accounting.formatMoney(value, '',0));
+		});
 	</script>
 </body>
 </html>

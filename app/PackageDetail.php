@@ -18,5 +18,5 @@ class PackageDetail extends Model
     public function package(){
         return $this->hasMany('App\Package');
     }
-}
+
 }

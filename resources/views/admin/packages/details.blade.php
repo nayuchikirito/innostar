@@ -1,4 +1,4 @@
-<div class="modal-dialog modal-lg add-details-form">
+<div class="modal-dialog add-details-form">
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
@@ -20,19 +20,26 @@
       </div>
 
       @foreach($descriptions as $description)
-        <div class="form-group">
+
+
+      <div class="form-group">
+          <label for="{{ $description->id }}">{{ $description->name }}</label>
+          <input type="text" class="form-control    " id="{{ $description->id }}" name="{{ $description->id }}" placeholder="Enter {{ $description->name }} Price" autocomplete="false">
+          <span class="help-text text-danger"></span>
+      </div>
+        <!-- <div class="form-group">
           <input type="hidden" name="description_id" value="{{ $description->id }}">
           <label for="{{ $description->name }}">{{ $description->name }} Price:</label>
           <input type="text" name="price"><span><button class="button btn-success" type="submit">Set</button></span>
           <span class="help-text text-danger"></span>
-      </div>
+      </div> -->
       @endforeach
     
     </div>
-<!--     <div class="modal-footer">
+   <div class="modal-footer">
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       <button type="submit" class="btn submit-btn btn-success btn-gradient pull-right">Submit</button>
-    </div> -->
+    </div>
     </form>
 
   </div>
@@ -74,14 +81,14 @@
                   title: result.msg,
                   icon: "success"
                 });
+              $('.modal').modal('hide');
+              $("#packages-table").DataTable().ajax.url( '/admin/get-packages' ).load();
             }else{
               swal({
                   title: result.msg,
                   icon: "error"
                 });
             }
-            $("#packages-table").DataTable().ajax.url( '/admin/get-packages' ).load();
-            $('.modal').modal('hide');
           },
           error: function(xhr,status,error){
             var response_object = JSON.parse(xhr.responseText); 

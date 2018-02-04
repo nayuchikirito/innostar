@@ -180,4 +180,40 @@ class PackagesController extends Controller
             ->rawColumns(['actions'])
             ->make(true);  
     }  
+
+    public function details()
+    {
+        $packages = \App\Package::all();
+        $descriptions = \App\PackageDescription::all();
+        return view('admin.packages.details', compact('packages', 'descriptions'));
+        // ->with('packages', $packages);
+    }
+
+    public function details_store(Request $request)
+    {
+
+         $data = request()->validate([
+            'package_id' => 'required',
+            'description_id' => 'required',
+            'price' => 'required|numeric|min:0',
+        ]);
+
+         try{
+
+             DB::beginTransaction();
+                $package_detail = new \App\PackageDetail;
+                $package_detail->package_id        = $request->get('package_id');
+                $package_detail->description_id    = $request->get('description_id');
+                $package_detail->price        = $request->get('price');
+                $package_detail->save();
+                
+                DB::commit();
+
+                return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+
+            }catch(\Exception $e){
+                DB::rollback();
+                return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+            }
+    }
 }

@@ -21,6 +21,10 @@
         <div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">Packages Table</h3>
+              <button class="btn-sm btn btn-primary add-detail-data-btn pull-right">
+              <i class="fa fa-plus"></i> Add Package Details
+                </button>
+                
               <button class="btn-sm btn btn-success add-data-btn pull-right">
               <i class="fa fa-plus"></i> Add
                 </button>
@@ -48,6 +52,8 @@
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="addmodal"></div>
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="editmodal"></div>
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="showmodal"></div>
+
+  <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="detailmodal"></div>
 @endsection
 
 @section('scripts')
@@ -115,6 +121,20 @@
             }
           }); 
     });
+
+    $(".add-detail-data-btn").click(function(x){  
+          x.preventDefault();
+          var that = this;
+          $("#detailmodal").html('');
+          $("#detailmodal").modal();
+          $.ajax({
+            url: '/admin/package_details',         
+            success: function(data) {
+              $("#detailmodal").html(data);
+            }
+          }); 
+    });
+
     $(document).off('click','.edit-data-btn').on('click','.edit-data-btn', function(e){
       e.preventDefault();
       var that = this; 

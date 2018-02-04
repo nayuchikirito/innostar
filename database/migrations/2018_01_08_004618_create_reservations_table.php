@@ -17,7 +17,7 @@ class CreateReservationsTable extends Migration
             $table->increments('id');
             $table->datetime('date');
             $table->enum('status', ['blocked', 'pending']);
-            $table->decimal('balance');
+            $table->decimal('balance', 8, 2);
             $table->boolean('assigned');
 
             $table->unsignedInteger('client_id');

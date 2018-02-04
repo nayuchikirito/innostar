@@ -42,16 +42,30 @@ class ServicesController extends Controller
         $data = request()->validate([
             'name' => 'required|unique:services'
         ]);
-        // if($data['password']){
-        //     $data['password'] = bcrypt($data['password']);          
-        // }
 
-        $status = \App\Service::create($data); 
-        if($status){
-            return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
-        }else{
+        try{
+
+            DB::beginTransaction();
+
+                $service = new \App\Service;
+                $service->name        = $request->get('name');
+                $service->save();
+
+                DB::commit();
+
+                return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+
+        }catch(\Exception $e){
+            DB::rollback();
             return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
         }
+        
+        // $status = \App\Service::create($data); 
+        // if($status){
+        //     return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+        // }else{
+        //     return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+        // }
     }
 
     /**
@@ -89,15 +103,29 @@ class ServicesController extends Controller
         $data = request()->validate([ 
             'name' => 'required|unique:services',
         ]);
-        
-        $service = \App\Service::find($id); 
-        $service->name = $request->get('name');
- 
-        if($service->save()){
-            return response()->json(['success' => true, 'msg' => 'Data Successfully updated!']);
-        }else{
-            return response()->json(['success' => false, 'msg' => 'An error occured while updating data!']);
+
+        try{
+
+            DB::beginTransaction();
+
+                $service = \App\Service::find($id); 
+                $service->name = $request->get('name');
+                $service->save();
+
+            DB::commit();
+
+                return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+
+        }catch(\Exception $e){
+            DB::rollback();
+            return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
         }
+ 
+        // if($service->save()){
+        //     return response()->json(['success' => true, 'msg' => 'Data Successfully updated!']);
+        // }else{
+        //     return response()->json(['success' => false, 'msg' => 'An error occured while updating data!']);
+        // }
     }
 
     /**

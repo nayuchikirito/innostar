@@ -222,14 +222,14 @@ class GuestController extends Controller
     {
         $data = request()->validate([
             'amount' => 'required|numeric',
-            'or' => 'required|string',
+            'details' => 'required|string',
         ]);
          try{
 
             DB::beginTransaction();
 
                 $payment = new \App\Payment;
-                $payment->or    = $request->get('or');
+                $payment->details    = $request->get('details');
                 $payment->amount     = $request->get('amount');
                 $payment->type      = $request->get('type');
                 $payment->reservation_id     = $request->get('reservation_id');

@@ -57,6 +57,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
 	Route::resource('/packages', 'PackagesController');
 	Route::get('/get-packages', 'PackagesController@all');
+	Route::get('/package_details', 'PackagesController@details');
+	Route::get('/package_details/store', 'PackagesController@details_store');
 
 	Route::resource('/reservations', 'ReservationsController');
 	Route::get('/get-reservations', 'ReservationsController@all');

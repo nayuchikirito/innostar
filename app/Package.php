@@ -19,4 +19,8 @@ class Package extends Model
         return $this->hasMany('App\Reservation');
     }
 
+    public function pacakge_detail(){
+        return $this->belongsTo('App\PackageDetail');
+    }
+
 }

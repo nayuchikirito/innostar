@@ -194,6 +194,9 @@ class SuppliersController extends Controller
             ->AddColumn('name', function($column){
                return $column->lname.', '.$column->fname.' '.substr($column->midname, 0, 1).'.';
             }) 
+            ->AddColumn('type', function($column){
+               return $column->supplier->type;
+            }) 
             ->AddColumn('actions', function($column){
               
                 return '

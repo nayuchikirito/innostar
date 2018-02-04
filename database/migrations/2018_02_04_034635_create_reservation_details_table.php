@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAssignSuppliersTable extends Migration
+class CreateReservationDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,20 @@ class CreateAssignSuppliersTable extends Migration
      */
     public function up()
     {
-        Schema::create('assign_suppliers', function (Blueprint $table) {
+        Schema::create('reservation_details', function (Blueprint $table) {
             $table->increments('id');
-            $table->decimal('price', 8, 2);
-            $table->enum('status', ['pending', 'confirmed', 'declined']);
+
+            $table->unsignedInteger('reservation_id');
+            $table->foreign('reservation_id')->references('id')->on('reservations');
+
+            $table->unsignedInteger('package_detail_id');
+            $table->foreign('package_detail_id')->references('id')->on('package_details');
 
             $table->unsignedInteger('supplier_id');
             $table->foreign('supplier_id')->references('id')->on('suppliers');
 
-            $table->unsignedInteger('reservation_id');
-            $table->foreign('reservation_id')->references('id')->on('reservations');
+            $table->decimal('price', 8, 2);
+
             $table->timestamps();
         });
     }
@@ -34,6 +38,6 @@ class CreateAssignSuppliersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('assign_suppliers');
+        Schema::dropIfExists('reservation_details');
     }
 }

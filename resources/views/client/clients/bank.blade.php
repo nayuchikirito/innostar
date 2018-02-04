@@ -13,8 +13,8 @@
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <label for="or">Tracking Number</label>
-          <input type="text" class="form-control" id="or" name="or" placeholder="Enter Receipt Number" autocomplete="false">
+          <label for="details">Tracking Number</label>
+          <input type="text" class="form-control" id="details" name="details" placeholder="Enter Receipt Number" autocomplete="false">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
@@ -22,7 +22,7 @@
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="type" value="paypal">
+          <input type="hidden" name="type" value="bank">
           <span class="help-text text-danger"></span>
       </div>
     </div>

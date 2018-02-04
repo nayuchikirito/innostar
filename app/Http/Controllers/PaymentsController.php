@@ -41,14 +41,14 @@ class PaymentsController extends Controller
     {
         $data = request()->validate([
             'amount' => 'required|numeric',
-            'or' => 'required|string',
+            'details' => 'required|string',
         ]);
          // try{
 
             DB::beginTransaction();
 
                 $payment = new \App\Payment;
-                $payment->or    = $request->get('or');
+                $payment->details    = $request->get('details');
                 $payment->amount     = $request->get('amount');
                 $payment->type      = $request->get('type');
                 $payment->reservation_id     = $request->get('reservation_id');
@@ -107,7 +107,7 @@ class PaymentsController extends Controller
     {
         $data = request()->validate([
             'amount' => 'required|numeric',
-            'or' => 'required|string',
+            'details' => 'required|string',
         ]);
 
          try{
@@ -116,7 +116,7 @@ class PaymentsController extends Controller
 
                 $payment = \App\Payment::find($id);
                 $oldAmount = $payment->amount;
-                $payment->or    = $request->get('or');
+                $payment->details    = $request->get('details');
                 $payment->amount     = $request->get('amount');
                 $payment->type      = $request->get('type');
                 $payment->reservation_id     = $request->get('reservation_id');

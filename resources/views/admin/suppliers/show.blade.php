@@ -9,6 +9,11 @@
     {{ csrf_field() }}
     <div class="modal-body">
       <div class="form-group">
+          <label for="type">Supplier Type: </label>
+          <span id="type">{{ $user->supplier->type }}</span>
+          <span class="help-text text-danger"></span>
+      </div>
+      <div class="form-group">
           <label for="name">Name: </label>
           <span id="name">{{ $user->lname.', '.$user->fname.' '.substr($user->midname, 0, 1).'.' }}</span>
           <span class="help-text text-danger"></span>

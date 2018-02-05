@@ -18,9 +18,14 @@ class SuppliersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function home()
     {
         return view('client.suppliers.index');
+    }
+
+    public function index()
+    {
+        return view('admin.suppliers.index');
     }
 
     /**

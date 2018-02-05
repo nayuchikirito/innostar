@@ -20,6 +20,7 @@ Auth::routes();
 
 //NORMAL USER SIDE
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/delete_pending_reservation', 'HomeController@deletePending');
 Route::resource('/client/register', 'RegisterClientController');
 
 
@@ -73,8 +74,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 	Route::get('/get-payments', 'PaymentsController@all');
 
 	Route::resource('/clients', 'ClientsController');
+	Route::get('/display/clients', 'ClientsController@display');
 	Route::get('/clients/{client}/reserve', 'ClientsController@reserve')->name('clients.reserve');
 	Route::get('/get-clients', 'ClientsController@all');
+	Route::get('/get-clients-display', 'ClientsController@all_display');
 });
 
 Route::middleware('client')->prefix('client')->group(function () {
@@ -120,7 +123,7 @@ Route::middleware('admin')->prefix('reports')->group(function () {
 });
 
 Route::prefix('supplier')->group(function(){
-	Route::get('/home', 'SuppliersController@index')->name('suppliers.home');
+	Route::get('/home', 'SuppliersController@home')->name('suppliers.home');
 });
 
 Route::prefix('secretary')->group(function(){

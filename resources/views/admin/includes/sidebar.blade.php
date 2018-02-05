@@ -102,8 +102,7 @@
                 </ul>
               </li>
 
-
-              <li class="treeview">
+               <li class="treeview">
                 <a href="#">
                   <i class="fa fa-bar-chart-o"></i>
                   <span>Reservations</span>
@@ -123,22 +122,20 @@
           </ul>
         </li>
 
-            <li class="treeview">
+              <li class="treeview">
                 <a href="#">
                   <i class="fa fa-bar-chart-o"></i>
                   <span>Payments</span>
                   <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                  <li class="{{ Request::segment(2) == 'payments' ? 'active':'' }}"><a href="{{url('admin/payments')}}"><i class="fa fa-users"></i> <span>Package Reservation</span></a></li>
+                  <li class="{{ Request::segment(2) == 'package reservation' ? 'active':'' }}"><a href="{{url('admin/payments')}}"><i class="fa fa-users"></i> <span>Package Reservation</span></a></li>
 
-                  <li class="{{ Request::segment(2) == 'payments' ? 'active':'' }}"><a href="{{url('admin/payments')}}"><i class="fa fa-users"></i> <span>On-the-day Coordination</span></a></li>
+                  <li class="{{ Request::segment(2) == 'on-the-day coordination' ? 'active':'' }}"><a href="{{url('admin/payments')}}"><i class="fa fa-users"></i> <span>On-the-day Coordination</span></a></li>
 
                 </ul>
               </li>
-        
-
-
+              
       </ul>
     </section>
     <!-- /.sidebar -->

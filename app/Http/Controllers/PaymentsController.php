@@ -43,7 +43,7 @@ class PaymentsController extends Controller
             'amount' => 'required|numeric',
             'details' => 'required|string',
         ]);
-         // try{
+         try{
 
             DB::beginTransaction();
 
@@ -65,10 +65,10 @@ class PaymentsController extends Controller
 
                 return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
 
-            // }catch(\Exception $e){
-            //     DB::rollback();
-            //     return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
-            // } 
+            }catch(\Exception $e){
+                DB::rollback();
+                return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+            } 
     }
 
     /**

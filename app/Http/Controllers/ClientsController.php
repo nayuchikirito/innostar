@@ -30,7 +30,7 @@ class ClientsController extends Controller
 
     public function reserve($id)
     {   
-        $services = \App\Service::all();
+        $services = \App\Service::has('package')->get();
         $client = \App\Client::where('user_id', $id)->first();
         // return response()->json($client);
         return view('admin.clients.reserve', compact(['services', 'client']));
@@ -195,9 +195,6 @@ class ClientsController extends Controller
             ->AddColumn('actions', function($column){
               
                 return '    
-                            <button class="btn-sm btn btn-success reserve-data-btn" data-id="'.$column->id.'">
-                                <i class="fa fa-plus"></i> Reserve
-                            </button>
                             <button class="btn-sm btn btn-info show-data-btn" data-id="'.$column->id.'">
                                 <i class="fa fa-id-card-o"></i> View
                             </button>
@@ -213,9 +210,37 @@ class ClientsController extends Controller
             ->make(true);    
     }
 
+    public function all_display(){
+        DB::statement(DB::raw('set @row:=0'));
+        $data = \App\User::selectRaw('*, @row:=@row+1 as row')->where('user_type', 'client');
+
+         return DataTables::of($data)
+            ->AddColumn('row', function($column){
+               return $column->id;
+            })
+            ->AddColumn('name', function($column){
+               return $column->lname.', '.$column->fname.' '.substr($column->midname, 0, 1).'.';
+            }) 
+            ->AddColumn('actions', function($column){
+              
+                return '    
+                            <button class="btn-sm btn btn-success reserve-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-plus"></i> Reserve
+                            </button>
+                        ';
+            }) 
+            ->rawColumns(['actions'])
+            ->make(true);    
+    }
+
     public function choose()
     {
         return view('admin.clients.choose');
+    }
+
+    public function display()
+    {
+        return view('admin.clients.display');
     }
 
 }

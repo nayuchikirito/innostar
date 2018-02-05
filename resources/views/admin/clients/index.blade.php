@@ -47,7 +47,7 @@
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="addmodal"></div>
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="editmodal"></div>
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="showmodal"></div>
-  <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="reservemodal">
+<!--   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="reservemodal">
     <div class="modal-dialog modal-lg add-user-form">
       <div class="modal-content">
         <div class="modal-header">
@@ -61,6 +61,8 @@
           <button type="submit" class="btn submit-btn btn-success btn-gradient pull-right">Submit</button>
       </div>
   </div>
+</div>
+</div> -->
 
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="assign-modal">
     <div class="modal-dialog modal-lg assign-suppliers-form">
@@ -126,19 +128,19 @@
     //   $("#reservemodal .modal-content").load('/admin/clients/'+that.dataset.id+'/reserve');
     // });
 
-    $(document).off('click','.reserve-data-btn').on('click','.reserve-data-btn', function(e){
-      e.preventDefault();
-      var that = this; 
-      $("#reservemodal").html('');
-      $("#reservemodal").modal();
-      $.ajax({
-        url: '/admin/clients/'+that.dataset.id+'/reserve',         
-        success: function(data) {
-          $("#reservemodal").html(data);
-          $('#add-coordinations-form').addClass('hidden');
-        }
-      }); 
-    });
+    // $(document).off('click','.reserve-data-btn').on('click','.reserve-data-btn', function(e){
+    //   e.preventDefault();
+    //   var that = this; 
+    //   $("#reservemodal").html('');
+    //   $("#reservemodal").modal();
+    //   $.ajax({
+    //     url: '/admin/clients/'+that.dataset.id+'/reserve',         
+    //     success: function(data) {
+    //       $("#reservemodal").html(data);
+    //       $('#add-coordinations-form').addClass('hidden');
+    //     }
+    //   }); 
+    // });
 
  
 

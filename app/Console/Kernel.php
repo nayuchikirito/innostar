@@ -26,9 +26,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->call(function () {
-            DB::table('reservations')->delete();
-        })->everyMinute();
+        // $schedule->call(function () {
+        //     DB::table('reservations')->delete();
+        // })->everyMinute();
     }
 
     /**

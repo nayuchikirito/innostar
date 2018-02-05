@@ -21,6 +21,10 @@
         <div class="box">
             <div class="box-header with-border">
               <h3 class="box-title">Coordinations Table</h3>
+              <a href="{{url('/admin/display/clients')}}"><button class="btn-sm btn btn-success pull-right">
+                <i class="fa fa-plus"></i> Reserve
+              </button>
+              </a>
             </div>
             <!-- /.box-header -->
             <!-- Status is blocked date or not -->

@@ -9,8 +9,8 @@
     {{ csrf_field() }}
     <div class="modal-body">
       <div class="form-group">
-          <label for="or">Official Receipt: </label>
-          <span id="or">{{ $payment->or }}</span>
+          <label for="details">Official Receipt: </label>
+          <span id="details">{{ $payment->details }}</span>
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
@@ -33,6 +33,5 @@
       <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
     </div>
     </form>
-
   </div>
 </div>

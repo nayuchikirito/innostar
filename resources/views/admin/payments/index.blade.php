@@ -28,7 +28,7 @@
               <table class="table table-hover" id="payments-table">
                 <thead>
                   <th>#</th>
-                  <th>Official Receipt</th>
+                  <th>OR / Transaction Number</th>
                   <th>Amount</th>
                   <th>Type</th>
                   <th>Actions</th>
@@ -83,7 +83,7 @@
       },
       "columns": [ 
         {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
-        {data: 'or',  name: 'or', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'details',  name: 'details', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
         {data: 'amount',  name: 'amount', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
         {data: 'type',  name: 'type', className: 'col-md-2  text-left',   searchable: true, sortable: true},
         {data: 'actions',   name: 'actions', className: 'col-md-4 text-left',  searchable: false,  sortable: false},

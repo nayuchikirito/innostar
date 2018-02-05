@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 class HomeController extends Controller
 {
     /**
@@ -23,5 +25,17 @@ class HomeController extends Controller
     public function index()
     {
         return view('admin.includes.home');
+    }
+
+    public function deletePending()
+    {
+        $reservations = \App\Reservation::all();
+            foreach($reservations as $reservation)
+            {
+                if($reservation->created_at->diffInDays(Carbon::now()) > 5 && $reservation->status == 'pending')
+                    {
+                        $reservation->delete();
+                    }
+            }
     }
 }

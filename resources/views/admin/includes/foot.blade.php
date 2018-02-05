@@ -15,6 +15,21 @@
 			var value = $(this).val();
 			$(this).val(accounting.formatMoney(value, '',0));
 		});
+
+		setInterval(function() {
+            //code to be repeated
+            deletePendingReservation()
+		      }, 5000); // every 5 minutes
+
+		function deletePendingReservation() { 
+		  $.ajax({
+		   type: "GET",
+		   url: "/delete_pending_reservation", 
+		   // success: function(msg){
+		   // 	console.log(msg);
+		   // }
+		 });
+		}
 	</script>
 </body>
 </html>

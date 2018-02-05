@@ -12,6 +12,6 @@ class PackageDescription extends Model
     ];
 
     public function package_detail(){
-        return $this->belongsTo('App\PackageDetail');
+        return $this->hasMany('App\PackageDetail');
     }
 }

@@ -17,4 +17,8 @@ class Service extends Model
     public function coordination(){
         return $this->hasMany('App\Coordination');
     }
+
+    public function assign_supplier(){
+        return $this->hasMany('App\AssignSupplier');
+    }
 }

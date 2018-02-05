@@ -37,5 +37,14 @@ class HomeController extends Controller
                         $reservation->delete();
                     }
             }
+
+        $coordinations = \App\Coordination::all();
+            foreach($coordinations as $coordination)
+            {
+                if($coordination->created_at->diffInDays(Carbon::now()) > 5 && $coordination->status == 'pending')
+                    {
+                        $coordination->delete();
+                    }
+            }
     }
 }

@@ -12,11 +12,11 @@ class PackageDetail extends Model
     ];
 
     public function package_description(){
-        return $this->hasMany('App\PackageDescription');
+        return $this->belongsTo('App\PackageDescription');
     }
 
     public function package(){
-        return $this->hasMany('App\Package');
+        return $this->belongsTo('App\Package');
     }
 
 }

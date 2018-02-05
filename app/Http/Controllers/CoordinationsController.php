@@ -54,13 +54,13 @@ class CoordinationsController extends Controller
 
                     DB::beginTransaction();
 
-                        $reservation = new \App\Coordination;
-                        $reservation->date        = $request->get('date').' '.$request->get('time').':00';
-                        $reservation->status        = $request->get('status');
-                        $reservation->balance      = $request->get('balance');
-                        $reservation->client_id     = $request->get('client_id');
-                        $reservation->service_id      = $request->get('service_id');
-                        $reservation->save();
+                        $coordination = new \App\Coordination;
+                        $coordination->date        = $request->get('date').' '.$request->get('time').':00';
+                        $coordination->status        = $request->get('status');
+                        $coordination->balance      = $request->get('balance');
+                        $coordination->client_id     = $request->get('client_id');
+                        $coordination->service_id      = $request->get('service_id');
+                        $coordination->save();
 
                         DB::commit();
 
@@ -132,13 +132,13 @@ class CoordinationsController extends Controller
 
                     DB::beginTransaction();
 
-                        $reservation = \App\Coordination::find($id);
-                        $reservation->date        = $request->get('date').' '.$request->get('time').':00';
-                        $reservation->status        = $request->get('status');
-                        $reservation->balance      = $request->get('balance');
-                        $reservation->client_id     = $request->get('client_id');
-                        $reservation->service_id      = $request->get('service_id');
-                        $reservation->save();
+                        $coordination = \App\Coordination::find($id);
+                        $coordination->date        = $request->get('date').' '.$request->get('time').':00';
+                        $coordination->status        = $request->get('status');
+                        $coordination->balance      = $request->get('balance');
+                        $coordination->client_id     = $request->get('client_id');
+                        $coordination->service_id      = $request->get('service_id');
+                        $coordination->save();
 
                         DB::commit();
 
@@ -159,7 +159,16 @@ class CoordinationsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try{
+            $status = \App\Coordination::destroy($id);
+            if($status){
+                return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
+            }else{
+                return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
+            }
+        }catch(\Illuminate\Database\QueryException $e){
+            return response()->json(['success' => false, 'msg' => 'Cannot delete. Client has transactions']);
+        }
     }
 
     public function all(){
@@ -182,6 +191,9 @@ class CoordinationsController extends Controller
             ->AddColumn('actions', function($column){
               
                 return '
+                            <button class="btn-sm btn btn-success pay-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-money"></i> Pay
+                            </button>
                             <button class="btn-sm btn btn-info show-data-btn" data-id="'.$column->id.'">
                                 <i class="fa fa-id-card-o"></i> View
                             </button>

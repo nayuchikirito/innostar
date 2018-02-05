@@ -20,7 +20,7 @@ class Package extends Model
     }
 
     public function pacakge_detail(){
-        return $this->belongsTo('App\PackageDetail');
+        return $this->hasMany('App\PackageDetail');
     }
 
 }

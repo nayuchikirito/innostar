@@ -35,6 +35,7 @@
                   <th>Client</th>
                   <th>Service</th>
                   <th>Date</th>
+                  <th>Status</th>
                   <th>Actions</th>
                 </thead>
               </table>
@@ -51,6 +52,7 @@
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="addmodal"></div>
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="editmodal"></div>
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="showmodal"></div>
+  <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="paymodal"></div>
 @endsection
 
 @section('scripts')
@@ -86,10 +88,11 @@
       },
       "columns": [ 
         {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
-        {data: 'client',  name: 'client', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
-        {data: 'service',  name: 'service', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
-        {data: 'date',  name: 'date', className: 'col-md-3  text-left',   searchable: true, sortable: true},
-        {data: 'actions',   name: 'actions', className: 'col-md-3 text-left',  searchable: false,  sortable: false},
+        {data: 'client',  name: 'client', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'service',  name: 'service', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'date',  name: 'date', className: 'col-md-2  text-left',   searchable: true, sortable: true},
+        {data: 'status',  name: 'status', className: 'col-md-2  text-left',   searchable: true, sortable: true},
+        {data: 'actions',   name: 'actions', className: 'col-md-4 text-left',  searchable: false,  sortable: false},
       ], 
       'order': [[0, 'asc']]
     });
@@ -118,6 +121,21 @@
           $("#editmodal").html(data);
         }
       }); 
+    });
+
+    $(document).off('click','.pay-data-btn').on('click','.pay-data-btn', function(e){
+      e.preventDefault();
+      var that = this;
+      $("#paymodal").html('');
+      $("#paymodal").modal();
+      $.ajax({
+        url: '/admin/payments_coord/'+that.dataset.id,
+        success: function(data) {
+          $("#coordinations-table").DataTable().ajax.url( '/admin/get-coordinations' ).load();
+          $("#paymodal").html(data);
+
+        }
+      });
     });
 
     $(document).off('click','.delete-data-btn').on('click','.delete-data-btn', function(e){

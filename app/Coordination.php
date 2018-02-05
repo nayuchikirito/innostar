@@ -3,11 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Coordination extends Model
 {
-	protected $dates = ['date'];
+    use SoftDeletes;
     // protected $dateFormat = 'Y-m-d H:i';
+	protected $dates = ['date', 'deleted_at'];
     
     protected $fillable = [
         'date', 'status', 'balance', 'client_id', 'service_id'

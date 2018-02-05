@@ -176,6 +176,48 @@ class PaymentsController extends Controller
         ->with('reservation', $reservation);
     }
 
+    public function pay_coord($id)
+    {
+        $coordination = \App\Coordination::find($id);
+        return view('admin.payments.pay_coordination')
+        ->with('coordination', $coordination);
+    }
+
+     public function coord_store(Request $request)
+    {
+        $data = request()->validate([
+            'amount' => 'required|numeric',
+            'details' => 'required|string',
+        ]);
+         try{
+
+            DB::beginTransaction();
+
+                $payment = new \App\PaymentCoordination;
+                $payment->details    = $request->get('details');
+                $payment->amount     = $request->get('amount');
+                $payment->type      = $request->get('type');
+                $payment->coordination_id     = $request->get('coordination_id');
+                $payment->save();
+
+                $coordination = \App\Coordination::find($payment->coordination->id);
+                $coordination->balance = $coordination->balance-$request->get('amount');
+                if($coordination->balance <= 10000){
+                        $coordination->status = 'blocked';
+                    }
+                $coordination->save();
+
+                DB::commit();
+
+                return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+
+            }catch(\Exception $e){
+                DB::rollback();
+                return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+            } 
+    }
+
+
     public function all(){
         DB::statement(DB::raw('set @row:=0'));
         $data = \App\Payment::all();

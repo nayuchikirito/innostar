@@ -71,11 +71,13 @@
                   type: 'POST',
                   data: {_token :token},
                   success:function(result){
-                    window.location.reload()
+                    console.log(result);
+                    return;
                     swal({
                         title: result.msg,
                         icon: "success"
                       });
+                    window.location.reload();
                   }
                   }); 
                  }

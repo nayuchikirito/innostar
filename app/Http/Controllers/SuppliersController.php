@@ -224,6 +224,26 @@ class SuppliersController extends Controller
         return view('client.suppliers.requests');
     }
 
-    public function accept_request($id)
+    public function accept_request($id){
+        //check if request has already supplier
+            //if true
+                //notification only marked as "closed" and notify supplier that reservation detail has already a supplier
+            //if false
+                //notification only marked as "accepted" and notify supplier that "You are now the supplier of the reservation..." 
+
+    //    $notification = \App\SupplierNotification::find($id);
+        /*$notifcation 
+        if($status && $status2){
+            return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
+        }else{
+            return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
+        }*/
+    }
+    public function decline_request($id){
+        
+    }
+    public function seen_request($id){
+        
+    }
 }
 

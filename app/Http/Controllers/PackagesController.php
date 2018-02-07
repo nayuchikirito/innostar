@@ -208,7 +208,7 @@ class PackagesController extends Controller
                     $package_detail = new \App\PackageDetail;
                     $package_detail->package_id        = $request->get('package_id');
                     $package_detail->package_description_id    = $description->id;
-                    $package_detail->price        = $request->get($description->name);
+                    $package_detail->price        = $request->get($description->id);
                     $package_detail->save();                    
                     
                 }

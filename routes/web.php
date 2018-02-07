@@ -96,6 +96,9 @@ Route::middleware('client')->prefix('client')->group(function () {
 	Route::post('/payments', 'GuestController@payment');
 	Route::get('/button', 'GuestController@button');
 
+	Route::get('/custom_reservations', 'GuestController@custom_reservations');
+	Route::post('/save_custom_reservations', 'GuestController@save_custom_reservations');
+	Route::get('/get_package_details/{id}', 'GuestController@get_package_details');
 });
 
 Route::get('select_service/{data}', 'SelectionController@selectService')->name('select-service');

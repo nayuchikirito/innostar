@@ -251,4 +251,58 @@ class GuestController extends Controller
                 return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
             } 
     }
+
+    public function custom_reservations(){
+        $services = \App\Service::all();
+        $user = Auth::user();
+        $client = \App\Client::find($user->client->id);
+        return view('client.reservation.custom', compact('services', 'client'));
+    }
+    public function save_custom_reservations(Request $request){
+        
+
+        $dateCount = \App\Reservation::whereDate('date', $request->get('date'))->count();
+        $dateCountCoord = \App\Coordination::whereDate('date', $request->get('date'))->count();
+
+        if(($dateCount > 0 AND $dateCountCoord > 1) OR ($dateCount > 1) OR ($dateCountCoord > 2))
+        {
+            return response()->json(['success' => false, 'msg' => 'Cannot reserve date, fully booked.']);
+        }else{
+            try{
+
+                DB::beginTransaction();
+
+                $reservation = new \App\Reservation;
+                $reservation->date        = $request->get('date').' '.$request->get('time').':00';
+                $reservation->status        = $request->get('status');
+                $reservation->balance      = $request->get('balance');
+                $reservation->assigned      = $request->get('assigned');
+                $reservation->client_id     = $request->get('client_id');
+                $reservation->package_id      = $request->get('package_id');
+                $reservation->reservation_type      = 'custom';
+                $reservation->save();
+
+                for($i = 0 ; $i < sizeof($request->get('detail')) ; $i++){
+                    $r = \App\PackageDetail::find($request->get('detail')[$i]);
+                    $res_detail = new \App\ReservationDetail;
+                    $res_detail->reservation_id  = $reservation->id;
+                    $res_detail->package_detail_id   = $r->id;
+                    $res_detail->price = $r->price;
+                    $res_detail->save();                    
+                }
+                DB::commit();
+
+                return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+
+            }catch(\Exception $e){
+                DB::rollback();
+                return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+            }
+        }
+    }
+
+    public function get_package_details($id){
+        $details = \App\PackageDetail::where('package_id', $id)->get();
+        return view('client.reservation.package_detail')->with('details', $details);
+    }
 }

@@ -1,12 +1,12 @@
 <div class="modal-header">
-    <h4 class="modal-title">Add Reservations</h4>
+    <h4 class="modal-title">Custom Reservations</h4>
     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
     </div>
    <!--  <div class="text-center">
         <button class="btn-md btn btn-success package-data-btn"><i class="fa fa-calendar"></i> Package</button>
         <button class="btn-md btn btn-primary coord-data-btn"><i class="fa fa-calendar-check-o"></i> On-the-day Coordination</button>
       </div> -->
-    <form action="{{ url('/client/reservations') }}" method="POST" id="add-reservations-form">
+    <form action="{{ url('/client/save_custom_reservations') }}" method="POST" id="add-custom-reservations-form">
     {{ csrf_field() }}
     <div class="modal-body">
       <h3 class="text-center">Package Reservation</h3>
@@ -59,6 +59,10 @@
           <textarea type="text" class="form-control" id="description" name="description" autocomplete="false" readonly="true"></textarea>
           <span class="help-text text-danger"></span>
       </div>
+      <div class="row">
+        <div class="col-md-12" id="desc_detail">
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -71,7 +75,7 @@
 
   $(function(){ 
 
-        $("#add-reservations-form").on('submit', function(e){
+        $("#add-custom-reservations-form").on('submit', function(e){
         e.preventDefault(); //keeps the form from behaving like a normal (non-ajax) html form
         var $form = $(this);
         var $url = $form.attr('action');
@@ -95,7 +99,7 @@
         $.ajax({
           type: 'POST',
           url: $url,
-          data: $("#add-reservations-form").serialize(), 
+          data: $("#add-custom-reservations-form").serialize(), 
           success: function(result){
             if(result.success){
               swal({
@@ -119,7 +123,8 @@
 
       });
 
-       $('#service_id').change(function(){
+    $(document).off('change', '#service_id').on('change', '#service_id', function(){
+     //$('#service_id').change(function(){
         var serviceID = $(this).val();
         var that = this;
         var token = $("input[name='_token']").val();
@@ -135,7 +140,8 @@
       });
     //$('#service_id').change();
 
-    $('#package_id').change(function(){
+    $(document).off('change', '#package_id').on('change', '#package_id', function(){
+    //$('#package_id').change(function(){
         var packageID = $(this).val();
         var that = this;
         var token = $("input[name='_token']").val();
@@ -147,9 +153,24 @@
                 $("[name='description'").html(data);
               }
           });
+         /* $.ajax({
+                url: "{{url('select_balance')}}/"+packageID,
+                method: 'GET',
+                success: function(data) {
+                  $("[name='balance'").val('');
+                  $("[name='balance'").val(data);
+                }
+          });*/
+          $.ajax({
+                url: "{{url('/client/get_package_details')}}/"+packageID,
+                method: 'GET',
+                success: function(data) {
+                  $('#desc_detail').html(data);
+                }
+          });
       });
 
-    $('#package_id').change(function(){
+/*    $('#package_id').change(function(){
         var packageID = $(this).val();
         var that = this;
         var token = $("input[name='_token']").val();
@@ -161,16 +182,16 @@
                 $("[name='balance'").val(data);
               }
           });
-      });
+      });*/
 
     // $(document).off('click', '.package-data-btn').on('click', '.package-data-btn', function(){
-    //   $('#add-reservations-form').removeClass('hidden');
+    //   $('#add-custom-reservations-form').removeClass('hidden');
     //   $('#add-coordinations-form').addClass('hidden');
     // });
 
     // $(document).off('click', '.coord-data-btn').on('click', '.coord-data-btn', function(){
     //   $('#add-coordinations-form').removeClass('hidden');
-    //   $('#add-reservations-form').addClass('hidden');
+    //   $('#add-custom-reservations-form').addClass('hidden');
     // });
 
   });  

@@ -22,7 +22,7 @@ class CreateReservationDetailsTable extends Migration
             $table->unsignedInteger('package_detail_id');
             $table->foreign('package_detail_id')->references('id')->on('package_details');
 
-            $table->unsignedInteger('supplier_id');
+            $table->unsignedInteger('supplier_id')->nullable();
             $table->foreign('supplier_id')->references('id')->on('suppliers');
 
             $table->decimal('price', 8, 2);

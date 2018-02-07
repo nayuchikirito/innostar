@@ -31,6 +31,10 @@ class Reservation extends Model
         return $this->hasMany('App\Reservation');
     }
 
+    public function details(){
+        return $this->hasMany('App\ReservationDetail');
+    }
+
     // public function getDateAttribute($value) {
     //     return \Carbon\Carbon::parse($value)->format('Y-m-d');
     // }

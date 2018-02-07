@@ -12,3 +12,5 @@
     <script src="{{url('https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('js/sweetalert.min.js') }}"></script>
     <!-- <script src="https://www.paypalobjects.com/api/checkout.js"></script> -->
+
+    <script src="{{ asset('js/accounting.min.js') }}"></script>

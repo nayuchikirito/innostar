@@ -27,11 +27,12 @@
       </div>
 
     <div class="col-md-4 col-xs-6">
-        <a class="coord-data-btn2">
+        <a class="customize-data-btn2">
         <button class="my-button">
           <h4 class="thicker">Customize Package</h4>
           <div class="button-text">This kind of reservation allows you to make your own package that is not found in the packages given by Innovation Star.</div>
         </button>
+        </a>
       </div>
 
        
@@ -49,11 +50,14 @@
 <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="coordmodal">
     <div class="modal-dialog modal-lg add-user-form">
       <div class="modal-content" id="modal-content">
-        
-      
-      
-
        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="custommodal">
+    <div class="modal-dialog modal-lg add-user-form">
+      <div class="modal-content" id="modal-content">
+      </div>
     </div>
 </div>
 
@@ -78,6 +82,16 @@
 
             $("#coordmodal").modal();
             $("#coordmodal .modal-content").load('/client/reservations_coordination');
+          });
+
+
+    $(document).off('click','.customize-data-btn2').on('click','.customize-data-btn2', function(e){
+            e.preventDefault();
+            var that = this;
+            // $('#addmodal').modal('hide');
+
+            $("#custommodal").modal();
+            $("#custommodal .modal-content").load('/client/custom_reservations');
           });
   });
  </script> 

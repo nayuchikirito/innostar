@@ -2,7 +2,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-      <h4 class="modal-title">View Package</h4>
+      <h4 class="modal-title">View Reservation</h4>
     </div>
  
     <form action="{{ url('/admin/reservations/'.$reservation->id) }}" method="GET" id="show-clients-form">
@@ -43,6 +43,39 @@
           <span id="status">{{ ucfirst($reservation->status) }}</span>
           <span class="help-text text-danger"></span>
       </div>
+      @if($reservation->reservation_type)
+      <div class="form-group">
+          <label for="status">RESERVATION TYPE: </label>
+          <span id="status">{{ ucfirst($reservation->reservation_type) }}</span>
+          <span class="help-text text-danger"></span>
+          <h6>Description Detail</h6> 
+
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>Service Detail Name</th>
+                  <th>Cost</th>
+                  <th>Supplier</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach($reservation->details as $detail)
+                <tr>
+                  <td>{{ $detail->package_detail->package_description->name }}</td>
+                  <td class="text-right">{{ number_format($detail->price,2) }}</td>
+                  <th>PENDING</th>
+                </tr>
+                @endforeach
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th class="text-right">TOTAL:</th>
+                  <th class="text-right"><b id="total">{{ number_format($reservation->details->sum('price'),2) }}</b></th>
+                </tr>
+              </tfoot>
+            </table>
+      </div>
+      @endif
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>

@@ -3,7 +3,8 @@
 @section('title')
     Innovation Star
 @endsection
-      @include('navigations.supplier-nav')
+
+@include('navigations.supplier-nav')
 @section('content') 
  <header class="masthead text-center text-white d-flex">
       <div class="container my-auto">

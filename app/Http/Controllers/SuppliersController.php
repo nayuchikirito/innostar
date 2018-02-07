@@ -219,5 +219,11 @@ class SuppliersController extends Controller
             ->rawColumns(['actions'])
             ->make(true);    
     }
+
+    public function requests(){
+        return view('client.suppliers.requests');
+    }
+
+    public function accept_request($id)
 }
 

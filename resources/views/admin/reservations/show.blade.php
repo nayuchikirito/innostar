@@ -48,8 +48,7 @@
           <label for="status">RESERVATION TYPE: </label>
           <span id="status">{{ ucfirst($reservation->reservation_type) }}</span>
           <span class="help-text text-danger"></span>
-          <h6>Description Detail</h6> 
-
+          <h6>Description Detail</h6>
             <table class="table table-bordered table-hover">
               <thead>
                 <tr>

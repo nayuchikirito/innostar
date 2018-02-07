@@ -132,6 +132,10 @@ Route::middleware('admin')->prefix('reports')->group(function () {
 
 Route::prefix('supplier')->group(function(){
 	Route::get('/home', 'SuppliersController@home')->name('suppliers.home');
+	Route::get('/requests', 'SuppliersController@requests');
+	Route::post('/accept_request/{id}', 'SuppliersController@accept_request');
+	Route::post('/decline_request/{id}', 'SuppliersController@decline_request');
+	Route::post('/seen_request/{id}', 'SuppliersController@seen_request');
 });
 
 Route::prefix('secretary')->group(function(){

@@ -57,6 +57,21 @@ class PaymentsController extends Controller
                 $reservation->balance = $reservation->balance-$request->get('amount');
                 if($reservation->balance <= $reservation->package->price-($reservation->package->price * .2)){
                         $reservation->status = 'blocked';
+
+                        foreach($reservation->details as $detail){
+                            if($detail->supplier_id == NULL){
+                                $suppliers = \App\Supplier::where('type', $detail->package_detail->package_description->name)->get();
+                                foreach($suppliers as $supplier){
+                                    $supplier_notiff = new \App\SupplierNotification;
+                                    $supplier_notiff->supplier_id            = $supplier->id;
+                                    $supplier_notiff->reservation_detail_id  = $detail->id;
+                                    $supplier_notiff->status                 = 'pending';
+                                    $supplier_notiff->seen                   = 0;
+                                    $supplier_notiff->save();
+                                }
+                            }
+                        }
+
                 }else{
                     $reservation->balance = $reservation->balance+$request->get('amount');
                     $reservation->save();

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use DataTables;
 use DB;
 
-class PaymentsController extends Controller
+class CoordinationPaymentsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +14,10 @@ class PaymentsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {  
-        
-        return view('admin.payments.index');
+    {
+        return view('admin.payments.index_coord');
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -25,9 +25,7 @@ class PaymentsController extends Controller
      */
     public function create()
     {
-        // $reservation = \App\Reservation::find($id);
-        // return view('admin.payments.pay')
-        // ->with('reservation', $reservation);
+        //
     }
 
     /**
@@ -46,23 +44,23 @@ class PaymentsController extends Controller
 
             DB::beginTransaction();
 
-                $payment = new \App\Payment;
+                $payment = new \App\PaymentCoordination;
                 $payment->details    = $request->get('details');
                 $payment->amount     = $request->get('amount');
                 $payment->type      = $request->get('type');
-                $payment->reservation_id     = $request->get('reservation_id');
+                $payment->coordination_id     = $request->get('coordination_id');
                 $payment->save();
 
-                $reservation = \App\Reservation::find($payment->reservation->id);
-                $reservation->balance = $reservation->balance-$request->get('amount');
-                if($reservation->balance <= $reservation->package->price-($reservation->package->price * .2)){
-                        $reservation->status = 'blocked';
+                $coordination = \App\Coordination::find($payment->coordination->id);
+                $coordination->balance = $coordination->balance-$request->get('amount');
+                if($coordination->balance <= 10000){
+                        $coordination->status = 'blocked';
                 }else{
-                    $reservation->balance = $reservation->balance+$request->get('amount');
-                    $reservation->save();
-                    return response()->json(['success' => false, 'msg' => 'The downpayment must atleast be '.  $reservation->package->price * .2 .' pesos']);
+                    $coordination->balance = $coordination->balance+$request->get('amount');
+                    $coordination->save();
+                    return response()->json(['success' => false, 'msg' => 'The downpayment must atleast be 5000 pesos']);
                 }
-                $reservation->save();
+                $coordination->save();
 
                 DB::commit();
 
@@ -82,9 +80,8 @@ class PaymentsController extends Controller
      */
     public function show($id)
     {
-        $payment = \App\Payment::find($id);
-        // return response()->json($payment);
-        return view('admin.payments.show')->with('payment', $payment);
+        $payment = \App\PaymentCoordination::find($id);
+        return view('admin.payments.show_coord')->with('payment', $payment);
     }
 
     /**
@@ -96,7 +93,7 @@ class PaymentsController extends Controller
     public function edit($id)
     {
         $payment = \App\Payment::find($id);
-        return view('admin.payments.edit')
+        return view('admin.payments.edit_coord')
         ->with('payment', $payment);
     }
 
@@ -118,24 +115,24 @@ class PaymentsController extends Controller
 
             DB::beginTransaction();
 
-                $payment = \App\Payment::find($id);
+                $payment = \App\PaymentCoordination::find($id);
                 $oldAmount = $payment->amount;
                 $payment->details    = $request->get('details');
                 $payment->amount     = $request->get('amount');
                 $payment->type      = $request->get('type');
-                $payment->reservation_id     = $request->get('reservation_id');
+                $payment->coordination_id     = $request->get('coordination_id');
                 $payment->save();
 
-                $reservation = \App\Reservation::find($payment->reservation->id);
-                $reservation->balance = $reservation->balance+$oldAmount-$request->get('amount');
-                if($reservation->balance <= $reservation->package->price-($reservation->package->price * .2)){
-                        $reservation->status = 'blocked';
+                $coordination = \App\Coordination::find($payment->coordination->id);
+                $coordination->balance = $coordination->balance+$oldAmount-$request->get('amount');
+                if($coordination->balance <= 10000){
+                        $coordination->status = 'blocked';
                 }else{
-                    $reservation->balance = $reservation->balance+$request->get('amount');
-                    $reservation->save();
-                    return response()->json(['success' => false, 'msg' => 'The downpayment must atleast be '.  $reservation->package->price * .2 .' pesos']);
+                    $coordination->balance = $coordination->balance+$request->get('amount');
+                    $coordination->save();
+                    return response()->json(['success' => false, 'msg' => 'The downpayment must atleast be 5000 pesos']);
                 }
-                $reservation->save();
+                $coordination->save();
 
                 DB::commit();
 
@@ -157,16 +154,16 @@ class PaymentsController extends Controller
     {
         try{
             DB::beginTransaction();
-            $payment = \App\Payment::find($id);
+            $payment = \App\PaymentCoordination::find($id);
             $oldAmount = $payment->amount;
 
-            $reservation = \App\Reservation::find($payment->reservation->id);
-            $reservation->balance = $reservation->balance+$oldAmount;
-            $reservation->save();
+            $coordination = \App\Coordination::find($payment->coordination->id);
+            $coordination->balance = $coordination->balance+$oldAmount;
+            $coordination->save();
             DB::commit();
 
 
-            $status = \App\Payment::destroy($id); 
+            $status = \App\PaymentCoordination::destroy($id); 
             if($status){
                 return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
             }else{
@@ -177,17 +174,9 @@ class PaymentsController extends Controller
         }
     }
 
-    public function pay($id)
-    {
-        $reservation = \App\Reservation::find($id);
-        return view('admin.payments.pay')
-        ->with('reservation', $reservation);
-    }
-
-
     public function all(){
         DB::statement(DB::raw('set @row:=0'));
-        $data = \App\Payment::all();
+        $data = \App\PaymentCoordination::all();
 
          return DataTables::of($data)
             ->AddColumn('row', function($column){
@@ -207,9 +196,15 @@ class PaymentsController extends Controller
                             </button> 
                         ';
             }) 
+            // ->sortBy('row', 'descending')
             ->rawColumns(['actions'])
             ->make(true);    
     }
 
-    
+    public function pay($id)
+    {
+        $coordination = \App\Coordination::find($id);
+        return view('admin.payments.pay_coordination')
+        ->with('coordination', $coordination);
+    }
 }

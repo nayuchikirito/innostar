@@ -22,7 +22,7 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3 class="counter" data-count="{{ \App\Reservation::where('status', 'pending')->count() }}">0</h3>
+              <h3 class="counter" data-count="{{ \App\Reservation::where('status', 'blocked')->count() }}">0</h3>
 
               <p>Package Reservations</p>
             </div>
@@ -37,9 +37,9 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3 class="counter" data-count="{{ \App\Coordination::where('status', 'pending')->count() }}">0</h3>
+              <h3 class="counter" data-count="{{ \App\Coordination::where('status', 'blocked')->count() }}">0</h3>
 
-              <p>Coordinations</p>
+              <p>On-the-day Coordination</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>

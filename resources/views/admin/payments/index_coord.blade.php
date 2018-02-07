@@ -5,12 +5,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Coordinations
-        <small>Add/Edit/Delete/View Coordinations</small>
+        Payments
+        <small>Add/Edit/Delete/View Coordination Payments</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ url('admin/home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Coordinations</li>
+        <li class="active">Coordination Payments</li>
       </ol>
     </section>
 
@@ -20,22 +20,17 @@
 
         <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">Coordinations Table</h3>
-              <a href="{{url('/admin/display/clients')}}"><button class="btn-sm btn btn-success pull-right">
-                <i class="fa fa-plus"></i> Reserve
-              </button>
-              </a>
+              <h3 class="box-title">Coordination Payments Table</h3>
             </div>
             <!-- /.box-header -->
             <!-- Status is blocked date or not -->
             <div class="box-body">
-              <table class="table table-hover" id="coordinations-table">
+              <table class="table table-hover" id="payments-table">
                 <thead>
                   <th>#</th>
-                  <th>Client</th>
-                  <th>Service</th>
-                  <th>Date</th>
-                  <th>Status</th>
+                  <th>OR / Transaction Number</th>
+                  <th>Amount</th>
+                  <th>Type</th>
                   <th>Actions</th>
                 </thead>
               </table>
@@ -58,11 +53,11 @@
 @section('scripts')
 <script type="text/javascript">
   $(function(){
-    var table = $('#coordinations-table').DataTable({
+    var table = $('#payments-table').DataTable({
       bProcessing: true,
       bServerSide: false,
       sServerMethod: "GET",
-      'ajax': '/admin/get-coordinations',
+      'ajax': '/admin/get-payments-coord',
       searching: true, 
       paging: true, 
       filtering:false, 
@@ -88,14 +83,26 @@
       },
       "columns": [ 
         {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
-        {data: 'client',  name: 'client', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'service',  name: 'service', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
-        {data: 'date',  name: 'date', className: 'col-md-2  text-left',   searchable: true, sortable: true},
-        {data: 'status',  name: 'status', className: 'col-md-2  text-left',   searchable: true, sortable: true},
+        {data: 'details',  name: 'details', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
+        {data: 'amount',  name: 'amount', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'type',  name: 'type', className: 'col-md-2  text-left',   searchable: true, sortable: true},
         {data: 'actions',   name: 'actions', className: 'col-md-4 text-left',  searchable: false,  sortable: false},
       ], 
-      'order': [[0, 'asc']]
+      'order': [[0, 'desc']]
     });
+
+    // $(".add_data-btn").click(function(x){  
+    //       x.preventDefault();
+    //       var that = this;
+    //       $("#addmodal").html('');
+    //       $("#addmodal").modal();
+    //       $.ajax({
+    //         url: '/admin/payments/create',         
+    //         success: function(data) {
+    //           $("#addmodal").html(data);
+    //         }
+    //       }); 
+    // });
 
     $(document).off('click','.show-data-btn').on('click','.show-data-btn', function(e){
       e.preventDefault();
@@ -103,41 +110,24 @@
       $("#showmodal").html('');
       $("#showmodal").modal();
       $.ajax({
-        url: '/admin/coordinations/'+that.dataset.id,         
+        url: '/admin/payments/'+that.dataset.id,         
         success: function(data) {
           $("#showmodal").html(data);
         }
       }); 
     });
-
     $(document).off('click','.edit-data-btn').on('click','.edit-data-btn', function(e){
       e.preventDefault();
       var that = this; 
       $("#editmodal").html('');
       $("#editmodal").modal();
       $.ajax({
-        url: '/admin/coordinations/'+that.dataset.id+'/edit',         
+        url: '/admin/payments/'+that.dataset.id+'/edit',         
         success: function(data) {
           $("#editmodal").html(data);
         }
       }); 
     });
-
-    $(document).off('click','.pay-data-btn').on('click','.pay-data-btn', function(e){
-      e.preventDefault();
-      var that = this;
-      $("#paymodal").html('');
-      $("#paymodal").modal();
-      $.ajax({
-        url: '/admin/payments_coord_walkin/'+that.dataset.id,
-        success: function(data) {
-          $("#coordinations-table").DataTable().ajax.url( '/admin/get-coordinations' ).load();
-          $("#paymodal").html(data);
-
-        }
-      });
-    });
-
     $(document).off('click','.delete-data-btn').on('click','.delete-data-btn', function(e){
       e.preventDefault();
       var that = this; 
@@ -159,11 +149,11 @@
                  if(result){
                   var token = '{{csrf_token()}}'; 
                   $.ajax({
-                  url:'/admin/coordinations/'+that.dataset.id,
+                  url:'/admin/payments/'+that.dataset.id,
                   type: 'post',
                   data: {_method: 'delete', _token :token},
                   success:function(result){
-                    $("#coordinations-table").DataTable().ajax.url( '/admin/get-coordinations' ).load();
+                    $("#payments-table").DataTable().ajax.url( '/admin/get-payments' ).load();
                     swal({
                         title: result.msg,
                         icon: "success"

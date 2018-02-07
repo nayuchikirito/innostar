@@ -70,10 +70,13 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 	Route::get('/get-coordinations', 'CoordinationsController@all');
 
 	Route::resource('/payments', 'PaymentsController');
-	Route::post('/payments/coord', 'PaymentsController@coord_store');
 	Route::get('/payments_walkin/{res_id}', 'PaymentsController@pay')->name('admin.payments');
-	Route::get('/payments_coord/{res_id}', 'PaymentsController@pay_coord')->name('admin.payments.coord');
 	Route::get('/get-payments', 'PaymentsController@all');
+
+
+	Route::resource('/payments_coord', 'CoordinationPaymentsController');
+	Route::get('/payments_coord_walkin/{res_id}', 'CoordinationPaymentsController@pay')->name('admin.payments.coord');
+	Route::get('/get-payments-coord', 'CoordinationPaymentsController@all');
 
 	Route::resource('/clients', 'ClientsController');
 	Route::get('/display/clients', 'ClientsController@display');

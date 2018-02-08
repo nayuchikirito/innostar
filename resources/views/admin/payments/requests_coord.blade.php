@@ -54,7 +54,7 @@
       bProcessing: true,
       bServerSide: false,
       sServerMethod: "GET",
-      'ajax': '/admin/get-requests',
+      'ajax': '/admin/get-requests-coord',
       searching: true, 
       paging: true, 
       filtering:false, 
@@ -111,11 +111,11 @@
                  if(result){
                   var token = '{{csrf_token()}}'; 
                   $.ajax({
-                  url:'/admin/payment_requests/'+that.dataset.id,
+                  url:'/admin/payment_requests_coord/'+that.dataset.id,
                   type: 'post',
                   data: {_method: 'post', _token :token},
                   success:function(result){
-                    $("#payments-table").DataTable().ajax.url( '/admin/get-requests' ).load();
+                    $("#payments-table").DataTable().ajax.url( '/admin/get-requests-coord' ).load();
                     swal({
                         title: result.msg,
                         icon: "success"
@@ -148,11 +148,11 @@
                  if(result){
                   var token = '{{csrf_token()}}'; 
                   $.ajax({
-                  url:'/admin/payment_requests_decline/'+that.dataset.id,
+                  url:'/admin/payment_requests_decline_coord/'+that.dataset.id,
                   type: 'post',
                   data: {_method: 'post', _token :token},
                   success:function(result){
-                    $("#payments-table").DataTable().ajax.url( '/admin/get-requests' ).load();
+                    $("#payments-table").DataTable().ajax.url( '/admin/get-requests-coord' ).load();
                     swal({
                         title: result.msg,
                         icon: "success"

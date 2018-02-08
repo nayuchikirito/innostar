@@ -13,7 +13,7 @@ class CoordinationsController extends Controller
 
     public function index()
     {
-        return view('admin.coordinations.index');
+        return view('admin.coordinations.index1');
     }
 
     /**
@@ -173,7 +173,7 @@ class CoordinationsController extends Controller
 
     public function all(){
         DB::statement(DB::raw('set @row:=0'));
-        $data = \App\Coordination::all();
+        $data = \App\Coordination::all();   
 
          return DataTables::of($data)
             ->AddColumn('row', function($column){

@@ -71,10 +71,16 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
 	Route::resource('/payments', 'PaymentsController');
 	Route::get('/payment_requests', 'PaymentsController@requests');
+	Route::get('/payment_requests_coord', 'PaymentsController@requests_coord');
 	Route::post('/payment_requests/{payment_id}', 'PaymentsController@requests_confirm');
+	Route::post('/payment_requests_coord/{payment_id}', 'PaymentsController@requests_confirm_coord');
+	Route::post('/payment_requests_decline/{payment_id}', 'PaymentsController@requests_decline');
+	Route::post('/payment_requests_decline_coord/{payment_id}', 'PaymentsController@requests_decline_coord');
 	Route::get('/payments_walkin/{res_id}', 'PaymentsController@pay')->name('admin.payments');
 	Route::get('/get-payments', 'PaymentsController@all');
 	Route::get('/get-requests', 'PaymentsController@all_requests');
+	Route::get('/get-requests-coord', 'PaymentsController@all_requests_coord');
+
 
 
 	Route::resource('/payments_coord', 'CoordinationPaymentsController');
@@ -96,7 +102,9 @@ Route::middleware('client')->prefix('client')->group(function () {
 	Route::get('/get-reservations', 'GuestController@all');
 	Route::get('/home', 'GuestController@index')->name('clients.home');
 	Route::get('/payments_bank/{res_id}', 'GuestController@pay')->name('admin.payments');
+	Route::get('/payments_bank_coord/{res_id}', 'GuestController@pay_coord');
 	Route::post('/payments', 'GuestController@payment');
+	Route::post('/payments_coord', 'GuestController@payment_coord');
 	Route::get('/button', 'GuestController@button');
 
 	Route::get('/custom_reservations', 'GuestController@custom_reservations');

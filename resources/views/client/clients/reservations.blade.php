@@ -9,7 +9,7 @@
       <div class="container font-mine">
         <div class="row">
           <div class="col-md-12 text-left">
-            <h2 class="section-heading text-white">Reservations</h2> 
+            <h2 class="section-heading text-white">Package Reservations</h2> 
             <table class="table table-hover table-bordered bg-white">
               <thead>
                 <tr>
@@ -37,20 +37,47 @@
           </div>
         </div>
       </div>
+
+      <section class="bg-dark" id="about" style="height: 100vh;">
+      <div class="container font-mine">
+        <div class="row">
+          <div class="col-md-12 text-left">
+            <h2 class="section-heading text-white">On-the-day Coordination Reservations</h2> 
+            <table class="table table-hover table-bordered bg-white">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Reservation Date</th>
+                  <th class="text-left">Balance</th>
+                  <th class="text-center">Service</th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach(Auth::user()->client->coordination as $coordination)
+                <tr>
+                  <td class="text-left">{{ $coordination->client->user->lname.', '.$coordination->client->user->fname.' '.substr($coordination->client->user->midname, 0, 1).'.' }}</td>
+                  <td class="text-left">{{ date('F d,Y', strtotime($coordination->date))}}</td>
+                  <td class="text-left">{{ $coordination->balance }}</td>
+                  <td class="text-center">{{ $coordination->service->name }}</td>
+                  <td class="text-center"><a href="#" class="btn btn-success btn-xs pay2-data-btn" data-id="{{ $coordination->id }}"><i class="fa fa-check"></i> Send Payment Details</a>
+                    <!-- <a href="#" class="btn btn-danger btn-xs decline-request-btn" data-id=" {{ $coordination->id }}"><i class="fa fa-times"></i> Decline</a>
+                    <a href="#" class="btn btn-info btn-xs seen-request-btn" data-id="{{ $coordination->id }}"><i class="fa fa-eye"></i> Seen</a> --></td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table> 
+          </div>
+        </div>
+      </div>
+
+
     <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="paymodal">
       <div class="modal-dialog modal-md add-user-form">
         <div class="modal-content">
         </div>
       </div>
     </div>
-
-    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="mlhuilliermodal">
-      <div class="modal-dialog modal-md add-user-form">
-        <div class="modal-content">
-        </div>
-      </div>
-    </div>
-    </section>
     <!-- <section class="content-wrapper"> -->
 <!-- naa ang include sa my_reservations.blade.php -->
 
@@ -107,6 +134,15 @@
         var that = this;
         $("#paymodal").modal();
         $("#paymodal .modal-content").load('/client/payments_bank/'+that.dataset.id);
+      });
+    });
+
+    $(function(){
+      $(document).off('click','pay2-data-btn').on('click','.pay2-data-btn', function(e){
+        e.preventDefault();
+        var that = this;
+        $("#paymodal").modal();
+        $("#paymodal .modal-content").load('/client/payments_bank_coord/'+that.dataset.id);
       });
     });
 

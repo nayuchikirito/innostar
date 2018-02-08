@@ -53,7 +53,11 @@ class CoordinationPaymentsController extends Controller
 
                 $coordination = \App\Coordination::find($payment->coordination->id);
                 $coordination->balance = $coordination->balance-$request->get('amount');
-                if($coordination->balance <= 10000){
+                if($coordination->balance < 0){
+                    $coordination->balance = $coordination->balance+$request->get('amount');
+                    $coordination->save();
+                    return response()->json(['success' => false, 'msg' => 'Payment is greater than the remaining balance.']);
+                }else if($coordination->balance <= 10000){
                         $coordination->status = 'blocked';
                 }else{
                     $coordination->balance = $coordination->balance+$request->get('amount');
@@ -176,7 +180,7 @@ class CoordinationPaymentsController extends Controller
 
     public function all(){
         DB::statement(DB::raw('set @row:=0'));
-        $data = \App\PaymentCoordination::all();
+        $data = \App\PaymentCoordination::where('status', 'confirm');
 
          return DataTables::of($data)
             ->AddColumn('row', function($column){

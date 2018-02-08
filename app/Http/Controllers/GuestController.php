@@ -218,6 +218,13 @@ class GuestController extends Controller
         ->with('reservation', $reservation);
     }
 
+    public function pay_coord($id)
+    {
+        $coordination = \App\Coordination::find($id);
+        return view('client.clients.bank_coord')
+        ->with('coordination', $coordination);
+    }
+
     public function payment(Request $request)
     {
         $data = request()->validate([
@@ -327,5 +334,62 @@ class GuestController extends Controller
     public function get_package_details($id){
         $details = \App\PackageDetail::where('package_id', $id)->get();
         return view('client.reservation.package_detail')->with('details', $details);
+    }
+
+    public function payment_coord(Request $request)
+    {
+        $data = request()->validate([
+            'amount' => 'required|numeric',
+            'details' => 'required|string',
+        ]);
+         // try{
+
+            DB::beginTransaction();
+
+                $payment = new \App\PaymentCoordination;
+                $payment->details    = $request->get('details');
+                $payment->amount     = $request->get('amount');
+                $payment->type      = $request->get('type');
+                $payment->date_of_payment        = $request->get('date').' '.$request->get('time').':00';
+                $payment->coordination_id     = $request->get('coordination_id');
+                $payment->save();
+
+                $coordination = \App\Coordination::find($payment->coordination->id);
+                $coordination->balance = $coordination->balance-$request->get('amount');
+                if($coordination->balance < 0){
+                    $coordination->balance = $coordination->balance+$request->get('amount');
+                    $coordination->save();
+                    return response()->json(['success' => false, 'msg' => 'Payment is greater than the remaining balance.']);
+                }else if($coordination->balance <= 10000){
+                        $coordination->status = 'blocked';
+
+                        // foreach($reservation->details as $detail){
+                        //     if($detail->supplier_id == NULL){
+                        //         $suppliers = \App\Supplier::where('type', $detail->package_detail->package_description->name)->get();
+                        //         foreach($suppliers as $supplier){
+                        //             $supplier_notiff = new \App\SupplierNotification;
+                        //             $supplier_notiff->supplier_id            = $supplier->id;
+                        //             $supplier_notiff->reservation_detail_id  = $detail->id;
+                        //             $supplier_notiff->status                 = 'pending';
+                        //             $supplier_notiff->seen                   = 0;
+                        //             $supplier_notiff->save();
+                        //         }
+                        //     }
+                        // }
+                }else{
+                    $coordination->balance = $coordination->balance+$request->get('amount');
+                    $coordination->save();
+                    return response()->json(['success' => false, 'msg' => 'The downpayment must atleast be 5000 pesos']);
+                }
+                $coordination->save();
+
+                DB::commit();
+
+                return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+
+            // }catch(\Exception $e){
+            //     DB::rollback();
+            //     return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+            // } 
     }
 }

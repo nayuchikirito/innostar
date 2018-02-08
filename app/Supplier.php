@@ -19,7 +19,7 @@ class Supplier extends Authenticatable
         return $this->belongsTo('App\User');
     }
     public function notiffications(){
-        return $this->hasMany('App\SupplierNotification')->where('seen', 0);
+        return $this->hasMany('App\SupplierNotification');
     }
     
 

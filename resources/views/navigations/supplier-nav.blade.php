@@ -9,7 +9,7 @@
 	          <ul class="navbar-nav ml-auto ">
 	            <li class="nav-item">
 	              <a class="nav-link js-scroll-trigger" href="{{ url('supplier/requests') }}">Requests
-	              	 <span class="badge badge-pill badge-danger display-5">{{ Auth::user()->supplier->notiffications->count() }}</span>
+	              	 <span class="badge badge-pill badge-danger display-5">{{ Auth::user()->supplier->notiffications->where('seen',0)->count() }}</span>
 	              </a>
 	            </li>
 	            <li class="nav-item">

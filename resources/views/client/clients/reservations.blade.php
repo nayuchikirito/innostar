@@ -5,7 +5,7 @@
 @endsection
       @include('navigations.client-nav')
 @section('content') 
-    <section class="content-wrapper">
+    <section class="content-wrapper bg-dark">
     @include('parts.my-reservations')
     <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="paymodal">
       <div class="modal-dialog modal-lg add-user-form">

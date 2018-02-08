@@ -42,7 +42,8 @@ class PaymentsController extends Controller
             'amount' => 'required|numeric',
             'details' => 'required|string',
         ]);
-         try{
+         // try{
+
 
             DB::beginTransaction();
 
@@ -50,12 +51,18 @@ class PaymentsController extends Controller
                 $payment->details    = $request->get('details');
                 $payment->amount     = $request->get('amount');
                 $payment->type      = $request->get('type');
+                $payment->status    = 'confirm';
+                $payment->date_of_payment        = $request->get('date_of_payment');
                 $payment->reservation_id     = $request->get('reservation_id');
                 $payment->save();
 
                 $reservation = \App\Reservation::find($payment->reservation->id);
                 $reservation->balance = $reservation->balance-$request->get('amount');
-                if($reservation->balance <= $reservation->package->price-($reservation->package->price * .2)){
+                if($reservation->balance < 0){
+                    $reservation->balance = $reservation->balance+$request->get('amount');
+                    $reservation->save();
+                    return response()->json(['success' => false, 'msg' => 'Payment is greater than the remaining balance.']);
+                }else if($reservation->balance <= $reservation->package->price-($reservation->package->price * .2)){
                         $reservation->status = 'blocked';
 
                         foreach($reservation->details as $detail){
@@ -83,10 +90,10 @@ class PaymentsController extends Controller
 
                 return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
 
-            }catch(\Exception $e){
-                DB::rollback();
-                return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
-            } 
+            // }catch(\Exception $e){
+            //     DB::rollback();
+            //     return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+            // } 
     }
 
     /**
@@ -202,7 +209,7 @@ class PaymentsController extends Controller
 
     public function all(){
         DB::statement(DB::raw('set @row:=0'));
-        $data = \App\Payment::all();
+        $data = \App\Payment::where('status', 'confirm');
 
          return DataTables::of($data)
             ->AddColumn('row', function($column){
@@ -224,6 +231,57 @@ class PaymentsController extends Controller
             }) 
             ->rawColumns(['actions'])
             ->make(true);    
+    }
+
+    public function requests()
+    {
+        return view('admin.payments.requests');
+    } 
+
+    public function all_requests(){
+        DB::statement(DB::raw('set @row:=0'));
+        $data = \App\Payment::where('status', 'pending');
+
+         return DataTables::of($data)
+            ->AddColumn('row', function($column){
+               return $column->id;
+            })
+            ->AddColumn('date_of_payment', function($column){
+               return date('M d, Y | h:i A', strtotime($column->date_of_payment));
+            })
+            ->AddColumn('actions', function($column){
+              
+                return '
+                            <button class="btn-sm btn btn-info confirm-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-id-card-o"></i> Confirm
+                            </button>
+                            <button class="btn-sm btn btn-danger delete-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-trash-o"></i> Decline
+                            </button> 
+                        ';
+            }) 
+            ->rawColumns(['actions'])
+            ->make(true);    
+    }
+
+    public function requests_confirm($id)
+    {
+        try{
+
+            DB::beginTransaction();
+
+                $payment = \App\Payment::find($id);
+                $payment->status = 'confirm';
+                $payment->save();
+
+             DB::commit();
+
+            return response()->json(['success' => true, 'msg' => 'Confirmed Payment Details']);
+
+            }catch(\Exception $e){
+                DB::rollback();
+                return response()->json(['success' => false, 'msg' => 'An error occured while confirming data!']);
+            } 
     }
 
     

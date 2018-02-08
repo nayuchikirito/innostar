@@ -22,14 +22,14 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach(Auth::user()->supplier->notiffications as $notiff)
+                @foreach(Auth::user()->supplier->notifications as $notif)
                 <tr>
-                  <td>{{ $notiff->reservation_detail->package_detail->package_description->name }}</td>
-                  <td class="text-center">{{ date('F d,Y', strtotime($notiff->reservation_detail->reservation->date))}}</td>
-                  <td class="text-right">{{ number_format($notiff->reservation_detail->price,2) }}</td>
-                  <td class="text-center"><a href="#" class="btn btn-success btn-xs accept-request-btn" data-id="{{ {{ $notiff->id }}"><i class="fa fa-check"></i> Accept</a>
-                    <a href="#" class="btn btn-danger btn-xs decline-request-btn" data-id="{{ {{ $notiff->id }}"><i class="fa fa-times"></i> Decline</a>
-                    <a href="#" class="btn btn-info btn-xs seen-request-btn" data-id="{{ {{ $notiff->id }}"><i class="fa fa-eye"></i> Seen</a></td>
+                  <td>{{ $notif->reservation_detail->package_detail->package_description->name }}</td>
+                  <td class="text-center">{{ date('F d,Y', strtotime($notif->reservation_detail->reservation->date))}}</td>
+                  <td class="text-right">{{ number_format($notif->reservation_detail->price,2) }}</td>
+                  <td class="text-center"><a href="#" class="btn btn-success btn-xs accept-request-btn" data-id="{{ {{ $notif->id }}"><i class="fa fa-check"></i> Accept</a>
+                    <a href="#" class="btn btn-danger btn-xs decline-request-btn" data-id="{{ {{ $notif->id }}"><i class="fa fa-times"></i> Decline</a>
+                    <a href="#" class="btn btn-info btn-xs seen-request-btn" data-id="{{ {{ $notif->id }}"><i class="fa fa-eye"></i> Seen</a></td>
                 </tr>
                 @endforeach
               </tbody>

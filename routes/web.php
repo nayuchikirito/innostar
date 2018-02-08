@@ -70,8 +70,11 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 	Route::get('/get-coordinations', 'CoordinationsController@all');
 
 	Route::resource('/payments', 'PaymentsController');
+	Route::get('/payment_requests', 'PaymentsController@requests');
+	Route::post('/payment_requests/{payment_id}', 'PaymentsController@requests_confirm');
 	Route::get('/payments_walkin/{res_id}', 'PaymentsController@pay')->name('admin.payments');
 	Route::get('/get-payments', 'PaymentsController@all');
+	Route::get('/get-requests', 'PaymentsController@all_requests');
 
 
 	Route::resource('/payments_coord', 'CoordinationPaymentsController');

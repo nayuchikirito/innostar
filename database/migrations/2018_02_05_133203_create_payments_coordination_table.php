@@ -15,9 +15,10 @@ class CreatePaymentsCoordinationTable extends Migration
     {
         Schema::create('payment_coordinations', function (Blueprint $table) {
             $table->increments('id');
+            // $table->datetime('date_of_payment');
             $table->string('details');
             $table->decimal('amount', 8, 2);
-            $table->enum('type', ['Bank', 'Cash']);
+            $table->enum('type', ['Bank', 'Cash', 'Mlhuillier', 'Western_union']);
 
             $table->unsignedInteger('coordination_id');
             $table->foreign('coordination_id')->references('id')->on('coordinations');

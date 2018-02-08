@@ -225,25 +225,61 @@ class SuppliersController extends Controller
     }
 
     public function accept_request($id){
+        
         //check if request has already supplier
             //if true
                 //notification only marked as "closed" and notify supplier that reservation detail has already a supplier
             //if false
                 //notification only marked as "accepted" and notify supplier that "You are now the supplier of the reservation..." 
 
-    //    $notification = \App\SupplierNotification::find($id);
-        /*$notifcation 
-        if($status && $status2){
-            return response()->json(['success' => true, 'msg' => 'Data Successfully deleted!']);
+        $notification = \App\SupplierNotification::find($id);
+        if($notification->reservation_detail->supplier_id){
+            $sn = \App\SupplierNotification::where('reservation_detail_id', $notification->reservation_detail->id)
+                                             ->where('status', '!=', 'accepted')
+                                             ->update(['status' => 'closed']);
+            return response()->json(['success' => false, 'msg' => 'Sorry! The reservation has already a supplier!']);
         }else{
-            return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
-        }*/
+            $sn = \App\SupplierNotification::find($id);
+            $sn->status = 'accepted'; 
+            $sn->seen = 1; 
+            $sn->save();
+            $sn2 = \App\SupplierNotification::where('reservation_detail_id', $notification->reservation_detail->id)
+                                             ->where('status', '!=', 'accepted')
+                                             ->update(['status' => 'closed']);
+
+            $res_d = \App\ReservationDetail::find($notification->reservation_detail->id);
+            $res_d->supplier_id = $notification->supplier_id;
+            
+            if($res_d->save()){
+                return response()->json(['success' => true, 'msg' => 'You are now the supplier of this request!']);
+            }else{
+                return response()->json(['success' => false, 'msg' => 'An error occurred please try again later.']);
+            }
+        } 
     }
+
     public function decline_request($id){
-        
+            $sn = \App\SupplierNotification::find($id);
+            $sn->status = 'declined'; 
+            $sn->save();
+            
+            if($res_d->save()){
+                return response()->json(['success' => true, 'msg' => 'You declined this request!']);
+            }else{
+                return response()->json(['success' => false, 'msg' => 'An error occurred please try again later.']);
+            }
     }
     public function seen_request($id){
-        
+            $sn = \App\SupplierNotification::find($id);
+            $sn->status = 'ignored'; 
+            $sn->seen = 1; 
+            $sn->save();
+            
+            if($res_d->save()){
+                return response()->json(['success' => true, 'msg' => 'You mark this request as seen!']);
+            }else{
+                return response()->json(['success' => false, 'msg' => 'An error occurred please try again later.']);
+            }
     }
 }
 

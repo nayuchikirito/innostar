@@ -29,7 +29,7 @@
                   <td class="text-center">{{ $reservation->package->service->name }}</td>
                   <td class="text-center"><a href="#" class="btn btn-success btn-xs pay-data-btn" data-id="{{ $reservation->id }}"><i class="fa fa-check"></i> Send Payment Details</a>
                     <!-- <a href="#" class="btn btn-danger btn-xs decline-request-btn" data-id=" {{ $reservation->id }}"><i class="fa fa-times"></i> Decline</a>
-                    <a href="#" class="btn btn-info btn-xs seen-request-btn" data-id="{{ $reservation->id }}"><i class="fa fa-eye"></i> Seen</a></td> -->
+                    <a href="#" class="btn btn-info btn-xs seen-request-btn" data-id="{{ $reservation->id }}"><i class="fa fa-eye"></i> Seen</a> --></td>
                 </tr>
                 @endforeach
               </tbody>

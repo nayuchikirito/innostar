@@ -232,14 +232,37 @@ class GuestController extends Controller
                 $payment->details    = $request->get('details');
                 $payment->amount     = $request->get('amount');
                 $payment->type      = $request->get('type');
+                $payment->date_of_payment        = $request->get('date').' '.$request->get('time').':00';
                 $payment->reservation_id     = $request->get('reservation_id');
                 $payment->save();
 
                 $reservation = \App\Reservation::find($payment->reservation->id);
                 $reservation->balance = $reservation->balance-$request->get('amount');
-                if($reservation->balance <= $reservation->package->price-($reservation->package->price * .2)){
+                if($reservation->balance < 0){
+                    $reservation->balance = $reservation->balance+$request->get('amount');
+                    $reservation->save();
+                    return response()->json(['success' => false, 'msg' => 'Payment is greater than the remaining balance.']);
+                }else if($reservation->balance <= $reservation->package->price-($reservation->package->price * .2)){
                         $reservation->status = 'blocked';
-                    }
+
+                        foreach($reservation->details as $detail){
+                            if($detail->supplier_id == NULL){
+                                $suppliers = \App\Supplier::where('type', $detail->package_detail->package_description->name)->get();
+                                foreach($suppliers as $supplier){
+                                    $supplier_notiff = new \App\SupplierNotification;
+                                    $supplier_notiff->supplier_id            = $supplier->id;
+                                    $supplier_notiff->reservation_detail_id  = $detail->id;
+                                    $supplier_notiff->status                 = 'pending';
+                                    $supplier_notiff->seen                   = 0;
+                                    $supplier_notiff->save();
+                                }
+                            }
+                        }
+                }else{
+                    $reservation->balance = $reservation->balance+$request->get('amount');
+                    $reservation->save();
+                    return response()->json(['success' => false, 'msg' => 'The downpayment must atleast be '.  $reservation->package->price * .2 .' pesos']);
+                }
                 $reservation->save();
 
                 DB::commit();
@@ -291,11 +314,11 @@ class GuestController extends Controller
                     $res_detail->save();                    
                 }
                 DB::commit();
+                DB::rollback();
 
                 return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
 
             }catch(\Exception $e){
-                DB::rollback();
                 return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
             }
         }

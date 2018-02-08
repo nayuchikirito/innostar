@@ -23,7 +23,7 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach(Auth::user()->supplier->notiffications as $notiff)
+                @foreach(Auth::user()->supplier->notifications as $notif)
                 <tr>
                   <td>{{ $notiff->reservation_detail->package_detail->package_description->name }}</td>
                   <td class="text-center">{{ date('F d,Y', strtotime($notiff->reservation_detail->reservation->date))}}</td>

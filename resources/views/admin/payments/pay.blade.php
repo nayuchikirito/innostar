@@ -23,6 +23,10 @@
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
+          <input type="hidden" name="date_of_payment" value="{{ \Carbon\Carbon::now() }}">
+          <span class="help-text text-danger"></span>
+      </div>
+      <div class="form-group">
           <input type="hidden" name="type" value="cash">
           <span class="help-text text-danger"></span>
       </div>

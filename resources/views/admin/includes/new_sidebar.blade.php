@@ -136,6 +136,10 @@
                 </ul>
               </li>
 
+            <li class="{{ Request::segment(2) == 'payment requests' ? 'active':'' }}"><a href="{{url('admin/payment_requests')}}"><i class="fa fa-users"></i> <span>Payment Requests</span><span class="badge badge-pill badge-danger display-5"> {{ \App\Payment::where('status', 'pending')->count() }}</span></a></li>
+
+              
+
               
               
       </ul>

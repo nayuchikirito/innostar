@@ -22,3 +22,4 @@
         </div>
       </div>
 </section>
+    <!-- @include('parts.my-reservations') -->

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePaymentsCoordinationTable extends Migration
+class CreateClientNotificationCoordTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreatePaymentsCoordinationTable extends Migration
      */
     public function up()
     {
-        Schema::create('payment_coordinations', function (Blueprint $table) {
+        Schema::create('client_notification_coords', function (Blueprint $table) {
             $table->increments('id');
-            // $table->datetime('date_of_payment');
-            $table->string('details');
-            $table->decimal('amount', 8, 2);
-            $table->enum('type', ['Bank', 'Cash', 'Mlhuillier', 'Western_union']);
 
             $table->unsignedInteger('coordination_id');
             $table->foreign('coordination_id')->references('id')->on('coordinations');
+
+            $table->enum('status', ['approved', 'declined', 'pending'])->default('pending');
+            $table->enum('type', ['cancellation', 'change']);
+
+            $table->datetime('change_date')->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +34,6 @@ class CreatePaymentsCoordinationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payment_coordinations');
+        Schema::dropIfExists('client_notification_coords');
     }
 }

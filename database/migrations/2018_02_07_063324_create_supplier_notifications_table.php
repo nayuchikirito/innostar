@@ -21,7 +21,7 @@ class CreateSupplierNotificationsTable extends Migration
             $table->unsignedInteger('reservation_detail_id')->nullable();
             $table->foreign('reservation_detail_id')->references('id')->on('reservation_details');
 
-            $table->string('status')->nullable(); //accepted, pending, declined, closed
+            $table->string('status')->nullable(); //accepted, pending, declined, closed, ignored
             $table->boolean('seen')->nullable(); //1:seen, 0:unseen
             $table->timestamps();
         });

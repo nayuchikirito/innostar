@@ -62,7 +62,7 @@
                 <tr>
                   <td>{{ $detail->package_detail->package_description->name }}</td>
                   <td class="text-right">{{ number_format($detail->price,2) }}</td>
-                  <th>PENDING</th>
+                  <th>{{ $detail->supplier_id ? $detail->supplier->user->lname.', '.$detail->supplier->user->fname:'PENDING' }}</th>
                 </tr>
                 @endforeach
               </tbody>

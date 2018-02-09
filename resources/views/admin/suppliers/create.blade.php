@@ -23,6 +23,11 @@
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Enter Supplier Name" autocomplete="false">
+          <span class="help-text text-danger"></span>
+      </div>
+      <div class="form-group">
           <label for="fname">First Name</label>
           <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter Firstname" autocomplete="false">
           <span class="help-text text-danger"></span>

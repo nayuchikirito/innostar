@@ -136,6 +136,33 @@
                 </ul>
               </li>
 
+            <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-bar-chart-o"></i>
+                  <span>Payment Requests</span>
+                  <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                  <li class="{{ Request::segment(2) == 'package reservations' ? 'active':'' }}"><a href="{{url('admin/payment_requests')}}"><i class="fa fa-users"></i> <span>Package Reservations</span><span class="badge badge-pill badge-danger display-5"> {{ \App\Payment::where('status', 'pending')->count() }}</span></a></li>
+                  <li class="{{ Request::segment(2) == 'On-the-day Coordinations' ? 'active':'' }}"><a href="{{url('admin/payment_requests_coord')}}"><i class="fa fa-users"></i> <span>On-the-day Coordinations</span><span class="badge badge-pill badge-danger display-5"> {{ \App\PaymentCoordination::where('status', 'pending')->count() }}</span></a></li>
+                </ul>
+              </li>
+
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-bar-chart-o"></i>
+                  <span>Client Requests</span>
+                  <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                  <li class="{{ Request::segment(2) == 'package reservations' ? 'active':'' }}"><a href="{{url('admin/client_requests')}}"><i class="fa fa-users"></i> <span>Package Reservations</span><span class="badge badge-pill badge-danger display-5"> {{ \App\ClientNotification::where('status', 'pending')->count() }}</span></a></li>
+                  <li class="{{ Request::segment(2) == 'On-the-day Coordinations' ? 'active':'' }}"><a href="{{url('admin/client_requests_coord')}}"><i class="fa fa-users"></i> <span>On-the-day Coordinations</span><span class="badge badge-pill badge-danger display-5"> {{ \App\ClientNotificationCoord::where('status', 'pending')->count() }}</span></a></li>
+                </ul>
+              </li>
+
+
+              
+
               
               
       </ul>

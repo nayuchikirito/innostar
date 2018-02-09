@@ -15,6 +15,11 @@
       </div>
       <div class="form-group">
           <label for="name">Name: </label>
+          <span id="name">{{ $user->supplier->name }}</span>
+          <span class="help-text text-danger"></span>
+      </div>
+      <div class="form-group">
+          <label for="name">Contact Person: </label>
           <span id="name">{{ $user->lname.', '.$user->fname.' '.substr($user->midname, 0, 1).'.' }}</span>
           <span class="help-text text-danger"></span>
       </div>

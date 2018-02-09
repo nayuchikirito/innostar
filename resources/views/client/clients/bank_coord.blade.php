@@ -8,7 +8,7 @@
         <button class="btn-md btn btn-danger mlhuillier-data-btn"><i class="fa fa-calendar-check-o"></i> Mlhuillier</button>
         <button class="btn-md btn btn-primary western-data-btn"><i class="fa fa-calendar-check-o"></i> Western Union</button>
       </div>
-    <form action="{{ url('/client/payments') }}" method="POST" id="add-payments-form">
+    <form action="{{ url('/client/payments_coord') }}" method="POST" id="add-payments-form">
     {{ csrf_field() }}
     <div class="modal-body font-mine">
       <h3 class="text-center">BPI Bank Payment</h3>
@@ -33,7 +33,7 @@
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="reservation_id" value="{{ $reservation->id }}">
+          <input type="hidden" name="coordination_id" value="{{ $coordination->id }}">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
@@ -48,7 +48,7 @@
     </form>
 
 
-    <form action="{{ url('/client/payments') }}" method="POST" id="add-payments2-form" class="d-none">
+    <form action="{{ url('/client/payments_coord') }}" method="POST" id="add-payments2-form" class="d-none">
     {{ csrf_field() }}
     <div class="modal-body font-mine">
       <h3 class="text-center">Mlhuillier</h3>
@@ -73,7 +73,7 @@
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="reservation_id" value="{{ $reservation->id }}">
+          <input type="hidden" name="coordination_id" value="{{ $coordination->id }}">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
@@ -88,7 +88,7 @@
     </form>
 
 
-    <form action="{{ url('/client/payments') }}" method="POST" id="add-payments3-form" class="d-none">
+    <form action="{{ url('/client/payments_coord') }}" method="POST" id="add-payments3-form" class="d-none">
     {{ csrf_field() }}
     <div class="modal-body font-mine">
       <h3 class="text-center">Western Union</h3>
@@ -113,7 +113,7 @@
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="reservation_id" value="{{ $reservation->id }}">
+          <input type="hidden" name="coordination_id" value="{{ $coordination->id }}">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">

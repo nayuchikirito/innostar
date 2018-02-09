@@ -24,7 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin.includes.home');
+        return view('admin.includes.home1');
     }
 
     public function deletePending()

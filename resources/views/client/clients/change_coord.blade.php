@@ -1,41 +1,43 @@
-<div class="modal-dialog modal-lg add-user-form">
-  <div class="modal-content">
+
     <div class="modal-header">
+      <h4 class="modal-title">Request</h4>
       <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-      <h4 class="modal-title">Payments</h4>
     </div>
-    <form action="{{ url('/admin/payments') }}" method="POST" id="add-payments-form">
+    <form action="{{ url('/client/change_request_coord') }}" method="POST" id="add-payments-form">
     {{ csrf_field() }}
-    <div class="modal-body">
-      <h3 class="text-center">Payment</h3>
+    <div class="modal-body font-mine">
+      <h3 class="text-center">Request Change of Date</h3>
       <div class="form-group">
-          <label for="amount">Amount</label>
-          <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter Amount" autocomplete="false">
+          Event
+          <input name="event" class="form-control" value="{{ $coordination->service->name }}" readonly>
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <label for="details">Official Receipt Number</label>
-          <input type="text" class="form-control" id="details" name="details" placeholder="Enter Receipt Number" autocomplete="false">
+          Original Date of Event
+          <input name="date" class="form-control" value="{{ date('M d, Y | h:i A', strtotime($coordination->date)) }}" readonly>
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="reservation_id" value="{{ $reservation->id }}">
+          New Date
+          <input type="date" name="date" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="date_of_payment" value="{{ \Carbon\Carbon::now() }}">
+          New Time
+          <input type="time" name="time" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="type" value="cash">
+          <input type="hidden" name="coordination_id" value="{{ $coordination->id }}">
           <span class="help-text text-danger"></span>
       </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      <button type="submit" class="btn submit-btn btn-success btn-gradient pull-right">Pay</button>
+      <button type="submit" class="btn submit-btn btn-success btn-gradient pull-right">Send Request</button>
     </div>
     </form>
+
 
 <script type="text/javascript">
 
@@ -78,7 +80,7 @@
                   icon: "error"
                 });
             }
-            $("#reservations-table").DataTable().ajax.url( '/admin/get-reservations' ).load();
+            // $("#reservations-table").DataTable().ajax.url( '/admin/get-reservations' ).load();
             $('.modal').modal('hide');
           },
           error: function(xhr,status,error){
@@ -88,7 +90,5 @@
         });
 
       });
-
-
-  });  
- </script> 
+  });
+</script>

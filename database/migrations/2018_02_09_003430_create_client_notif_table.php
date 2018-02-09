@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePaymentsTable extends Migration
+class CreateClientNotifTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,16 @@ class CreatePaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('client_notifications', function (Blueprint $table) {
             $table->increments('id');
-            // $table->datetime('date_of_payment');
-            $table->string('details');
-            $table->decimal('amount', 8, 2);
-            $table->enum('type', ['Bank', 'Cash', 'Mlhuillier', 'Western_union']);
 
             $table->unsignedInteger('reservation_id');
             $table->foreign('reservation_id')->references('id')->on('reservations');
+
+            $table->enum('status', ['approved', 'declined', 'pending'])->default('pending');
+            $table->enum('type', ['cancellation', 'change']);
+
+            $table->datetime('change_date')->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +34,6 @@ class CreatePaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('client_notifications');
     }
 }

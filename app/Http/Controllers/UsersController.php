@@ -48,7 +48,7 @@ class UsersController extends Controller
             'lname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
             'midname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
             'location' => 'required',
-            'contact' => 'required|numeric',
+            'contact' => 'required|max:11|regex:/(09)[0-9]{9}/',
             'user_type' => 'required',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|same:password_confirm'
@@ -100,7 +100,7 @@ class UsersController extends Controller
             'lname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
             'midname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
             'location' => 'required',
-            'contact' => 'required|numeric',
+            'contact' => 'required|max:11|regex:/(09)[0-9]{9}/',
             'user_type' => 'required',
             'email' => 'required|string|email|max:255|unique:users,email,'.$id,
             'password' => 'required|string|min:6|same:password_confirm'

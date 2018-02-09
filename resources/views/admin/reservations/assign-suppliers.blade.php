@@ -2,12 +2,37 @@
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-      <h4 class="modal-title">Assign Suppliers</h4>
+      <h4 class="modal-title">Assigned Suppliers</h4>
       <div id="assign-suppliers-url" data="{{ url('/admin/reservations/assign-suppliers') }}"></div>
       <input type="hidden" id="_token" value="{{ csrf_token() }}" />
     </div>
     {{ csrf_field() }}
     <div class="modal-body">
+
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>Service Detail Name</th>
+                  <th>Supplier</th>
+                  <th>Cost</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach($reservation->details as $detail)
+                <tr>
+                  <td>{{ $detail->package_detail->package_description->name }}</td>
+                  <th>{{ $detail->supplier_id ? $detail->supplier->user->lname.', '.$detail->supplier->user->fname:'PENDING' }}</th>
+                  <td class="text-right">{{ number_format($detail->price,2) }}</td>
+                </tr>
+                @endforeach
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th class="text-right" colspan="2">TOTAL:</th>
+                  <th class="text-right"><b id="total">{{ number_format($reservation->details->sum('price'),2) }}</b></th>
+                </tr>
+              </tfoot>
+            </table>
       <!-- <h3 class="text-center">Package Reservation</h3> -->
       <!-- <div class="form-group">
           Date and Time
@@ -25,7 +50,7 @@
                   @endforeach
                 </ul>
             </div>
-    	</div> -->
+      </div> -->{{-- 
         @foreach($suppliers as $key=>$supplier)
         {{$assignedPrice = null}}
         {{$noSpaceSupp = preg_replace("/[^A-Za-z0-9]/", "", $supplier)}}
@@ -67,7 +92,7 @@
                   </div>
               </div>
           </div>
-        @endforeach
+        @endforeach --}}
 
         <!-- <div class="row setup-content" id="step-2">
             <div class="col-xs-12">

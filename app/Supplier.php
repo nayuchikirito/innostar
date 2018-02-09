@@ -12,14 +12,15 @@ class Supplier extends Authenticatable
     protected $table = 'suppliers';
     
     protected $fillable = [
-        'user_id', 'type',
+        'user_id', 'type', 'name',
     ];
 
     public function user(){
         return $this->belongsTo('App\User');
     }
+  
     public function notiffications(){
-        return $this->hasMany('App\SupplierNotification')->where('seen', 0);
+        return $this->hasMany('App\SupplierNotification');
     }
     
 

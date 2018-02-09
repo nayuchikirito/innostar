@@ -8,7 +8,7 @@
         <button class="btn-md btn btn-danger mlhuillier-data-btn"><i class="fa fa-calendar-check-o"></i> Mlhuillier</button>
         <button class="btn-md btn btn-primary western-data-btn"><i class="fa fa-calendar-check-o"></i> Western Union</button>
       </div>
-    <form action="{{ url('/client/payments') }}" method="POST" id="add-payments-form">
+    <form action="{{ url('/client/payments_coord') }}" method="POST" id="add-payments-form">
     {{ csrf_field() }}
     <div class="modal-body font-mine">
       <h3 class="text-center">BPI Bank Payment</h3>
@@ -33,7 +33,7 @@
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="reservation_id" value="{{ $reservation->id }}">
+          <input type="hidden" name="coordination_id" value="{{ $coordination->id }}">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
@@ -73,7 +73,7 @@
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="reservation_id" value="{{ $reservation->id }}">
+          <input type="hidden" name="coordination_id" value="{{ $coordination->id }}">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
@@ -113,7 +113,7 @@
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="reservation_id" value="{{ $reservation->id }}">
+          <input type="hidden" name="coordination_id" value="{{ $coordination->id }}">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
@@ -123,7 +123,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      <button type="submit" class="btn submit-btn btn-success btn-gradient pull-right">Send Payment Details</button>
+      <button type="submit" class="btn submit-btn btn-success btn-gradient pull-right">Pay</button>
     </div>
     </form>
 

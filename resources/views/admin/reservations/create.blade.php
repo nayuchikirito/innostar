@@ -11,8 +11,8 @@
     <div class="modal-body">
       <h3 class="text-center">Package Reservation</h3>
       <div class="form-group">
-          Date
-          <input type="date" name="date" class="form-control">
+          <label for="date">Date</label>
+          <input type="date" name="date" class="form-control" id="date">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">

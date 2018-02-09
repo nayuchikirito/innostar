@@ -50,7 +50,8 @@
       </div>
 
       <div class="form-group">
-          <input type="hidden" name="balance" id="balance">
+          <label>Balance</label>
+          <input type="text" name="balance" id="balance" readonly="true">
           <span class="help-text text-danger"></span>
       </div>
 
@@ -64,7 +65,7 @@
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       <button type="submit" class="btn submit-btn btn-success btn-gradient pull-right">Submit</button>
     </div>
-    </form>
+</form>
 
  
 <script type="text/javascript">

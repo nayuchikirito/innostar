@@ -104,6 +104,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 	Route::get('/clients/{client}/reserve', 'ClientsController@reserve')->name('clients.reserve');
 	Route::get('/get-clients', 'ClientsController@all');
 	Route::get('/get-clients-display', 'ClientsController@all_display');
+
+	Route::get('/getPackageDetail/{id}', 'PackagesController@getPackageDetail');
+	
+	Route::get('/get_package_details/{id}', 'PackagesController@get_package_details');
 });
 
 Route::middleware('client')->prefix('client')->group(function () {

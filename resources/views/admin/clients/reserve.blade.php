@@ -13,25 +13,25 @@
     <div class="modal-body">
       <h3 class="text-center">Package Reservation</h3>
       <div class="form-group">
-          Date
-          <input type="date" name="date" class="form-control">
+          <label for="date">Date</label>
+          <input type="date" name="date" class="form-control" id="date">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
           Time
-          <input type="time" name="time" class="form-control">
+          <input type="time" name="time" class="form-control" id="time">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="client_id" value="{{ $client->id }}">
+          <input type="hidden" name="client_id" value="{{ $client->id }}" id="client_id">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="status" value="pending">
+          <input type="hidden" name="status" value="pending" id="status">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="assigned" value="0">
+          <input type="hidden" name="assigned" value="0" id="assigned">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
@@ -52,14 +52,20 @@
       </div>
 
       <div class="form-group">
-          <input type="hidden" name="balance" id="balance">
+          <label>Balance</label>
+          <input type="text" name="balance" id="balance" readonly="true" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
 
       <div class="form-group" id="description_label">
           <label for="description">Description</label>
-          <textarea type="text" class="form-control" id="description" name="description" autocomplete="false" readonly="true"></textarea>
+          <textarea type="text" class="form-control" id="description" name="description" autocomplete="false" readonly="true" rows="4"></textarea>
           <span class="help-text text-danger"></span>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12" id="desc_detail">
+        </div>
       </div>
     </div>
     <div class="modal-footer">
@@ -80,25 +86,25 @@
       </div> -->
       <div class="form-group">
           Date
-          <input type="date" name="date" class="form-control">
+          <input type="date" name="date" class="form-control" id="date">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
           Time
-          <input type="time" name="time" class="form-control">
+          <input type="time" name="time" class="form-control" id="time">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="client_id" value="{{ $client->id }}">
+          <input type="hidden" name="client_id" value="{{ $client->id }}" id="client_id">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="status" value="pending">
+          <input type="hidden" name="status" value="pending" id="status">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
           <label for="service">Service</label>
-          <select name="service_id" id="service_id" class="form-control">
+          <select name="service_id" id="service_id" class="form-control" id="service_id">
             <option selected disabled>Select Service</option>
             @foreach($services as $service)
               <option value="{{$service->id}}">{{ $service->name }}</option>
@@ -259,6 +265,13 @@
 		            $("[name='description'").html(data);
 		          }
 		      });
+           $.ajax({
+                url: "{{url('/admin/get_package_details')}}/"+packageID,
+                method: 'GET',
+                success: function(data) {
+                  $('#desc_detail').html(data);
+                }
+          });
 		  });
 
 		$('#package_id').change(function(){

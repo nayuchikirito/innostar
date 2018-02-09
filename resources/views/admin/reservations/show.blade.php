@@ -43,7 +43,7 @@
           <span id="status">{{ ucfirst($reservation->status) }}</span>
           <span class="help-text text-danger"></span>
       </div>
-      @if($reservation->reservation_type)
+      @if($reservation->details)
       <div class="form-group">
           <label for="status">RESERVATION TYPE: </label>
           <span id="status">{{ ucfirst($reservation->reservation_type) }}</span>

@@ -50,11 +50,17 @@
                     
                   </td>
                   <td class="text-center"> 
-                    <a href="#" class="btn btn-success btn-xs accept-request-btn" data-id="{{ $notiff->id }}"><i class="fa fa-check"></i> Accept</a>
 
-                    <a href="#" class="btn btn-danger btn-xs decline-request-btn" data-id="{{ $notiff->id }}"><i class="fa fa-times"></i> Decline</a>
+                    @if($notiff->status == 'accepted')
+                      <b>No actions available.</b>
+                    @else
 
-                    <a href="#" class="btn btn-info btn-xs seen-request-btn" data-id="{{ $notiff->id }}"><i class="fa fa-eye"></i> Seen</a>
+                      <a href="#" class="btn btn-success btn-xs accept-request-btn" data-id="{{ $notiff->id }}"><i class="fa fa-check"></i> Accept</a>
+
+                      <a href="#" class="btn btn-danger btn-xs decline-request-btn" data-id="{{ $notiff->id }}"><i class="fa fa-times"></i> Decline</a>
+
+                      <a href="#" class="btn btn-info btn-xs seen-request-btn d-none" data-id="{{ $notiff->id }}"><i class="fa fa-eye"></i> Seen</a>
+                    @endif
                   </td>
                 </tr>
                 @endforeach

@@ -251,6 +251,14 @@ class SuppliersController extends Controller
                                              ->where('status', '!=', 'accepted')
                                              ->update(['status' => 'closed']);
 
+            $naay_sud = DB::table('reservation_details')
+            ->where('reservation_id', $notification->reservation_detail->reservation_id)
+            ->whereNull('supplier_id');
+            if(sizeof($naay_sud)){
+                $res = \App\Reservation::find($notification->reservation_detail->reservation_id);
+                $res->assigned = 1;
+                $res->save();
+            }
             $res_d = \App\ReservationDetail::find($notification->reservation_detail->id);
             $res_d->supplier_id = $notification->supplier_id;
             

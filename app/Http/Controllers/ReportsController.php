@@ -34,8 +34,8 @@ class ReportsController extends Controller
     }
 
     public function yearly_service()
-    {
-        $chart = Charts::multiDatabase('bar', 'material')->dateColumn('date')
+    { 
+        $chart = Charts::multiDatabase('bar', 'highcharts')->dateColumn('date')
             ->title('Services Yearly Report') 
             ->colors(['#2196F3', '#F44336', '#FFC107', '#1a8217'])
             ->dataset('Wedding', Reservation::whereHas('package.service', function ($query){
@@ -50,14 +50,15 @@ class ReportsController extends Controller
             ->dataset('Birthday', Reservation::whereHas('package.service', function ($query){
                 $query->where('name', 'Birthday');
             })->get())
-
+            ->dimensions(1000, 500)
+            ->responsive(true)
             ->groupByYear();
         return view('reports.generate', ['chart' => $chart]);
     }
 
     public function monthly_service()
     {
-        $chart = Charts::multiDatabase('bar', 'material')->dateColumn('date')
+        $chart = Charts::multiDatabase('bar', 'highcharts')->dateColumn('date')
             ->title('Services Monthly Report') 
             ->colors(['#2196F3', '#F44336', '#FFC107', '#1a8217'])
             ->dataset('Wedding', Reservation::whereHas('package.service', function ($query){
@@ -135,7 +136,7 @@ class ReportsController extends Controller
 
     public function monthly_package()
     {
-        $chart = Charts::multiDatabase('bar', 'material')->dateColumn('date')
+        $chart = Charts::multiDatabase('bar', 'highcharts')->dateColumn('date')
             ->title('Packages Monthly Report') 
             ->colors(['#2196F3', '#F44336', '#FFC107', '#1a8217'])
             ->dataset('Golden Package', Reservation::whereHas('package', function ($query){
@@ -153,7 +154,7 @@ class ReportsController extends Controller
 
     public function yearly_package()
     {
-        $chart = Charts::multiDatabase('bar', 'material')->dateColumn('date')
+        $chart = Charts::multiDatabase('bar', 'highcharts')->dateColumn('date')
             ->title('Packages Yearly Report') 
             ->colors(['#2196F3', '#F44336', '#FFC107', '#1a8217'])
             ->dataset('Golden Package', Reservation::whereHas('package', function ($query){
@@ -171,7 +172,7 @@ class ReportsController extends Controller
 
     public function yearly_reservation()
     {
-        $chart = Charts::multiDatabase('bar', 'material')->dateColumn('date')
+        $chart = Charts::multiDatabase('bar', 'highcharts')->dateColumn('date')
             ->title('Packages Yearly Report') 
             ->colors(['#2196F3', '#F44336', '#FFC107', '#1a8217'])
             ->dataset('Reservation', Reservation::all())
@@ -182,7 +183,7 @@ class ReportsController extends Controller
 
     public function monthly_reservation()
     {
-        $chart = Charts::multiDatabase('bar', 'material')->dateColumn('date')
+        $chart = Charts::multiDatabase('bar', 'highcharts')->dateColumn('date')
             ->title('Packages Yearly Report') 
             ->colors(['#2196F3', '#F44336', '#FFC107', '#1a8217'])
             ->dataset('Package Reservation', Reservation::all())

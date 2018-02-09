@@ -14,7 +14,7 @@ class AddSupplierNameToSuppliersTable extends Migration
     public function up()
     {
         Schema::table('suppliers', function (Blueprint $table) {
-            $table->string('name');
+            $table->string('name')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ class AddSupplierNameToSuppliersTable extends Migration
     public function down()
     {
         Schema::table('suppliers', function (Blueprint $table) {
-            //
+            $table->dropColumn('name');
         });
     }
 }

@@ -12,7 +12,7 @@ class Supplier extends Authenticatable
     protected $table = 'suppliers';
     
     protected $fillable = [
-        'user_id', 'type',
+        'user_id', 'type', 'name',
     ];
 
     public function user(){

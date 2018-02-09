@@ -46,6 +46,7 @@ class CoordinationPaymentsController extends Controller
 
                 $payment = new \App\PaymentCoordination;
                 $payment->details    = $request->get('details');
+                $payment->date_of_payment = \Carbon\Carbon::now();
                 $payment->amount     = $request->get('amount');
                 $payment->type      = $request->get('type');
                 $payment->coordination_id     = $request->get('coordination_id');
@@ -68,11 +69,11 @@ class CoordinationPaymentsController extends Controller
 
                 DB::commit();
 
-                return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+                return response()->json(['success' => true, 'msg' => 'Payment Details Recorded Successfully!']);
 
             }catch(\Exception $e){
                 DB::rollback();
-                return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+                return response()->json(['success' => false, 'msg' => 'An error occured while recording payment details!']);
             } 
     }
 
@@ -122,6 +123,7 @@ class CoordinationPaymentsController extends Controller
                 $payment = \App\PaymentCoordination::find($id);
                 $oldAmount = $payment->amount;
                 $payment->details    = $request->get('details');
+                $payment->date_of_payment = \Carbon\Carbon::now();
                 $payment->amount     = $request->get('amount');
                 $payment->type      = $request->get('type');
                 $payment->coordination_id     = $request->get('coordination_id');
@@ -129,7 +131,11 @@ class CoordinationPaymentsController extends Controller
 
                 $coordination = \App\Coordination::find($payment->coordination->id);
                 $coordination->balance = $coordination->balance+$oldAmount-$request->get('amount');
-                if($coordination->balance <= 10000){
+                if($coordination->balance < 0){
+                    $coordination->balance = $coordination->balance+$request->get('amount');
+                    $coordination->save();
+                    return response()->json(['success' => false, 'msg' => 'Payment is greater than the remaining balance.']);
+                }else if($coordination->balance <= 10000){
                         $coordination->status = 'blocked';
                 }else{
                     $coordination->balance = $coordination->balance+$request->get('amount');
@@ -140,11 +146,11 @@ class CoordinationPaymentsController extends Controller
 
                 DB::commit();
 
-                return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+                return response()->json(['success' => true, 'msg' => 'Payment Details Recorded Successfully!']);
 
             }catch(\Exception $e){
                 DB::rollback();
-                return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+                return response()->json(['success' => false, 'msg' => 'An error occured while recording payment details!']);
             } 
     }
 
@@ -174,7 +180,7 @@ class CoordinationPaymentsController extends Controller
                 return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
             }
         }catch(\Illuminate\Database\QueryException $e){
-            return response()->json(['success' => false, 'msg' => 'Cannot delete. Client has transactions']);
+            return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
         }
     }
 

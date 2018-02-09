@@ -148,7 +148,7 @@ class PackagesController extends Controller
                 return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
             }
         }catch(\Illuminate\Database\QueryException $e){
-            return response()->json(['success' => false, 'msg' => 'Cannot delete. Client has transactions']);
+            return response()->json(['success' => false, 'msg' => 'Cannot delete. Package is currently being availed.']);
         }
 
     }

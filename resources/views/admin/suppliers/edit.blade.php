@@ -23,6 +23,11 @@
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Enter Supplier Name" autocomplete="false" value="{{ $supplier->supplier->name }}">
+          <span class="help-text text-danger"></span>
+      </div>
+      <div class="form-group">
           <label for="fname">First Name</label>
           <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter Firstname" autocomplete="false" value="{{ $supplier->fname }}">
           <span class="help-text text-danger"></span>
@@ -43,12 +48,12 @@
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
+          <label for="password">Password</label>
           <input type="password" class="form-control" id="password" name="password" placeholder="Password" autocomplete="false">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <label for="exampleInputPassword1">Confirm Password</label>
+          <label for="password_confirm">Confirm Password</label>
           <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="Confirm Password" autocomplete="false">
       </div>  
       <div class="form-group">

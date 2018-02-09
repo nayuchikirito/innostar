@@ -88,7 +88,7 @@ class PaymentsController extends Controller
 
                 DB::commit();
 
-                return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+                return response()->json(['success' => true, 'msg' => 'Successfully Recorded Payment Details!']);
 
             // }catch(\Exception $e){
             //     DB::rollback();
@@ -145,12 +145,17 @@ class PaymentsController extends Controller
                 $payment->details    = $request->get('details');
                 $payment->amount     = $request->get('amount');
                 $payment->type      = $request->get('type');
+                $payment->status    = 'confirm';
                 $payment->reservation_id     = $request->get('reservation_id');
                 $payment->save();
 
                 $reservation = \App\Reservation::find($payment->reservation->id);
                 $reservation->balance = $reservation->balance+$oldAmount-$request->get('amount');
-                if($reservation->balance <= $reservation->package->price-($reservation->package->price * .2)){
+                if($reservation->balance < 0){
+                    $reservation->balance = $reservation->balance+$request->get('amount');
+                    $reservation->save();
+                    return response()->json(['success' => false, 'msg' => 'Payment is greater than the remaining balance.']);
+                }else if($reservation->balance <= $reservation->package->price-($reservation->package->price * .2)){
                         $reservation->status = 'blocked';
                 }else{
                     $reservation->balance = $reservation->balance+$request->get('amount');
@@ -161,11 +166,11 @@ class PaymentsController extends Controller
 
                 DB::commit();
 
-                return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+                return response()->json(['success' => true, 'msg' => 'Successfully Recorded Payment Details!']);
 
             }catch(\Exception $e){
                 DB::rollback();
-                return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+                return response()->json(['success' => false, 'msg' => 'An error occured in recording payments']);
             } 
     }
 
@@ -195,7 +200,7 @@ class PaymentsController extends Controller
                 return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
             }
         }catch(\Illuminate\Database\QueryException $e){
-            return response()->json(['success' => false, 'msg' => 'Cannot delete. Client has transactions']);
+            return response()->json(['success' => false, 'msg' => 'An error occured in recording payments']);
         }
     }
 

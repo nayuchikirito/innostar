@@ -47,6 +47,7 @@ class SuppliersController extends Controller
     public function store(Request $request)
     {
         $data = request()->validate([
+            'name' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
             'fname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
             'lname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
             'midname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
@@ -75,6 +76,7 @@ class SuppliersController extends Controller
 
                 $supplier = new \App\Supplier;
                 $supplier->type     = $request->get('type');
+                $supplier->name     = $request->get('name');
                 $supplier->user_id  = $user->id;
                 $supplier->save();
 
@@ -123,6 +125,7 @@ class SuppliersController extends Controller
     public function update(Request $request, $id)
     {
         $data = request()->validate([ 
+            'name' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
             'fname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
             'lname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
             'midname' => 'required|string|max:30|regex:/^[a-zA-Z ]+$/u',
@@ -151,6 +154,7 @@ class SuppliersController extends Controller
 
                 $supplier = \App\Supplier::find($user->supplier->id);
                 $supplier->type     = $request->get('type');
+                $supplier->name     = $request->get('name');
                 $supplier->user_id  = $user->id;
                 $supplier->save();
 
@@ -183,7 +187,7 @@ class SuppliersController extends Controller
                 return response()->json(['success' => false, 'msg' => 'An error occured while deleting data!']);
             }
         }catch(\Illuminate\Database\QueryException $e){
-            return response()->json(['success' => false, 'msg' => 'Cannot delete. Client has transactions']);
+            return response()->json(['success' => false, 'msg' => 'Cannot delete. Supplier has transactions']);
         }
         
     }
@@ -197,7 +201,7 @@ class SuppliersController extends Controller
                return $column->id;
             })
             ->AddColumn('name', function($column){
-               return $column->lname.', '.$column->fname.' '.substr($column->midname, 0, 1).'.';
+               return $column->supplier->name;
             }) 
             ->AddColumn('type', function($column){
                return $column->supplier->type;

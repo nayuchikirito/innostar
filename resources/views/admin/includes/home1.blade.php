@@ -37,7 +37,7 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3 class="counter" data-count="{{ \App\Coordination::where('status', 'blocked')->count() }}">0</h3>
+              <h3 class="counter" data-count="{{ \App\Reservation::where('status', 'blocked')->count() }}">0</h3>
 
               <p>Availed Services</p>
             </div>
@@ -52,7 +52,7 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3 class="counter" data-count="{{ \App\Client::all()->count() }}">0</h3>
+              <h3 class="counter" data-count="{{ \App\Reservation::whereHas('package.service')->count() }}">0</h3>
 
               <p>User Registrations</p>
             </div>

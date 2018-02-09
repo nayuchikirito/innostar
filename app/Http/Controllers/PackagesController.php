@@ -192,7 +192,7 @@ class PackagesController extends Controller
     public function details_store(Request $request)
     {
 
-/*         $data = request()->validate([
+/*      $data = request()->validate([
             'package_id' => 'required',
             'description_id' => 'required',
             'price' => 'required|numeric|min:0',
@@ -203,14 +203,25 @@ class PackagesController extends Controller
 
              DB::beginTransaction();
                 $descriptions = \App\PackageDescription::all();
-                foreach($descriptions as $description){
-                    
-                    $package_detail = new \App\PackageDetail;
-                    $package_detail->package_id        = $request->get('package_id');
-                    $package_detail->package_description_id    = $description->id;
-                    $package_detail->price        = $request->get($description->id);
-                    $package_detail->save();                    
-                    
+                $packages = \App\PackageDetail::where('package_id', $request->get('package_id'))->get();
+                if(sizeof($packages) > 0){
+                    foreach($descriptions as $description){ 
+
+                        $package_detail = \App\PackageDetail::where('package_id', $request->get('package_id'))
+                                                         ->where('package_description_id', $description->id)
+                                                         ->update(['price' => $request->get($description->id)]);
+                        
+                    }
+                }else{
+                    foreach($descriptions as $description){ 
+
+                        $package_detail = new \App\PackageDetail;
+                        $package_detail->package_id        = $request->get('package_id');
+                        $package_detail->package_description_id    = $description->id;
+                        $package_detail->price        = $request->get($description->id);
+                        $package_detail->save();                    
+                        
+                    }
                 }
                 DB::commit();
 
@@ -220,5 +231,17 @@ class PackagesController extends Controller
                 DB::rollback();
                 return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
             }
+    }
+
+    public function getPackageDetail($id){
+        $packages = \App\PackageDetail::where('package_id', $id)->get();
+        $package = \App\Package::where('id', $id)->first();
+
+        return response()->json(['packages' => $packages,'package' => $package]);
+    }
+
+    public function get_package_details($id){
+        $details = \App\PackageDetail::where('package_id', $id)->get();
+        return view('client.reservation.package_detail')->with('details', $details);
     }
 }

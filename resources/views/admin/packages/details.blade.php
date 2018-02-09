@@ -7,6 +7,7 @@
  
     <form action="{{ url('/admin/package_details/store') }}" method="POST" id="add-details-form">
     {{ csrf_field() }}
+
     <div class="modal-body">
       <div class="form-group">
           <label for="package_id">What Package</label>
@@ -18,13 +19,22 @@
           </select> 
           <span class="help-text text-danger"></span>
       </div>
-
+      <div class="row">
+        <div class="col-md-6">
+          <label>TOTAL PACKAGE PRICE:</label>
+          <h4 id="total" class="text-center" style="margin: 0px;">0.00</h4>
+        </div>
+        <div class="col-md-6">
+          <label>CURENT DETAIL PRICE:</label>
+          <h4 id="curent_total" class="text-center" style="margin: 0px;">0.00</h4>
+        </div>
+      </div>
       @foreach($descriptions as $description)
 
 
       <div class="form-group">
           <label for="{{ $description->id }}">{{ $description->name }}</label>
-          <input type="text" class="form-control    " id="{{ $description->id }}" name="{{ $description->id }}" placeholder="Enter {{ $description->name }} Price" autocomplete="false">
+          <input type="number" min="0" class="form-control  price_input" id="{{ $description->id }}" name="{{ $description->id }}" placeholder="Enter {{ $description->name }} Price" autocomplete="false" required>
           <span class="help-text text-danger"></span>
       </div>
         <!-- <div class="form-group">
@@ -34,6 +44,10 @@
           <span class="help-text text-danger"></span>
       </div> -->
       @endforeach
+    <h3 style="margin: 10px 0px;padding: 0px 20px;">
+       <span class="help-text text-danger hidden" id="error_in_price">Error! Detail total price exceeds package price.</span>
+       <span class="help-text text-danger hidden" id="error_in_price2">Error! Detail total price is less than package price.</span>
+    </h3>
     
     </div>
    <div class="modal-footer">
@@ -48,9 +62,55 @@
  
 <script type="text/javascript">
   $(function(){ 
-
+    $(document).off('click', '#package_id').on('click', '#package_id', function(){
+      var that = this;
+        $.ajax({
+          type: 'GET',
+          url: 'getPackageDetail/'+$(that).val(),
+          success: function(result){
+            console.log(result);
+            for(var i = 0 ; i  <  result.packages.length ; i++){
+              console.log(result.packages[i]);
+              $('#'+result.packages[i]['id']).val(result.packages[i]['price']);
+            }
+            if(result.packages.length == 0){
+              $('.price_input').val('');
+            }
+            var t = parseFloat(result.package.price);
+            $('#total').html(accounting.formatMoney(t, '',2));
+           computeTotal();
+          },
+        });
+    });
+    $('.price_input').change(function(){
+      computeTotal();
+    });
+    function computeTotal(){
+      var total = 0;
+      $('.price_input').each(function(){
+        total += parseFloat($(this).val());
+      });
+      $("#curent_total").html(accounting.formatMoney(total, '',2));
+      console.log(total);
+      var to = $('#total').html()+''; 
+      if(parseFloat(total) > parseFloat(to.replace(",",''))){
+        $('#error_in_price').removeClass('hidden');
+        $('#error_in_price2').removeClass('hidden');
+        $('#error_in_price2').addClass('hidden');
+      }else if(parseFloat(total) < parseFloat(to.replace(",",''))){
+        $('#error_in_price').removeClass('hidden');
+        $('#error_in_price').addClass('hidden');
+        $('#error_in_price2').removeClass('hidden');
+      }else{
+        $('#error_in_price').removeClass('hidden');
+        $('#error_in_price2').removeClass('hidden');
+        $('#error_in_price').addClass('hidden');
+        $('#error_in_price2').addClass('hidden');
+      }
+    }
+     computeTotal();
         $("#add-details-form").on('submit', function(e){
-        e.preventDefault(); //keeps the form from behaving like a normal (non-ajax) html form
+        e.preventDefault();
         var $form = $(this);
         var $url = $form.attr('action');
         var formData = {};
@@ -97,5 +157,6 @@
         });
 
       });
+
   });  
  </script> 

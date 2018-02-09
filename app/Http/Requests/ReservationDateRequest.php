@@ -31,7 +31,9 @@ class ReservationDateRequest extends FormRequest
             'status' => 'required',
             'balance' => 'required|numeric',
             'client_id' => 'required',
+            'service_id' => 'required',
             'package_id' => 'required',
+            
         ];
     }
 

@@ -28,6 +28,33 @@
           <span id="description">{{ $package->description }}</span>          
           <span class="help-text text-danger"></span>
       </div>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($package->pacakge_detail as $detail)
+                <tr>
+                  <td>{{ $detail->package_description->name }}</td>
+                  <td class="text-right">{{ number_format($detail->price,2) }}</td>
+                </tr>
+              @endforeach
+              <tfoot>
+                <tr>
+                  <th class="text-right">TOTAL:</th>
+                  <th class="text-right">{{ number_format($detail->sum('price'),2) }}</th>
+                </tr>
+              </tfoot>
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>

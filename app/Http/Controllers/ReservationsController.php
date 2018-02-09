@@ -67,6 +67,14 @@ class ReservationsController extends Controller
                         $reservation->package_id      = $request->get('package_id');
                         $reservation->save();
 
+                        for($i = 0 ; $i < sizeof($request->get('detail')) ; $i++){
+                            $r = \App\PackageDetail::find($request->get('detail')[$i]);
+                            $res_detail = new \App\ReservationDetail;
+                            $res_detail->reservation_id  = $reservation->id;
+                            $res_detail->package_detail_id   = $r->id;
+                            $res_detail->price = $r->price;
+                            $res_detail->save();                    
+                        }
                         DB::commit();
 
                         return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);

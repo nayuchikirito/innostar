@@ -27,7 +27,8 @@
                   <td class="text-left">{{ date('F d,Y', strtotime($reservation->date))}}</td>
                   <td class="text-left">{{ $reservation->balance }}</td>
                   <td class="text-center">{{ $reservation->package->service->name }}</td>
-                  <td class="text-center"><a href="#" class="btn btn-success btn-xs pay-data-btn" data-id="{{ $reservation->id }}"><i class="fa fa-check"></i> Send Payment Details</a>
+                  <td class="text-center"><a href="#" class="btn btn-success btn-xs cancel-data-btn" data-id="{{ $reservation->id }}"><i class="fa fa-check"></i> Send Cancellation Request</a>
+                  <td class="text-center"><a href="#" class="btn btn-success btn-xs change-data-btn" data-id="{{ $reservation->id }}"><i class="fa fa-check"></i> Change Date Request</a>
                     <!-- <a href="#" class="btn btn-danger btn-xs decline-request-btn" data-id=" {{ $reservation->id }}"><i class="fa fa-times"></i> Decline</a>
                     <a href="#" class="btn btn-info btn-xs seen-request-btn" data-id="{{ $reservation->id }}"><i class="fa fa-eye"></i> Seen</a> --></td>
                 </tr>
@@ -60,7 +61,8 @@
                   <td class="text-left">{{ date('F d,Y', strtotime($coordination->date))}}</td>
                   <td class="text-left">{{ $coordination->balance }}</td>
                   <td class="text-center">{{ $coordination->service->name }}</td>
-                  <td class="text-center"><a href="#" class="btn btn-success btn-xs pay2-data-btn" data-id="{{ $coordination->id }}"><i class="fa fa-check"></i> Send Payment Details</a>
+                  <td class="text-center"><a href="#" class="btn btn-success btn-xs cancel2-data-btn" data-id="{{ $coordination->id }}"><i class="fa fa-check"></i> Send Cancellation Request</a>
+                  <td class="text-center"><a href="#" class="btn btn-success btn-xs change2-data-btn" data-id="{{ $coordination->id }}"><i class="fa fa-check"></i> Change Date Request</a>
                     <!-- <a href="#" class="btn btn-danger btn-xs decline-request-btn" data-id=" {{ $coordination->id }}"><i class="fa fa-times"></i> Decline</a>
                     <a href="#" class="btn btn-info btn-xs seen-request-btn" data-id="{{ $coordination->id }}"><i class="fa fa-eye"></i> Seen</a> --></td>
                 </tr>
@@ -128,13 +130,41 @@
     //       }); 
     //   });
 
-    $(function(){
-      $(document).off('click','pay-data-btn').on('click','.pay-data-btn', function(e){
-        e.preventDefault();
-        var that = this;
-        $("#paymodal").modal();
-        $("#paymodal .modal-content").load('/client/payments_bank/'+that.dataset.id);
-      });
+    $(document).off('click','.cancel-data-btn').on('click','.cancel-data-btn', function(e){
+      e.preventDefault();
+      var that = this; 
+            bootbox.confirm({
+              title: "Cancel Reservation?",
+              className: "del-bootbox",
+              message: "Are you sure you want to cancel reservation?",
+              buttons: {
+                  confirm: {
+                      label: 'Yes',
+                      className: 'btn-success'
+                  },
+                  cancel: {
+                      label: 'No',
+                      className: 'btn-danger'
+                  }
+              },
+              callback: function (result) {
+                 if(result){
+                  var token = '{{csrf_token()}}'; 
+                  $.ajax({
+                  url:'/admin/request_cancel/'+that.dataset.id,
+                  type: 'post',
+                  data: {_method: 'post', _token :token},
+                  success:function(result){
+                    // $("#payments-table").DataTable().ajax.url( '/admin/get-requests-coord' ).load();
+                    swal({
+                        title: result.msg,
+                        icon: "success"
+                      });
+                  }
+                  }); 
+                 }
+              }
+          });
     });
 
     $(function(){

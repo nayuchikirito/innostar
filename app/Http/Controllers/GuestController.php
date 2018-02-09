@@ -169,8 +169,18 @@ class GuestController extends Controller
 
     public function reservations()
     {
-        return view('client.clients.reservations');
+        $reservations = Auth::user()->client->reservation;
+        $coordinations = Auth::user()->client->coordination;
+        return view('client.clients.reservations', compact('reservations', 'coordinations'));
     }
+
+    public function my_reservations()
+    {
+        $reservations = Auth::user()->client->reservation;
+        $coordinations = Auth::user()->client->coordination;
+        return view('client.clients.my_reservations', compact('reservations', 'coordinations'));
+    }
+
 
     public function all(){
         DB::statement(DB::raw('set @row:=0'));
@@ -342,7 +352,7 @@ class GuestController extends Controller
             'amount' => 'required|numeric',
             'details' => 'required|string',
         ]);
-         // try{
+         try{
 
             DB::beginTransaction();
 
@@ -387,9 +397,33 @@ class GuestController extends Controller
 
                 return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
 
-            // }catch(\Exception $e){
-            //     DB::rollback();
-            //     return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
-            // } 
+            }catch(\Exception $e){
+                DB::rollback();
+                return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+            } 
+    }
+
+    public function request_cancel($id)
+    {
+        try{
+            
+        DB::beginTransaction();
+        $reservation = \App\Reservation::find($id);
+
+        $client_notif = new \App\ClientNotification;
+        $client_notif->change_date = $reservation->date;
+        $client_notif->status = 'pending';
+        $client_notif->type = 'cancellation';
+        $client_notif->save();
+
+        DB::commit();
+
+            return response()->json(['success' => true, 'msg' => 'Request Successfully Sent!']);
+
+        }catch(\Exception $e){
+            DB::rollback();
+            return response()->json(['success' => false, 'msg' => 'An error occured while sending request!']);
+        } 
+
     }
 }

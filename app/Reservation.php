@@ -35,6 +35,10 @@ class Reservation extends Model
         return $this->hasMany('App\ReservationDetail');
     }
 
+    public function client_notif(){
+        return $this->belongsTo('App\CLientNotification');
+    }
+
     // public function getDateAttribute($value) {
     //     return \Carbon\Carbon::parse($value)->format('Y-m-d');
     // }

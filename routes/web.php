@@ -99,6 +99,7 @@ Route::middleware('client')->prefix('client')->group(function () {
 	Route::get('/reservations_coordination', 'GuestController@coordination');
 	Route::get('/pay', 'GuestController@pay')->name('clients.pay');
 	Route::get('/clients/reservations', 'GuestController@reservations')->name('clients.reservations');
+	Route::get('/clients/my_reservations', 'GuestController@my_reservations');
 	Route::get('/get-reservations', 'GuestController@all');
 	Route::get('/home', 'GuestController@index')->name('clients.home');
 	Route::get('/payments_bank/{res_id}', 'GuestController@pay')->name('admin.payments');
@@ -106,6 +107,7 @@ Route::middleware('client')->prefix('client')->group(function () {
 	Route::post('/payments', 'GuestController@payment');
 	Route::post('/payments_coord', 'GuestController@payment_coord');
 	Route::get('/button', 'GuestController@button');
+	Route::post('/request_cancel', 'GuestController@request_cancel');
 
 	Route::get('/custom_reservations', 'GuestController@custom_reservations');
 	Route::post('/save_custom_reservations', 'GuestController@save_custom_reservations');

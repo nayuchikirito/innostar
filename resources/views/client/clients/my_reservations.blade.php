@@ -27,8 +27,8 @@
                   <td class="text-left">{{ date('F d,Y', strtotime($reservation->date))}}</td>
                   <td class="text-left">{{ $reservation->balance }}</td>
                   <td class="text-center">{{ $reservation->package->service->name }}</td>
-                  <td class="text-center"><a href="#" class="btn btn-success btn-xs cancel-data-btn" data-id="{{ $reservation->id }}"><i class="fa fa-check"></i> Send Cancellation Request</a>
-                  <td class="text-center"><a href="#" class="btn btn-success btn-xs change-data-btn" data-id="{{ $reservation->id }}"><i class="fa fa-check"></i> Change Date Request</a>
+                  <td class="text-center"><a href="#" class="btn btn-danger btn-xs cancel-data-btn" data-id="{{ $reservation->id }}"><i class="fa fa-close"></i> Send Cancellation Request</a>
+                  <td class="text-center"><a href="#" class="btn btn-warning btn-xs change-data-btn" data-id="{{ $reservation->id }}"><i class="fa fa-calendar"></i> Change Date Request</a>
                     <!-- <a href="#" class="btn btn-danger btn-xs decline-request-btn" data-id=" {{ $reservation->id }}"><i class="fa fa-times"></i> Decline</a>
                     <a href="#" class="btn btn-info btn-xs seen-request-btn" data-id="{{ $reservation->id }}"><i class="fa fa-eye"></i> Seen</a> --></td>
                 </tr>
@@ -61,8 +61,8 @@
                   <td class="text-left">{{ date('F d,Y', strtotime($coordination->date))}}</td>
                   <td class="text-left">{{ $coordination->balance }}</td>
                   <td class="text-center">{{ $coordination->service->name }}</td>
-                  <td class="text-center"><a href="#" class="btn btn-success btn-xs cancel2-data-btn" data-id="{{ $coordination->id }}"><i class="fa fa-check"></i> Send Cancellation Request</a>
-                  <td class="text-center"><a href="#" class="btn btn-success btn-xs change2-data-btn" data-id="{{ $coordination->id }}"><i class="fa fa-check"></i> Change Date Request</a>
+                  <td class="text-center"><a href="#" class="btn btn-danger btn-xs cancel2-data-btn" data-id="{{ $coordination->id }}"><i class="fa fa-close"></i> Send Cancellation Request</a>
+                  <td class="text-center"><a href="#" class="btn btn-warning btn-xs change2-data-btn" data-id="{{ $coordination->id }}"><i class="fa fa-calendar"></i> Change Date Request</a>
                     <!-- <a href="#" class="btn btn-danger btn-xs decline-request-btn" data-id=" {{ $coordination->id }}"><i class="fa fa-times"></i> Decline</a>
                     <a href="#" class="btn btn-info btn-xs seen-request-btn" data-id="{{ $coordination->id }}"><i class="fa fa-eye"></i> Seen</a> --></td>
                 </tr>
@@ -74,7 +74,14 @@
       </div>
 
 
-    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="paymodal">
+    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="changemodal">
+      <div class="modal-dialog modal-md add-user-form">
+        <div class="modal-content">
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="changemodal2">
       <div class="modal-dialog modal-md add-user-form">
         <div class="modal-content">
         </div>
@@ -136,7 +143,7 @@
             bootbox.confirm({
               title: "Cancel Reservation?",
               className: "del-bootbox",
-              message: "Are you sure you want to cancel reservation?",
+              message: "Are you sure you want to request cancellation of reservation?",
               buttons: {
                   confirm: {
                       label: 'Yes',
@@ -151,7 +158,7 @@
                  if(result){
                   var token = '{{csrf_token()}}'; 
                   $.ajax({
-                  url:'/admin/request_cancel/'+that.dataset.id,
+                  url:'/client/request_cancel/'+that.dataset.id,
                   type: 'post',
                   data: {_method: 'post', _token :token},
                   success:function(result){
@@ -168,26 +175,61 @@
     });
 
     $(function(){
-      $(document).off('click','pay2-data-btn').on('click','.pay2-data-btn', function(e){
+      $(document).off('click','change-data-btn').on('click','.change-data-btn', function(e){
         e.preventDefault();
         var that = this;
-        $("#paymodal").modal();
-        $("#paymodal .modal-content").load('/client/payments_bank_coord/'+that.dataset.id);
+        $("#changemodal").modal();
+        $("#changemodal .modal-content").load('/client/change_request/'+that.dataset.id);
       });
     });
 
-    // $(document).off('click','.pay-data-btn').on('click','.pay-data-btn', function(e){
-    //   e.preventDefault();
-    //   var that = this;
-    //   $("#paymodal").html('');
-    //   $("#paymodal").modal();
-    //   $.ajax({
-    //     url: '/client/payments_bank/'+that.dataset.id,
-    //     success: function(data) {
-    //       $("#paymodal").html(data);
-    //     }
-    //   });
-    // });
+    $(document).off('click','.cancel2-data-btn').on('click','.cancel2-data-btn', function(e){
+      e.preventDefault();
+      var that = this; 
+            bootbox.confirm({
+              title: "Cancel Reservation?",
+              className: "del-bootbox",
+              message: "Are you sure you want to request cancellation of reservation?",
+              buttons: {
+                  confirm: {
+                      label: 'Yes',
+                      className: 'btn-success'
+                  },
+                  cancel: {
+                      label: 'No',
+                      className: 'btn-danger'
+                  }
+              },
+              callback: function (result) {
+                 if(result){
+                  var token = '{{csrf_token()}}'; 
+                  $.ajax({
+                  url:'/client/request_cancel_coord/'+that.dataset.id,
+                  type: 'post',
+                  data: {_method: 'post', _token :token},
+                  success:function(result){
+                    // $("#payments-table").DataTable().ajax.url( '/admin/get-requests-coord' ).load();
+                    swal({
+                        title: result.msg,
+                        icon: "success"
+                      });
+                  }
+                  }); 
+                 }
+              }
+          });
+    });
+
+    $(function(){
+      $(document).off('click','change2-data-btn').on('click','.change2-data-btn', function(e){
+        e.preventDefault();
+        var that = this;
+        $("#changemodal2").modal();
+        $("#changemodal2 .modal-content").load('/client/change_request_coord/'+that.dataset.id);
+      });
+    });
+
+
 
   });
 

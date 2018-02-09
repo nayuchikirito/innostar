@@ -36,7 +36,11 @@ class Reservation extends Model
     }
 
     public function client_notif(){
-        return $this->belongsTo('App\CLientNotification');
+        return $this->hasMany('App\CLientNotification');
+    }
+
+    public function client_notif_coord(){
+        return $this->hasMany('App\CLientNotificationCoord');
     }
 
     // public function getDateAttribute($value) {

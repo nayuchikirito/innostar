@@ -12,4 +12,7 @@ class ReservationDetail extends Model
     public function reservation(){
         return $this->belongsTo('App\Reservation');
     }
+    public function supplier(){
+        return $this->belongsTo('App\Supplier');
+    }
 }

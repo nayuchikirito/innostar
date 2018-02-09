@@ -4,7 +4,7 @@
     Innovation Star
 @endsection
 
-@include('navigations.supplier-nav')
+@include('navigations.supplier-nav1')
 @section('content') 
 
     <section class="bg-dark" id="about" style="height: 100vh;">
@@ -23,7 +23,7 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach(Auth::user()->supplier->notifications as $notif)
+                @foreach(Auth::user()->supplier->notiffications as $notiff)
                 <tr>
                   <td>{{ $notiff->reservation_detail->package_detail->package_description->name }}</td>
                   <td class="text-center">{{ date('F d,Y', strtotime($notiff->reservation_detail->reservation->date))}}</td>

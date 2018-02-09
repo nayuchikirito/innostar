@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ReservationDateRequest;
+use App\Http\Requests\DateRequest1;
 use DataTables;
 use DB;
 use Auth;
@@ -407,16 +408,16 @@ class GuestController extends Controller
     {
         try{
             
-        DB::beginTransaction();
-        $reservation = \App\Reservation::find($id);
+            DB::beginTransaction();
+            $reservation = \App\Reservation::find($id);
 
-        $client_notif = new \App\ClientNotification;
-        $client_notif->change_date = $reservation->date;
-        $client_notif->status = 'pending';
-        $client_notif->type = 'cancellation';
-        $client_notif->save();
+            $client_notif = new \App\ClientNotification;
+            $client_notif->reservation_id = $reservation->id;
+            $client_notif->status = 'pending';
+            $client_notif->type = 'cancellation';
+            $client_notif->save();
 
-        DB::commit();
+            DB::commit();
 
             return response()->json(['success' => true, 'msg' => 'Request Successfully Sent!']);
 
@@ -425,5 +426,103 @@ class GuestController extends Controller
             return response()->json(['success' => false, 'msg' => 'An error occured while sending request!']);
         } 
 
+    }
+
+    public function request_cancel_coord($id)
+    {
+        // try{
+            
+            DB::beginTransaction();
+            $coordination = \App\Coordination::find($id);
+
+            $client_notif = new \App\ClientNotificationCoord;
+            $client_notif->coordination_id = $coordination->id;
+            $client_notif->status = 'pending';
+            $client_notif->type = 'cancellation';
+            $client_notif->save();
+
+            DB::commit();
+
+            return response()->json(['success' => true, 'msg' => 'Request Successfully Sent!']);
+
+        // }catch(\Exception $e){
+        //     DB::rollback();
+        //     return response()->json(['success' => false, 'msg' => 'An error occured while sending request!']);
+        // } 
+
+    }
+
+    public function change($id)
+    {
+        $reservation = \App\Reservation::find($id);
+        return view('client.clients.change', compact('reservation'));
+    }
+
+    public function change_coord($id)
+    {
+        $coordination = \App\Coordination::find($id);
+        return view('client.clients.change_coord', compact('coordination'));
+    }
+
+    public function change_send(Request $request)
+    {
+
+        $dateCount = \App\Reservation::whereDate('date', $request->get('date'))->count();
+        $dateCountCoord = \App\Coordination::whereDate('date', $request->get('date'))->count();
+        if(($dateCount > 0 AND $dateCountCoord > 1) OR ($dateCount > 1) OR ($dateCountCoord > 2))
+            {
+                return response()->json(['success' => false, 'msg' => 'Cannot reserve date, fully booked.']);
+            }else{
+                try{
+                    
+                    DB::beginTransaction();
+
+                    $client_notif = new \App\ClientNotification;
+                    $client_notif->change_date = $request->get('date').' '.$request->get('time').':00';
+                    $client_notif->reservation_id = $request->get('reservation_id');
+                    $client_notif->status = 'pending';
+                    $client_notif->type = 'change';
+                    $client_notif->save();
+
+                    DB::commit();
+
+                    return response()->json(['success' => true, 'msg' => 'Request Successfully Sent!']);
+
+                }catch(\Exception $e){
+                    DB::rollback();
+                    return response()->json(['success' => false, 'msg' => 'An error occured while sending request!']);
+                } 
+            }
+    }
+
+    public function change_send_coord(Request $request)
+    {
+
+        $dateCount = \App\Reservation::whereDate('date', $request->get('date'))->count();
+        $dateCountCoord = \App\Coordination::whereDate('date', $request->get('date'))->count();
+        if(($dateCount > 0 AND $dateCountCoord > 1) OR ($dateCount > 1) OR ($dateCountCoord > 2))
+            {
+                return response()->json(['success' => false, 'msg' => 'Cannot reserve date, fully booked.']);
+            }else{
+                try{
+                    
+                    DB::beginTransaction();
+
+                    $client_notif = new \App\ClientNotificationCoord;
+                    $client_notif->change_date = $request->get('date').' '.$request->get('time').':00';
+                    $client_notif->coordination_id = $request->get('coordination_id');
+                    $client_notif->status = 'pending';
+                    $client_notif->type = 'change';
+                    $client_notif->save();
+
+                    DB::commit();
+
+                    return response()->json(['success' => true, 'msg' => 'Request Successfully Sent!']);
+
+                }catch(\Exception $e){
+                    DB::rollback();
+                    return response()->json(['success' => false, 'msg' => 'An error occured while sending request!']);
+                } 
+            }
     }
 }

@@ -30,6 +30,18 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
 	Route::get('/home', 'HomeController@index');
 
+	Route::resource('/client_requests', 'RequestsController');
+	Route::get('/client_requests_coord', 'RequestsController@index_coord');
+
+	Route::put('/client_requests_approve/{notif_id}', 'RequestsController@approve');
+	Route::put('/client_requests_approve_coord/{notif_id}', 'RequestsController@approve_coord');
+
+	Route::put('/client_requests_decline/{notif_id}', 'RequestsController@decline');
+	Route::put('/client_requests_decline_coord/{notif_id}', 'RequestsController@decline_coord');
+
+	Route::get('/get-client-requests', 'RequestsController@all');
+	Route::get('/get-client-requests-coord', 'RequestsController@all_coord');
+
 	Route::get('/report/test', 'ReportsController@index');
 	Route::get('/report/printpdf', 'ReportsController@printPdf');
 
@@ -99,7 +111,7 @@ Route::middleware('client')->prefix('client')->group(function () {
 	Route::get('/reservations_coordination', 'GuestController@coordination');
 	Route::get('/pay', 'GuestController@pay')->name('clients.pay');
 	Route::get('/clients/reservations', 'GuestController@reservations')->name('clients.reservations');
-	Route::get('/clients/my_reservations', 'GuestController@my_reservations');
+	Route::get('/clients/my_reservations', 'GuestController@my_reservations')->name('clients.my_reservations');
 	Route::get('/get-reservations', 'GuestController@all');
 	Route::get('/home', 'GuestController@index')->name('clients.home');
 	Route::get('/payments_bank/{res_id}', 'GuestController@pay')->name('admin.payments');
@@ -107,11 +119,18 @@ Route::middleware('client')->prefix('client')->group(function () {
 	Route::post('/payments', 'GuestController@payment');
 	Route::post('/payments_coord', 'GuestController@payment_coord');
 	Route::get('/button', 'GuestController@button');
-	Route::post('/request_cancel', 'GuestController@request_cancel');
+
+	Route::post('/request_cancel/{reservation_id}', 'GuestController@request_cancel');
+	Route::post('/request_cancel_coord/{reservation_id}', 'GuestController@request_cancel_coord');
 
 	Route::get('/custom_reservations', 'GuestController@custom_reservations');
 	Route::post('/save_custom_reservations', 'GuestController@save_custom_reservations');
 	Route::get('/get_package_details/{id}', 'GuestController@get_package_details');
+
+	Route::get('/change_request/{res_id}', 'GuestController@change');
+	Route::get('/change_request_coord/{res_id}', 'GuestController@change_coord');
+	Route::post('/change_request', 'GuestController@change_send');
+	Route::post('/change_request_coord', 'GuestController@change_send_coord');
 });
 
 Route::get('select_service/{data}', 'SelectionController@selectService')->name('select-service');

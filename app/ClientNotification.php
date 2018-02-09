@@ -14,6 +14,6 @@ class ClientNotification extends Model
 
     public function reservation()
     {
-    	return $this->hasMany('\App\Reservation');
+    	return $this->belongsTo('\App\Reservation');
     }
 }

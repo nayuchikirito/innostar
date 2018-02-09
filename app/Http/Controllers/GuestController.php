@@ -8,6 +8,7 @@ use App\Http\Requests\DateRequest1;
 use DataTables;
 use DB;
 use Auth;
+use Hash;
 
 class GuestController extends Controller
 {
@@ -241,6 +242,8 @@ class GuestController extends Controller
         $data = request()->validate([
             'amount' => 'required|numeric',
             'details' => 'required|string',
+            'date' => 'required',
+            'time' => 'required',
         ]);
          try{
 
@@ -299,7 +302,7 @@ class GuestController extends Controller
         $client = \App\Client::find($user->client->id);
         return view('client.reservation.custom', compact('services', 'client'));
     }
-    public function save_custom_reservations(Request $request){
+    public function save_custom_reservations(ReservationDateRequest $request){
         
 
         $dateCount = \App\Reservation::whereDate('date', $request->get('date'))->count();
@@ -524,5 +527,30 @@ class GuestController extends Controller
                     return response()->json(['success' => false, 'msg' => 'An error occured while sending request!']);
                 } 
             }
+    }
+
+    public function changepassword(){
+        return view('client.users.changepass');
+    }
+
+
+    public function saveChangePassword(Request $request){
+
+        $data = request()->validate([
+            'old_password' => 'required|string',
+            'new_password' => 'required|string|min:5|same:confirm_password',
+            'confirm_password' => 'required|string|min:5',
+        ]); 
+        if(Hash::check($request->old_password, Auth::user()->password)){
+            $user = \App\User::findOrFail(Auth::user()->id); 
+            $user->password = $request->new_password;
+            if($user->save()){
+                return response()->json(['success' => true, 'msg' => 'Password Successfully changed!']);                
+            }else{
+                return response()->json(['success' => false, 'msg' => 'An error occurred while changing password!']);   
+            }
+        }else{
+            return response()->json(['success' => false, 'msg' => 'Old Password does not match!']);
+        }
     }
 }

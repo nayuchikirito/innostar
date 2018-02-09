@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DataTables;
 use DB;
-
+use Hash;
+use Auth;
 class SuppliersController extends Controller
 {
     public function __construct()
@@ -229,14 +230,14 @@ class SuppliersController extends Controller
     }
 
     public function accept_request($id){
-        
+            
         //check if request has already supplier
             //if true
                 //notification only marked as "closed" and notify supplier that reservation detail has already a supplier
             //if false
                 //notification only marked as "accepted" and notify supplier that "You are now the supplier of the reservation..." 
 
-        $notification = \App\SupplierNotification::find($id);
+        $notification = \App\SupplierNotification::find($id); 
         if($notification->reservation_detail->supplier_id){
             $sn = \App\SupplierNotification::where('reservation_detail_id', $notification->reservation_detail->id)
                                              ->where('status', '!=', 'accepted')
@@ -251,18 +252,18 @@ class SuppliersController extends Controller
                                              ->where('status', '!=', 'accepted')
                                              ->update(['status' => 'closed']);
 
-            $naay_sud = DB::table('reservation_details')
-            ->where('reservation_id', $notification->reservation_detail->reservation_id)
-            ->whereNull('supplier_id');
-            if(sizeof($naay_sud)){
+            $res_d = \App\ReservationDetail::find($notification->reservation_detail->id);
+            $res_d->supplier_id = $notification->supplier_id;
+            $stat = $res_d->save();
+
+            $naay_sud = \App\ReservationDetail::where('reservation_id', $notification->reservation_detail->reservation_id)->whereNull('supplier_id')->get(); 
+
+            if(sizeof($naay_sud) == 0){
                 $res = \App\Reservation::find($notification->reservation_detail->reservation_id);
                 $res->assigned = 1;
                 $res->save();
             }
-            $res_d = \App\ReservationDetail::find($notification->reservation_detail->id);
-            $res_d->supplier_id = $notification->supplier_id;
-            
-            if($res_d->save()){
+            if($stat){
                 return response()->json(['success' => true, 'msg' => 'You are now the supplier of this request!']);
             }else{
                 return response()->json(['success' => false, 'msg' => 'An error occurred please try again later.']);
@@ -292,6 +293,32 @@ class SuppliersController extends Controller
             }else{
                 return response()->json(['success' => false, 'msg' => 'An error occurred please try again later.']);
             }
+    }
+
+
+    public function changepassword(){
+        return view('client.users.c_changepass');
+    }
+
+
+    public function saveChangePassword(Request $request){
+
+        $data = request()->validate([
+            'old_password' => 'required|string',
+            'new_password' => 'required|string|min:5|same:confirm_password',
+            'confirm_password' => 'required|string|min:5',
+        ]); 
+        if(Hash::check($request->old_password, Auth::user()->password)){
+            $user = \App\User::findOrFail(Auth::user()->id); 
+            $user->password = $request->new_password;
+            if($user->save()){
+                return response()->json(['success' => true, 'msg' => 'Password Successfully changed!']);                
+            }else{
+                return response()->json(['success' => false, 'msg' => 'An error occurred while changing password!']);   
+            }
+        }else{
+            return response()->json(['success' => false, 'msg' => 'Old Password does not match!']);
+        }
     }
 }
 

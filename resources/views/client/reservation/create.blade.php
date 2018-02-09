@@ -12,24 +12,24 @@
       <h3 class="text-center">Package Reservation</h3>
       <div class="form-group">
           Date
-          <input type="date" name="date" class="form-control">
+          <input type="date" name="date" id="date" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
           Time
-          <input type="time" name="time" class="form-control">
+          <input type="time" name="time" id="time" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="client_id" value="{{ $client->id }}">
+          <input type="hidden" name="client_id" id="client_id" value="{{ $client->id }}">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="status" value="pending">
+          <input type="hidden" name="status" id="status" value="pending">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="assigned" value="0">
+          <input type="hidden" name="assigned" id="assigned" value="0">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
@@ -51,7 +51,7 @@
 
       <div class="form-group">
           <label>Balance</label>
-          <input type="text" name="balance" id="balance" readonly="true">
+          <input type="text" name="balance" id="balance" readonly="true" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
 

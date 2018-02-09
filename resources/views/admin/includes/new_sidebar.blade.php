@@ -24,14 +24,16 @@
             <i class="fa fa-angle-left pull-right"></i>
           </a>
             <ul class="treeview-menu">
+              @if(Auth::user()->user_type == 'admin' )
               <li class=" {{ Request::segment(2) == 'administrators' ? 'active':'' }}"><a href="{{url('admin/users')}}"><i class="fa fa-users"></i> <span>Aministrators</span></a></li>
 
               <li class=" {{ Request::segment(2) == 'suppliers' ? 'active':'' }}"><a href="{{url('admin/suppliers')}}"><i class="fa fa-truck"></i> <span>Suppliers</span></a></li>
-
+              @endif
               <li class=" {{ Request::segment(2) == 'clients' ? 'active':'' }}"><a href="{{url('admin/clients')}}"><i class="fa fa-truck"></i> <span>Clients</span></a></li>
             </ul>
         </li>
 
+              @if(Auth::user()->user_type == 'admin' )
         <li class="treeview">
           <a href="#">
             <i class="fa fa-bar-chart-o"></i>
@@ -44,7 +46,7 @@
             <li class="{{ Request::segment(2) == 'packages' ? 'active':'' }}"><a href="{{url('admin/packages')}}"><i class="fa fa-users"></i> <span>Packages</span></a></li>
           </ul>
         </li>
-
+        @endif
         <li class="treeview">
           <a href="#">
             <i class="fa fa-bar-chart-o"></i>
@@ -136,6 +138,7 @@
                 </ul>
               </li>
 
+              @if(Auth::user()->user_type == 'admin' )
             <li class="treeview">
                 <a href="#">
                   <i class="fa fa-bar-chart-o"></i>
@@ -159,7 +162,7 @@
                   <li class="{{ Request::segment(2) == 'On-the-day Coordinations' ? 'active':'' }}"><a href="{{url('admin/client_requests_coord')}}"><i class="fa fa-users"></i> <span>On-the-day Coordinations</span><span class="badge badge-pill badge-danger display-5"> {{ \App\ClientNotificationCoord::where('status', 'pending')->count() }}</span></a></li>
                 </ul>
               </li>
-
+              @endif
 
               
 

@@ -195,6 +195,12 @@ class ReservationsController extends Controller
             ->AddColumn('service', function($column){
                return $column->package->service->name;
             })
+            ->AddColumn('balance', function($column){
+               return number_format($column->balance,2);
+            })
+            ->AddColumn('assigned', function($column){
+               return $column->assigned == 1 ? '<span class="badge badge-pill btn-success">completed</span>':'<span class="badge badge-pill btn-warning">pending</span>';
+            })
             ->AddColumn('actions', function($column){
 
                 return '
@@ -215,7 +221,7 @@ class ReservationsController extends Controller
                             </button>
                         ';
             })
-            ->rawColumns(['actions'])
+            ->rawColumns(['actions', 'assigned'])
             ->make(true);
     }
 

@@ -8,7 +8,11 @@
 	        <div class="collapse navbar-collapse" id="navbarResponsive">
 	          <ul class="navbar-nav ml-auto">
 	          	<li class="nav-item">
-	              <a class="nav-link js-scroll-trigger" href="{{ route('clients.my_reservations') }}">My Reservations</a>
+	              <a class="nav-link js-scroll-trigger" href="{{ url('client/changepassword') }}">Change Password
+	              </a>
+	            </li>
+	            <li class="nav-item">
+	              <a class="nav-link js-scroll-trigger" href="{{ route('clients.my_reservations') }}">My Reservations {{ Auth::user()->client->reservation }}</a>
 	            </li>
 	            <li class="nav-item">
 	              <a class="nav-link js-scroll-trigger" href="#about">About</a>

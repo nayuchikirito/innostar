@@ -11,25 +11,25 @@
     <form action="{{ url('/client/payments') }}" method="POST" id="add-payments-form">
     {{ csrf_field() }}
     <div class="modal-body font-mine">
-      <h3 class="text-center">BPI Bank Payment</h3>
+      <h3 class="text-center" id="form-title_">BPI Bank Payment</h3>
       <div class="form-group">
           <label for="amount">Amount</label>
-          <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter Amount" autocomplete="false">
+          <input  type="number" max="{{ $reservation->balance }}" class="form-control" id="amount" name="amount" placeholder="Enter Amount" autocomplete="false">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <label for="details">Transaction Number</label>
+          <label for="details" id="trans_info_text">Transaction Number</label>
           <input type="text" class="form-control" id="details" name="details" placeholder="********" autocomplete="false">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
           Date of Payment
-          <input type="date" name="date" class="form-control">
+          <input type="date" name="date" class="form-control" id="date">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
           Time of Payment
-          <input type="time" name="time" class="form-control">
+          <input type="time" name="time" class="form-control" id="time">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
@@ -47,14 +47,14 @@
     </div>
     </form>
 
-
+{{-- 
     <form action="{{ url('/client/payments') }}" method="POST" id="add-payments2-form" class="d-none">
     {{ csrf_field() }}
     <div class="modal-body font-mine">
       <h3 class="text-center">Mlhuillier</h3>
       <div class="form-group">
-          <label for="amount">Amount</label>
-          <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter Amount" autocomplete="false">
+          <label for="amount">Amount</label> 
+          <input  type="number" max="{{ $reservation->balance }}" class="form-control" id="amount" name="amount" placeholder="Enter Amount" autocomplete="false">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
@@ -94,7 +94,7 @@
       <h3 class="text-center">Western Union</h3>
       <div class="form-group">
           <label for="amount">Amount</label>
-          <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter Amount" autocomplete="false">
+          <input  type="number" max="{{ $reservation->balance }}" class="form-control" id="amount" name="amount" placeholder="Enter Amount" autocomplete="false">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
@@ -125,7 +125,7 @@
       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       <button type="submit" class="btn submit-btn btn-success btn-gradient pull-right">Send Payment Details</button>
     </div>
-    </form>
+    </form> --}}
 
 <script type="text/javascript">
 
@@ -278,21 +278,31 @@
       });
 
     $(document).off('click', '.bank-data-btn').on('click', '.bank-data-btn', function(){
-      $('#add-payments-form').removeClass('d-none');
+      /*$('#add-payments-form').removeClass('d-none');
       $('#add-payments2-form').addClass('d-none');
-      $('#add-payments3-form').addClass('d-none');
+      $('#add-payments3-form').addClass('d-none');*/
+      $("#form-title_").html('BPI Bank Payment');
+      $('#trans_info_text').html('Transaction Number');
+      $('#details').attr('placeholder', '********');
     });
 
     $(document).off('click', '.mlhuillier-data-btn').on('click', '.mlhuillier-data-btn', function(){
-      $('#add-payments2-form').removeClass('d-none');
+    /*  $('#add-payments2-form').removeClass('d-none');
       $('#add-payments-form').addClass('d-none');
-      $('#add-payments3-form').addClass('d-none');
+      $('#add-payments3-form').addClass('d-none');*/
+
+      $("#form-title_").html('Mlhuillier');
+      $('#trans_info_text').html('KPTN');
+      $('#details').attr('placeholder', '0000-000-0000-000-0000');
     });
 
     $(document).off('click', '.western-data-btn').on('click', '.western-data-btn', function(){
-      $('#add-payments3-form').removeClass('d-none');
+/*      $('#add-payments3-form').removeClass('d-none');
       $('#add-payments-form').addClass('d-none');
-      $('#add-payments2-form').addClass('d-none');
+      $('#add-payments2-form').addClass('d-none');*/
+      $("#form-title_").html('Western Union');
+      $('#trans_info_text').html('MTCN');
+      $('#details').attr('placeholder', '000-000-0000');
     });
 
 

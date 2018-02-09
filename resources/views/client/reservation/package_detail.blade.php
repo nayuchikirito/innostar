@@ -36,7 +36,9 @@
 	}
 	computeTotal();
 	$(document).off('click', '.remove_this').on('click', '.remove_this', function(){
-		$(this).parent().parent().remove();
+		if($('.remove_this').length > 1){
+			$(this).parent().parent().remove();
+		}
 		computeTotal();
 	});
 </script>

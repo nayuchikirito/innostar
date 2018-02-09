@@ -12,24 +12,24 @@
       <h3 class="text-center">Package Reservation</h3>
       <div class="form-group">
           Date
-          <input type="date" name="date" class="form-control">
+          <input type="date" name="date" id="date" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
           Time
-          <input type="time" name="time" class="form-control">
+          <input type="time" name="time" id="time" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="client_id" value="{{ $client->id }}">
+          <input type="hidden" name="client_id" id="client_id" value="{{ $client->id }}">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="status" value="pending">
+          <input type="hidden" name="status" id="status" value="pending">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="assigned" value="0">
+          <input type="hidden" name="assigned" id="assigned" value="0">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
@@ -50,7 +50,8 @@
       </div>
 
       <div class="form-group">
-          <input type="hidden" name="balance" id="balance">
+        <label>Package Price</label>
+          <input type="text" name="balance" id="balance" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
 
@@ -77,6 +78,7 @@
 
         $("#add-custom-reservations-form").on('submit', function(e){
         e.preventDefault(); //keeps the form from behaving like a normal (non-ajax) html form
+
         var $form = $(this);
         var $url = $form.attr('action');
         var formData = {};
@@ -106,6 +108,7 @@
                   title: result.msg,
                   icon: "success"
                 });
+            $('.modal').modal('hide');
             }else{
               swal({
                   title: result.msg,
@@ -113,7 +116,6 @@
                 });
             }
             // $("#reservations-table").DataTable().ajax.url( '/admin/get-reservations' ).load();
-            $('.modal').modal('hide');
           },
           error: function(xhr,status,error){
             var response_object = JSON.parse(xhr.responseText); 

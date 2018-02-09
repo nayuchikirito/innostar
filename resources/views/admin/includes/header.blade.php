@@ -2,7 +2,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="{{ url('admin/home') }}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>INNO</b></span>
       <!-- logo for regular state and mobile devices -->
@@ -37,7 +37,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                  <a href="{{ url('admin/changepassword') }}" class="btn btn-default btn-flat">Change Password</a>
                 </div>
                 <div class="pull-right">
                   <a href="{{ route('logout') }}"

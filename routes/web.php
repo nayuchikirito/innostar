@@ -27,6 +27,9 @@ Route::resource('/client/register', 'RegisterClientController');
 //ADMIN USERS
 Route::middleware('admin')->prefix('admin')->group(function () {
 	//Link for your admin homepage
+	Route::get('/changepassword', 'HomeController@changepassword');
+	Route::post('/changepassword', 'HomeController@saveChangePassword');
+
 
 	Route::get('/home', 'HomeController@index');
 
@@ -135,6 +138,14 @@ Route::middleware('client')->prefix('client')->group(function () {
 	Route::get('/change_request_coord/{res_id}', 'GuestController@change_coord');
 	Route::post('/change_request', 'GuestController@change_send');
 	Route::post('/change_request_coord', 'GuestController@change_send_coord');
+
+	
+	Route::resource('/coordinations', 'CoordinationsController');
+	Route::get('/get-coordinations', 'CoordinationsController@all');
+
+	
+	Route::get('/changepassword', 'GuestController@changepassword');
+	Route::post('/changepassword', 'GuestController@saveChangePassword');
 });
 
 Route::get('select_service/{data}', 'SelectionController@selectService')->name('select-service');
@@ -172,6 +183,10 @@ Route::prefix('supplier')->group(function(){
 	Route::post('/accept_request/{id}', 'SuppliersController@accept_request');
 	Route::post('/decline_request/{id}', 'SuppliersController@decline_request');
 	Route::post('/seen_request/{id}', 'SuppliersController@seen_request');
+
+
+	Route::get('/changepassword', 'SuppliersController@changepassword');
+	Route::post('/changepassword', 'SuppliersController@saveChangePassword');
 });
 
 Route::prefix('secretary')->group(function(){

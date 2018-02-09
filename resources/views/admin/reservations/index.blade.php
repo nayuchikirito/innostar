@@ -35,6 +35,7 @@
                   <th>Client</th>
                   <th>Service</th>
                   <th>Date</th>
+                  <th>Assigned</th>
                   <th>Balance</th>
                   <th>Actions</th>
                 </thead>
@@ -90,9 +91,10 @@
       "columns": [
         {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
         {data: 'client',  name: 'client', className: 'col-md-2 text-left',  searchable: true, sortable: true},
-        {data: 'service',  name: 'service', className: 'col-md-2 text-left',  searchable: true, sortable: true},
+        {data: 'service',  name: 'service', className: 'text-left',  searchable: true, sortable: true},
         {data: 'date',  name: 'date', className: 'col-md-2  text-left',   searchable: true, sortable: true},
-        {data: 'balance',  name: 'balance', className: 'col-md-2  text-left',   searchable: true, sortable: true},
+        {data: 'assigned',  name: 'assigned', className: 'text-left',   searchable: true, sortable: true},
+        {data: 'balance',  name: 'balance', className: 'col-md-2  text-right',   searchable: true, sortable: true},
         {data: 'actions',   name: 'actions', className: 'col-md-4 text-left',  searchable: false,  sortable: false},
       ],
       'order': [[0, 'asc']]

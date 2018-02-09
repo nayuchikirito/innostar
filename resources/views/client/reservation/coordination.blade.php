@@ -6,26 +6,26 @@
         <button class="btn-md btn btn-success package-data-btn"><i class="fa fa-calendar"></i> Package</button>
         <button class="btn-md btn btn-primary coord-data-btn"><i class="fa fa-calendar-check-o"></i> On-the-day Coordination</button>
       </div> -->
-    <form action="{{ url('/admin/coordinations') }}" method="POST" id="add-coordinations-form">
+    <form action="{{ url('/client/coordinations') }}" method="POST" id="add-coordinations-form">
     {{ csrf_field() }}
     <div class="modal-body">
       <h3 class="text-center">On-the-day Coordination</h3>
       <div class="form-group">
           Date
-          <input type="date" name="date" class="form-control">
+          <input type="date" name="date" id="date" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
           Time
-          <input type="time" name="time" class="form-control">
+          <input type="time" name="time" id="time" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="client_id" value="{{ $client->id }}">
+          <input type="hidden" name="client_id" id="client_id" value="{{ $client->id }}">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
-          <input type="hidden" name="status" value="pending">
+          <input type="hidden" name="status" id="status" value="pending">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">

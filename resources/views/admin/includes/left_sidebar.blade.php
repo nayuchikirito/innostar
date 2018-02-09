@@ -20,14 +20,16 @@
         <li class="treeview">
           <a href="#">
             <i class="fa fa-bar-chart-o"></i>
-            <span>Users</span>
+            <span>Users2222 {{ Auth::user()->user_type }}</span>
             <i class="fa fa-angle-left pull-right"></i>
           </a>
             <ul class="treeview-menu">
-              <li class=" {{ Request::segment(2) == 'administrators' ? 'active':'' }}"><a href="{{url('admin/users')}}"><i class="fa fa-users"></i> <span>Aministrators</span></a></li>
+              @if(Auth::user()->user_type == 'admin' )
+                       <li class=" {{ Request::segment(2) == 'administrators' ? 'active':'' }}"><a href="{{url('admin/users')}}"><i class="fa fa-users"></i> <span>Aministrators</span></a></li>
 
               <li class=" {{ Request::segment(2) == 'suppliers' ? 'active':'' }}"><a href="{{url('admin/suppliers')}}"><i class="fa fa-truck"></i> <span>Suppliers</span></a></li>
 
+              @endif
               <li class=" {{ Request::segment(2) == 'clients' ? 'active':'' }}"><a href="{{url('admin/clients')}}"><i class="fa fa-truck"></i> <span>Clients</span></a></li>
             </ul>
         </li>

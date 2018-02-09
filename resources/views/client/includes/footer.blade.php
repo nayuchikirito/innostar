@@ -13,6 +13,6 @@
     <script src="{{asset('js/sweetalert.min.js') }}"></script>
     <!-- <script src="https://www.paypalobjects.com/api/checkout.js"></script> -->
 
-    <script src="{{ asset('js/accounting.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.js') }}"></script>
+    <script src="{{ asset('js/accounting.min.js') }}"></script>
     <script src="{{ asset('js/bootbox.min.js') }}"></script>

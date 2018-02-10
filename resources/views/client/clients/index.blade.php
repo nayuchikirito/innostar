@@ -15,7 +15,8 @@
             <hr>
           </div>
           <div class="col-lg-8 mx-auto">
-            <p class="text-white mb-5">Events Coordinating and Planning Team</p>
+            <p class="text-white mb-5">Events Coordinating and Planning Team<br>
+            Just enjoy the event! We'll take care of everything for you.</p>
             <!-- <a class="btn btn-primary btn-xl reserve-data-btn">Reserve</a> -->
             <a class="btn btn-primary btn-xl" href="/client/button">Reserve</a>
             <a class="btn btn-primary btn-xl" href="{{ route('clients.reservations') }}">Pay</a>

@@ -25,7 +25,14 @@
       </div>
       <div class="form-group">
           <label for="description">Description: </label>
-          <span id="description">{{ $package->description }}</span>          
+          @php
+          $arr = explode('>', $package->description);
+          @endphp
+          <span id="description" style="float:left; height: 200px; overflow: auto; width: 100%;">
+            @foreach($arr as $a)
+            <li>{{$a}}</li>
+            @endforeach
+          </span>          
           <span class="help-text text-danger"></span>
       </div>
       <div class="row">

@@ -30,7 +30,7 @@
       </div>
       <div class="form-group">
           <label for="description">Description</label>
-          <input type="text" class="form-control" id="description" name="description" placeholder="Enter Description" autocomplete="false" value="{{ $package->description }}">
+          <input type="text" class="form-control" id="description" name="description" placeholder="Enter Description" autocomplete="false" value="{{ $package->description }}" style="float:left; height: 200px; overflow: auto; width: 100%;">
           <span class="help-text text-danger"></span>
       </div>
     </div>

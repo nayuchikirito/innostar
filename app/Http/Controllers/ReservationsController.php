@@ -217,7 +217,7 @@ class ReservationsController extends Controller
                                 <i class="fa fa-trash-o"></i> Delete
                             </button>
                             <button class="btn-sm btn btn-primary assign-data-btn" data-id="'.$column->id.'">
-                                <i class="fa fa-trash-o"></i> Assign
+                                <i class="fa fa-id-card-o"></i> Assign
                             </button>
                         ';
             })

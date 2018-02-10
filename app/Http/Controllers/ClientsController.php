@@ -31,9 +31,10 @@ class ClientsController extends Controller
     public function reserve($id)
     {   
         $services = \App\Service::has('package')->get();
+        $services1 = \App\Service::all();
         $client = \App\Client::where('user_id', $id)->first();
         // return response()->json($client);
-        return view('admin.clients.reserve', compact(['services', 'client']));
+        return view('admin.clients.reserve', compact(['services', 'services1', 'client']));
         // ->with('services', $services)
         // ->with('client', $client);
     }

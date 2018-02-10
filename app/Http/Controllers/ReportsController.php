@@ -124,11 +124,14 @@ class ReportsController extends Controller
         $bronze = Reservation::whereHas('package', function ($query){
                         $query->where('name', 'Bronze Package');
                     })->count();
+        $regular = Reservation::whereHas('package', function ($query){
+                        $query->where('name', 'Regular Package');
+                    })->count();
         $chart = Charts::create('pie', 'highcharts')
         ->title('Package Chart')
         ->colors(['#2196F3', '#F44336', '#FFC107', '#1a8217'])
-        ->labels(['Golden', 'Silver', 'Bronze'])  
-        ->values([$golden, $silver, $bronze])
+        ->labels(['Golden', 'Silver', 'Bronze', 'Regular'])  
+        ->values([$golden, $silver, $bronze, $regular])
         ->dimensions(1000,500)
         ->responsive(false);
         return view('reports.generate', ['chart' => $chart]);
@@ -148,6 +151,10 @@ class ReportsController extends Controller
             ->dataset('Bronze Package', Reservation::whereHas('package', function ($query){
                 $query->where('name', 'Bronze Package');
             })->get())
+            ->dataset('Regular Package', Reservation::whereHas('package', function ($query){
+                $query->where('name', 'Regular Package');
+            })->get())
+            ->colors(['#2196F3', '#F44336', '#FFC107', '#1a8217'])
             ->groupByMonth();
         return view('reports.generate', ['chart' => $chart]);
     }
@@ -166,6 +173,10 @@ class ReportsController extends Controller
             ->dataset('Bronze Package', Reservation::whereHas('package', function ($query){
                 $query->where('name', 'Bronze Package');
             })->get())
+            ->dataset('Regular Package', Reservation::whereHas('package', function ($query){
+                $query->where('name', 'Regular Package');
+            })->get())
+            ->colors(['#2196F3', '#F44336', '#FFC107', '#1a8217'])
             ->groupByYear();
         return view('reports.generate', ['chart' => $chart]);
     }

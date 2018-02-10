@@ -37,7 +37,7 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3 class="counter" data-count="{{ \App\Coordination::where('status', 'blocked')->count() }}">0</h3>
+              <h3 class="counter" data-count="{{ \App\Reservation::whereHas('package.service')->count() }}">0</h3>
 
               <p>Availed Services</p>
             </div>
@@ -80,9 +80,7 @@
         <!-- ./col -->
       </div>
       <!-- /.row -->
-      <div class="row">
-        <div id='calendar'></div>
-      </div>
+     <!--  -->
     </section>
     <!-- /.content -->
   </div>

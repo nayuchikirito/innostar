@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\ReservationDateRequest;
 use App\Http\Requests\DateRequest1;
+use App\Http\Requests\DateRequest2;
 use DataTables;
 use DB;
 use Auth;
@@ -467,7 +468,7 @@ class GuestController extends Controller
         return view('client.clients.change_coord', compact('coordination'));
     }
 
-    public function change_send(Request $request)
+    public function change_send(DateRequest1 $request)
     {
 
         $dateCount = \App\Reservation::whereDate('date', $request->get('date'))->count();
@@ -498,7 +499,7 @@ class GuestController extends Controller
             }
     }
 
-    public function change_send_coord(Request $request)
+    public function change_send_coord(DateRequest2 $request)
     {
 
         $dateCount = \App\Reservation::whereDate('date', $request->get('date'))->count();

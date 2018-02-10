@@ -80,9 +80,9 @@
         <!-- ./col -->
       </div>
       <!-- /.row -->
-      <div class="row">
+      <!-- <div class="row">
         <div id='calendar'></div>
-      </div>
+      </div> -->
     </section>
     <!-- /.content -->
   </div>

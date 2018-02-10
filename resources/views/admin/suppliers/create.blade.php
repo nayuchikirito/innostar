@@ -19,6 +19,7 @@
             <option>Reception</option>
             <option>Souvenir</option>
             <option>Invitation</option> 
+            <option>Gown & Suit</option> 
           </select> 
           <span class="help-text text-danger"></span>
       </div>

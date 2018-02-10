@@ -4,7 +4,7 @@
     Innovation Star
 @endsection 
 @section('content') 
-      @include('navigations.client-nav')
+      @include('navigations.client-nav2')
  <header class="masthead text-center text-white d-flex">
       <div class="container my-auto">
         <div class="row">
@@ -56,7 +56,7 @@
            </div>
         </div>
     </div>
-
+@include('parts.contact')
 @endsection
 
 @section('scripts')

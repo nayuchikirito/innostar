@@ -3,7 +3,7 @@
 @section('title')
     Innovation Star
 @endsection
-      @include('navigations.client-nav')
+      @include('navigations.client-nav2')
 @section('content') 
 <section class="bg-dark" id="about" style="height: 100vh;">
       <div class="container font-mine">
@@ -82,6 +82,7 @@
 <!-- naa ang include sa my_reservations.blade.php -->
 
 <!--   </section> -->
+@include('parts.contact')
 
 @endsection
 

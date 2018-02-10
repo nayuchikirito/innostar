@@ -3,7 +3,7 @@
 @section('title')
     Innovation Star
 @endsection
-      @include('navigations.client-nav')
+      @include('navigations.client-nav2')
 @section('content')
 <section class="bg-dark">
   <div class="row row-centered">
@@ -39,6 +39,7 @@
       <!-- </div> -->
       </div>
 </section> 
+      @include('parts.contact')
 
 <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="addmodal">
     <div class="modal-dialog modal-lg add-user-form">

@@ -19,6 +19,7 @@
             <option value="Reception" {{ $supplier->supplier->type == 'Reception' ? ' selected':'' }}>Reception</option>
             <option value="Souvenir" {{ $supplier->supplier->type == 'Souvenir' ? ' selected':'' }}>Souvenir</option>
             <option value="Invitation" {{ $supplier->supplier->type == 'Invitation' ? ' selected':'' }}>Invitation</option> 
+            <option value="Invitation" {{ $supplier->supplier->type == 'Gown & Suit' ? ' selected':'' }}>Gown & Suit</option> 
           </select> 
           <span class="help-text text-danger"></span>
       </div>

@@ -70,7 +70,7 @@
         </div>
       </div>
     </section>
-
+@include('parts.contact')
 
 @endsection
 

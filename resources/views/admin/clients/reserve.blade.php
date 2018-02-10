@@ -8,123 +8,9 @@
         <button class="btn-md btn btn-success package-data-btn"><i class="fa fa-calendar"></i> Package</button>
         <button class="btn-md btn btn-primary coord-data-btn"><i class="fa fa-calendar-check-o"></i> On-the-day Coordination</button>
       </div>
-    <form action="{{ url('/admin/reservations') }}" method="POST" id="add-reservations-form">
-    {{ csrf_field() }}
-    <div class="modal-body">
-      <h3 class="text-center">Package Reservation</h3>
-      <div class="form-group">
-          <label for="date">Date</label>
-          <input type="date" name="date" class="form-control" id="date">
-          <span class="help-text text-danger"></span>
-      </div>
-      <div class="form-group">
-          Time
-          <input type="time" name="time" class="form-control" id="time">
-          <span class="help-text text-danger"></span>
-      </div>
-      <div class="form-group">
-          <input type="hidden" name="client_id" value="{{ $client->id }}" id="client_id">
-          <span class="help-text text-danger"></span>
-      </div>
-      <div class="form-group">
-          <input type="hidden" name="status" value="pending" id="status">
-          <span class="help-text text-danger"></span>
-      </div>
-      <div class="form-group">
-          <input type="hidden" name="assigned" value="0" id="assigned">
-          <span class="help-text text-danger"></span>
-      </div>
-      <div class="form-group">
-          <label for="service">Service</label>
-          <select name="service_id" id="service_id" class="form-control">
-            <option selected disabled>Select Service</option>
-            @foreach($services as $service)
-              <option value="{{$service->id}}">{{ $service->name }}</option>
-            @endforeach
-          </select> 
-          <span class="help-text text-danger"></span>
-      </div>
-      <div class="form-group" id="package_label">
-          <label for="package">Package</label>
-          <select name="package_id" id="package_id" class="form-control">
-          </select> 
-          <span class="help-text text-danger"></span>
-      </div>
-
-      <div class="form-group">
-          <label>Balance</label>
-          <input type="text" name="balance" id="balance" readonly="true" class="form-control">
-          <span class="help-text text-danger"></span>
-      </div>
-
-      <div class="form-group" id="description_label">
-          <label for="description">Description</label>
-          <textarea type="text" class="form-control" id="description" name="description" autocomplete="false" readonly="true" rows="4"></textarea>
-          <span class="help-text text-danger"></span>
-      </div>
-
-      <div class="row">
-        <div class="col-md-12" id="desc_detail">
-        </div>
-      </div>
+    <div class="row">
+      <div class="col-md-12 form_holder" ></div>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      <button type="submit" class="btn submit-btn btn-success btn-gradient pull-right">Submit</button>
-    </div>
-    </form>
-
-    <!-- form for coordination -->
-    <form action="{{ url('/admin/coordinations') }}" method="POST" id="add-coordinations-form" class="hidden">
-    {{ csrf_field() }}
-    <div class="modal-body">
-      <h3 class="text-center">On-the-day Coordination</h3>
-      <!-- <div class="form-group">
-          Date and Time
-          <input type="datetime-local" name="datetime" class="form-control">
-          <span class="help-text text-danger"></span>
-      </div> -->
-      <div class="form-group">
-          Date
-          <input type="date" name="date" class="form-control" id="date">
-          <span class="help-text text-danger"></span>
-      </div>
-      <div class="form-group">
-          Time
-          <input type="time" name="time" class="form-control" id="time">
-          <span class="help-text text-danger"></span>
-      </div>
-      <div class="form-group">
-          <input type="hidden" name="client_id" value="{{ $client->id }}" id="client_id">
-          <span class="help-text text-danger"></span>
-      </div>
-      <div class="form-group">
-          <input type="hidden" name="status" value="pending" id="status">
-          <span class="help-text text-danger"></span>
-      </div>
-      <div class="form-group">
-          <label for="service">Service</label>
-          <select name="service_id" id="service_id" class="form-control" id="service_id">
-            <option selected disabled>Select Service</option>
-            @foreach($services as $service)
-              <option value="{{$service->id}}">{{ $service->name }}</option>
-            @endforeach
-          </select> 
-          <span class="help-text text-danger"></span>
-      </div>
-      <div class="form-group">
-          <input type="hidden" name="balance" id="balance" value="15000">
-          <span class="help-text text-danger"></span>
-      </div>
-
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      <button type="submit" class="btn submit-btn btn-success btn-gradient pull-right">Submit</button>
-    </div>
-    </form>
-
-
   </div>
 </div>
 
@@ -135,7 +21,8 @@
 
   $(function(){ 
 
-        $("#add-reservations-form").on('submit', function(e){
+        $(document).off('submit', '#add-reservations-form').on('submit', '#add-reservations-form', function(e){
+      //  $("#add-reservations-form").on('submit', function(e){
         e.preventDefault(); //keeps the form from behaving like a normal (non-ajax) html form
         var $form = $(this);
         var $url = $form.attr('action');
@@ -182,8 +69,8 @@
         });
 
       });
-
-        $("#add-coordinations-form").on('submit', function(e){
+        $(document).off('submit', '#add-coordinations-form').on('submit', '#add-coordinations-form', function(e){
+        //$("#add-coordinations-form").on('submit', function(e){
         e.preventDefault(); //keeps the form from behaving like a normal (non-ajax) html form
         var $form = $(this);
         var $url = $form.attr('action');
@@ -237,7 +124,8 @@
         //                 "11/22/2013 00:53"
         //             ]
         //         });
-	     $('#service_id').change(function(){
+    $(document).off('change', '#service_id').on('change', '#service_id', function(){
+	  //   $('#service_id').change(function(){
 	      var serviceID = $(this).val();
 	      var that = this;
 	      var token = $("input[name='_token']").val();
@@ -252,8 +140,8 @@
 		      });
 		  });
 		//$('#service_id').change();
-
-		$('#package_id').change(function(){
+    $(document).off('change', '#package_id').on('change', '#package_id', function(){
+		//$('#package_id').change(function(){
 	      var packageID = $(this).val();
 	      var that = this;
 	      var token = $("input[name='_token']").val();
@@ -272,12 +160,7 @@
                   $('#desc_detail').html(data);
                 }
           });
-		  });
 
-		$('#package_id').change(function(){
-	      var packageID = $(this).val();
-	      var that = this;
-	      var token = $("input[name='_token']").val();
 	      $.ajax({
 		          url: "{{url('select_balance')}}/"+packageID,
 		          method: 'GET',
@@ -288,14 +171,15 @@
 		      });
 		  });
 
+    $('.package-data-btn').click();
     $(document).off('click', '.package-data-btn').on('click', '.package-data-btn', function(){
-      $('#add-reservations-form').removeClass('hidden');
-      $('#add-coordinations-form').addClass('hidden');
+      $('.form_holder').html('');
+      $('.form_holder').load('{{url("/admin/reserveform")}}'); 
     });
 
     $(document).off('click', '.coord-data-btn').on('click', '.coord-data-btn', function(){
-      $('#add-coordinations-form').removeClass('hidden');
-      $('#add-reservations-form').addClass('hidden');
+      $('.form_holder').html('');
+      $('.form_holder').load('{{url("/admin/coordform")}}');
     });
 
   });  

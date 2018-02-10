@@ -9,7 +9,7 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+*/ 
 
 Route::get('/', function () {
     return view('welcome');
@@ -80,6 +80,17 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 	Route::get('/get-reservations', 'ReservationsController@all');
  	Route::get('/reservations/{reservation}/assign-suppliers', 'ReservationsController@assignSuppliers')->name('reservations.assign-suppliers');
   	Route::post('/reservations/assign-suppliers', 'AssignSuppliersController@assign');
+
+  	Route::get('coordform', function(){
+        $services = \App\Service::all();
+        $client = Auth::user();
+  		return view('admin.clients.coord', compact('services', 'client'));
+  	});
+  	Route::get('reserveform', function(){
+        $services = \App\Service::all();
+        $client = Auth::user();
+  		return view('admin.clients.reserve_form', compact('services', 'client'));
+  	});
 
 	Route::resource('/coordinations', 'CoordinationsController');
 	Route::get('/get-coordinations', 'CoordinationsController@all');

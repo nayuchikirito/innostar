@@ -56,7 +56,7 @@
            </div>
         </div>
     </div>
-
+@include('parts.contact')
 @endsection
 
 @section('scripts')

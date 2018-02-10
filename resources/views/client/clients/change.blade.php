@@ -14,17 +14,17 @@
       </div>
       <div class="form-group">
           Original Date of Event
-          <input name="date" class="form-control" value="{{ date('M d, Y | h:i A', strtotime($reservation->date)) }}" readonly>
+          <input name="orig_date" class="form-control" value="{{ date('M d, Y | h:i A', strtotime($reservation->date)) }}" readonly>
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
           New Date
-          <input type="date" name="date" class="form-control">
+          <input type="date" name="date" id="date" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">
           New Time
-          <input type="time" name="time" class="form-control">
+          <input type="time" name="time" id="time" class="form-control">
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">

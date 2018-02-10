@@ -9,7 +9,7 @@
         <small>Control panel</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="{{ url('secretary/home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
         <li class="active">Dashboard</li>
       </ol>
     </section>
@@ -22,14 +22,14 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3 class="counter" data-count="{{ \App\Reservation::where('status', 'pending')->count() }}">0</h3>
+              <h3 class="counter" data-count="{{ \App\Reservation::where('status', 'blocked')->count() }}">0</h3>
 
-              <p>Package Reservations</p>
+              <p>Reservations</p>
             </div>
             <div class="icon">
               <i class="ion ion-bag"></i>
             </div>
-            <a href="{{ url('/report/package/overall') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ url('/admin/report/reservation/overall') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -37,14 +37,14 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3 class="counter" data-count="{{ \App\Coordination::where('status', 'pending')->count() }}">0</h3>
+              <h3 class="counter" data-count="{{ \App\Reservation::whereHas('package.service')->count() }}">0</h3>
 
-              <p>Coordinations</p>
+              <p>Availed Services</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
             </div>
-            <a href="{{ url('/report/package/overall') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ url('/admin/report/service/overall') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -79,10 +79,8 @@
         </div>
         <!-- ./col -->
       </div>
-      <!-- /.row --> 
-      <div class="row">
-        <div id='calendar'></div>
-      </div>
+      <!-- /.row -->
+     <!--  -->
     </section>
     <!-- /.content -->
   </div>

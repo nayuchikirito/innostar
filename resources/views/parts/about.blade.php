@@ -4,7 +4,7 @@
           <div class="col-lg-8 mx-auto text-center">
             <h2 class="section-heading text-#212529">Innovation Star</h2>
             <hr class="light my-4">
-            <p class="text-faded mb-4">Start Bootstrap has everything you need to get your new website up and running in no time! All of the templates and themes on Start Bootstrap are open source, free to download, and easy to use. No strings attached!</p>
+            <p class="text-faded mb-4">We are your greatest friend when it comes to organizing your events. We plan and organize events to make sure that you will not miss the fun of your event! Enjoy and make every moment memorable!</p>
             <a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Get Started!</a>
           </div>
         </div>

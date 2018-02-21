@@ -19,7 +19,7 @@ class Package extends Model
         return $this->hasMany('App\Reservation');
     }
 
-    public function pacakge_detail(){
+    public function package_detail(){
         return $this->hasMany('App\PackageDetail');
     }
 

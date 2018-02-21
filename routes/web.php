@@ -15,6 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::prefix('chat')->group(function () {
+	Route::get('/', 'ChatsController@index');
+	Route::get('messages', 'ChatsController@fetchMessages');
+	Route::post('messages', 'ChatsController@sendMessage');
+});
 
 Auth::routes();
 
@@ -27,6 +32,7 @@ Route::resource('/client/register', 'RegisterClientController');
 //ADMIN USERS
 Route::middleware('admin')->prefix('admin')->group(function () {
 	//Link for your admin homepage
+	Route::get('/messenger', 'HomeController@messenger');
 	Route::get('/changepassword', 'HomeController@changepassword');
 	Route::post('/changepassword', 'HomeController@saveChangePassword');
 
@@ -77,6 +83,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 	Route::post('/package_details/store', 'PackagesController@details_store');
 
 	Route::resource('/reservations', 'ReservationsController');
+	Route::post('/custom_reservations', 'ReservationsController@custom');
 	Route::get('/get-reservations', 'ReservationsController@all');
  	Route::get('/reservations/{reservation}/assign-suppliers', 'ReservationsController@assignSuppliers')->name('reservations.assign-suppliers');
   	Route::post('/reservations/assign-suppliers', 'AssignSuppliersController@assign');
@@ -122,6 +129,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 	Route::get('/getPackageDetail/{id}', 'PackagesController@getPackageDetail');
 	
 	Route::get('/get_package_details/{id}', 'PackagesController@get_package_details');
+
+	Route::get('/chat', 'ChatController@chatroom');
 });
 
 Route::middleware('client')->prefix('client')->group(function () {

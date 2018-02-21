@@ -43,8 +43,8 @@ class CoordinationsController extends Controller
         // if($data['password']){
         //     $data['password'] = bcrypt($data['password']);          
         // }
-        $dateCount = \App\Reservation::whereDate('date', $request->get('date'))->count();
-        $dateCountCoord = \App\Coordination::whereDate('date', $request->get('date'))->count();
+        $dateCount = \App\Reservation::whereDate('date', $request->get('date1'))->count();
+        $dateCountCoord = \App\Coordination::whereDate('date', $request->get('date1'))->count();
         // return response()->json($dateCount);
         if(($dateCount > 0 AND $dateCountCoord > 1) OR ($dateCount > 1) OR ($dateCountCoord > 2))
             {
@@ -55,11 +55,11 @@ class CoordinationsController extends Controller
                     DB::beginTransaction();
 
                         $coordination = new \App\Coordination;
-                        $coordination->date        = $request->get('date').' '.$request->get('time').':00';
+                        $coordination->date        = $request->get('date1').' '.$request->get('time1').':00';
                         $coordination->status        = $request->get('status');
                         $coordination->balance      = $request->get('balance');
                         $coordination->client_id     = $request->get('client_id');
-                        $coordination->service_id      = $request->get('service_id');
+                        $coordination->service_id      = $request->get('service_id1');
                         $coordination->save();
 
                         DB::commit();

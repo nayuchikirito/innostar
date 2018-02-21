@@ -96,6 +96,7 @@
       'order': [[0, 'asc']]
     });
 
+
     $(document).off('click','.show-data-btn').on('click','.show-data-btn', function(e){
       e.preventDefault();
       var that = this; 

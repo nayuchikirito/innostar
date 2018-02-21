@@ -42,19 +42,8 @@
   <!-- /.content-wrapper -->
 
   <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="reservemodal">
-    <div class="modal-dialog modal-lg add-user-form">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
-          <h4 class="modal-title">Add Reservations</h4>
-        </div>
-        <div class="modal-body">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn submit-btn btn-success btn-gradient pull-right">Submit</button>
-      </div>
-  </div>
+
+</div>
 
 @endsection
 

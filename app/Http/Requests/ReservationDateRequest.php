@@ -29,8 +29,6 @@ class ReservationDateRequest extends FormRequest
             'date' => 'required|after:' . $after_date,
             'time' => 'required',
             'status' => 'required',
-            'balance' => 'required|numeric',
-            'client_id' => 'required',
             'service_id' => 'required',
             'package_id' => 'required',
             

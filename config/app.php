@@ -164,6 +164,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
+
         // Illuminate\Paypal\PaypalServiceProvider::class,
 
         /*
@@ -175,13 +176,16 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+
+        App\Providers\BroadcastServiceProvider::class,
+        
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Jimmyjs\ReportGenerator\ServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         ConsoleTVs\Charts\ChartsServiceProvider::class,
+        BaklySystems\LaravelMessenger\LaravelMessengerServiceProvider::class,
 
     ],
 
@@ -235,6 +239,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
+        'Messenger' => BaklySystems\LaravelMessenger\Facades\Messenger::class,
         // 'Paypal' => Illuminate\Paypal\Facades\Paypal::class,
 
     ],

@@ -169,6 +169,8 @@
               </li>
               @endif
 
+            <li class="{{ Request::segment(2) == 'messenger' ? 'active':'' }}"><a href="{{url('/chat/')}}"><i class="fa fa-dashboard"></i> <span>Messenger</span></a></li>
+
               
 
               

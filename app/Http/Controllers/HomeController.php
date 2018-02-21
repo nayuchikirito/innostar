@@ -73,4 +73,9 @@ class HomeController extends Controller
             return response()->json(['success' => false, 'msg' => 'Old Password does not match!']);
         }
     }
+
+    public function messenger()
+    {
+        return view('vendor.messenger.messenger');
+    }
 }

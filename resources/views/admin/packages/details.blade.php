@@ -14,7 +14,7 @@
           <select name="package_id" id="package_id" class="form-control">
             <option selected disabled>Select Package</option>
             @foreach($packages as $package)
-              <option value="{{ $package->id }}">{{ $package->name }}</option>
+              <option value="{{ $package->id }}">{{ $package->name.' - '.$package->service->name }}</option>
             @endforeach
           </select> 
           <span class="help-text text-danger"></span>

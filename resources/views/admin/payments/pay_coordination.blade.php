@@ -10,7 +10,12 @@
       <h3 class="text-center">Payment</h3>
       <div class="form-group">
           <label for="amount">Amount</label>
-          <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter Amount" autocomplete="false">
+          @if($coordination->status == 'blocked')
+            <input type="text" class="form-control" id="amount" name="amount" placeholder="Enter Amount" autocomplete="false">
+          @else
+            <input type="text" class="form-control" id="amount" name="amount" placeholder="5000" autocomplete="false">
+          
+          @endif
           <span class="help-text text-danger"></span>
       </div>
       <div class="form-group">

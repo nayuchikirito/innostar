@@ -140,6 +140,8 @@
               </li>
 
             <li class="{{ Request::segment(2) == 'on-the-day coordination' ? 'active':'' }}"><a href="{{url('admin/payments_coord')}}"><i class="fa fa-users"></i> <span>Client Requests</span></a></li>
+
+        <li class="{{ Request::segment(2) == 'messenger' ? 'active':'' }}"><a href="{{url('admin/messenger')}}"><i class="fa fa-dashboard"></i> <span>Messenger</span></a></li>
         
 
 

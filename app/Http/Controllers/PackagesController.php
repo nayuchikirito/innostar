@@ -87,7 +87,11 @@ class PackagesController extends Controller
     {
         $package = \App\Package::find($id);
         $services = \App\Service::all();
-        return view('admin.packages.show')->with('package', $package)->with('services', $services);
+        // if($package::whereNull('price')){
+        //     return response()->json(['msg' => 'Please add the package details!']);
+        // }else{
+            return view('admin.packages.show')->with('package', $package)->with('services', $services);
+        // }
     }
 
     /**

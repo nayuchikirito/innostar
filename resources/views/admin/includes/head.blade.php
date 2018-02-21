@@ -43,6 +43,8 @@
 
   <link rel='stylesheet' href="{{ url('https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.8.0/fullcalendar.print.css') }}">
 
+  <link rel="stylesheet" href="{{asset('/vendor/messenger/css/messenger.css')}}">
+
 <!--   <link rel="stylesheet" href="{{asset('/images/sort_asc.png')}}">
   <link rel="stylesheet" href="{{asset('/images/sort_asc_disabled.png')}}">
   <link rel="stylesheet" href="{{asset('/images/sort_both.png')}}">

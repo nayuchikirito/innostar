@@ -45,7 +45,7 @@
               </tr>
             </thead>
             <tbody>
-              @foreach($package->pacakge_detail as $detail)
+              @foreach($package->package_detail as $detail)
                 <tr>
                   <td>{{ $detail->package_description->name }}</td>
                   <td class="text-right">{{ number_format($detail->price,2) }}</td>
@@ -54,7 +54,7 @@
               <tfoot>
                 <tr>
                   <th class="text-right">TOTAL:</th>
-                  <th class="text-right">{{ number_format($detail->sum('price'),2) }}</th>
+                  <th class="text-right">{{ number_format($package->package_detail->sum('price'),2) }}</th>
                 </tr>
               </tfoot>
               
@@ -70,3 +70,4 @@
 
   </div>
 </div>
+

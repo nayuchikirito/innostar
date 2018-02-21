@@ -37,6 +37,11 @@ class User extends Authenticatable
         return $this->hasOne('\App\Client', 'user_id');
     }
 
+    public function messages(){
+        return $this->hasMany('\App\Message');
+    }
+    
+
     public function setPasswordAttribute($password) {
         $this->attributes['password'] = bcrypt($password);
     }
@@ -56,5 +61,7 @@ class User extends Authenticatable
     public function setLocationAttribute($location) {
         $this->attributes['location'] = ucfirst($location);
     }
+
+
 
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ReservationDateRequest;
+use App\Http\Requests\CustomDateRequest;
 use DataTables;
 use DB;
 
@@ -67,6 +68,53 @@ class ReservationsController extends Controller
                         $reservation->package_id      = $request->get('package_id');
                         $reservation->save();
 
+                        // for($i = 0 ; $i < sizeof($request->get('detail')) ; $i++){
+                        //     $r = \App\PackageDetail::find($request->get('detail')[$i]);
+                        //     $res_detail = new \App\ReservationDetail;
+                        //     $res_detail->reservation_id  = $reservation->id;
+                        //     $res_detail->package_detail_id   = $r->id;
+                        //     $res_detail->price = $r->price;
+                        //     $res_detail->save();                    
+                        // }
+                        DB::commit();
+
+                        return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+
+                    }catch(\Exception $e){
+                        DB::rollback();
+                        return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+                    }
+        }
+        // $status = \App\Reservation::create($data);
+        // if($status){
+        //     return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
+        // }else{
+        //     return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
+        // }
+    }
+
+    public function custom(CustomDateRequest $request)
+    {
+        $dateCount = \App\Reservation::whereDate('date', $request->get('date2'))->count();
+        $dateCountCoord = \App\Coordination::whereDate('date', $request->get('date2'))->count();
+        // return response()->json($dateCount);
+        if(($dateCount > 0 AND $dateCountCoord > 1) OR ($dateCount > 1) OR ($dateCountCoord > 2))
+            {
+                return response()->json(['success' => false, 'msg' => 'Cannot reserve date, fully booked.']);
+            }else{
+                 try{
+
+                    DB::beginTransaction();
+
+                        $reservation = new \App\Reservation;
+                        $reservation->date        = $request->get('date2').' '.$request->get('time2').':00';
+                        $reservation->status        = $request->get('status');
+                        $reservation->balance      = $request->get('balance');
+                        $reservation->assigned      = $request->get('assigned');
+                        $reservation->client_id     = $request->get('client_id');
+                        $reservation->package_id      = $request->get('package_id2');
+                        $reservation->save();
+
                         for($i = 0 ; $i < sizeof($request->get('detail')) ; $i++){
                             $r = \App\PackageDetail::find($request->get('detail')[$i]);
                             $res_detail = new \App\ReservationDetail;
@@ -84,12 +132,6 @@ class ReservationsController extends Controller
                         return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
                     }
         }
-        // $status = \App\Reservation::create($data);
-        // if($status){
-        //     return response()->json(['success' => true, 'msg' => 'Data Successfully added!']);
-        // }else{
-        //     return response()->json(['success' => false, 'msg' => 'An error occured while adding data!']);
-        // }
     }
 
     /**
@@ -257,4 +299,6 @@ class ReservationsController extends Controller
         ->with('suppliersList', $suppliersList)
         ->with('reservationId', $id);
     }
+
+
 }

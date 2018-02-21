@@ -2,6 +2,7 @@
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->
+<script src="{{asset('js/app.js')}}"></script>
 <script src="{{asset('admin/bower_components/jquery/dist/jquery.min.js')}}""></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{asset('admin/bower_components/jquery-ui/jquery-ui.min.js')}}""></script>

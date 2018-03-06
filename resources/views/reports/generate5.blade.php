@@ -14,7 +14,7 @@
             <input class="form-control" id="datepicker" name="date" placeholder="YYYY" type="text">
           </div>
           <div class="form-group"> <!-- Submit button -->
-            <a href="{{url('admin/report/service/monthly')}}" class="btn btn-primary " name="submit" id="link" >Generate</a>
+            <a href="{{url('admin/report/reservation/monthly')}}" class="btn btn-primary " name="submit" id="link" >Generate</a>
           </div>    
       </div>
 
@@ -54,13 +54,13 @@
                 //     var that = this;
                 //     var token = $("input[name='_token']").val();
                 //     $.ajax({
-                //           url: "{{url('/report/service/monthly/{date}')}}",
+                //           url: "{{url('/report/reservation/monthly/{date}')}}",
                 //           method: 'POST',
                 //       });
                 // });
                 $.ajax({
                   type: 'POST',
-                  url: "{{url('/report/service/monthly')}}",
+                  url: "{{url('/report/reservation/monthly')}}",
                   data: $("#change-date-form").serialize()
                 });
 
@@ -70,7 +70,7 @@
                 viewMode: "years",
                 minViewMode: "years"
             }).on('changeDate', function(e) {
-                $('#link').attr('href', "{{url('admin/report/service/monthly')}}/"+$('#datepicker').val())
+                $('#link').attr('href', "{{url('admin/report/reservation/monthly')}}/"+$('#datepicker').val())
             });
         });
     </script>

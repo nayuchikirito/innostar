@@ -105,7 +105,14 @@ class GuestController extends Controller
      */
     public function show($id)
     {
-        //
+        $reservation = \App\Reservation::find($id);
+        return view('client.reservation.show')->with('reservation', $reservation);
+    }
+
+    public function show_coord($id)
+    {
+        $coordination = \App\Coordination::find($id);
+        return view('client.coordination.show')->with('coordination', $coordination);
     }
 
     /**
@@ -179,9 +186,10 @@ class GuestController extends Controller
 
     public function my_reservations()
     {
-        $reservations = Auth::user()->client->reservation;
-        $coordinations = Auth::user()->client->coordination;
-        return view('client.clients.my_reservations', compact('reservations', 'coordinations'));
+        // $reservations = Auth::user()->client->reservation;
+        // $coordinations = Auth::user()->client->coordination;
+        // return view('client.clients.my_reservations', compact('reservations', 'coordinations'));
+        return view('client.clients.my_reservations');
     }
 
 
@@ -199,20 +207,121 @@ class GuestController extends Controller
             ->AddColumn('service', function($column){
                return $column->package->service->name;
             }) 
+            ->AddColumn('assigned', function($column){
+               return $column->assigned == 1 ? 'completed':'pending';
+            })
+            ->AddColumn('status', function($column){
+               return $column->status == 'blocked' ? 'Yes':'No';
+            })
             ->AddColumn('actions', function($column){
               
                 return '
-                            <a class="btn-sm btn btn-success pay-data-btn" data-id="'.$column->id.'">
-                                <i class="fa fa-money"></i> Pay
-                            </a> 
-
-                            <button class="btn-sm btn btn-warning request-data-btn" data-id="'.$column->id.'">
-                                <i class="fa fa-trash-o"></i> Change
+                            <button class="btn-sm btn btn-info show-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-id-card-o"></i> View
+                            </button>
+                            <button class="btn-sm btn btn-success change-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-trash-o"></i> Change Date
                             </button> 
 
-                            <button class="btn-sm btn btn-danger request-data-btn" data-id="'.$column->id.'">
-                                <i class="fa fa-trash-o"></i> Cancellation
+                            <button class="btn-sm btn btn-danger cancel-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-trash-o"></i> Send Cancellation
                             </button> 
+                        ';
+            }) 
+            ->rawColumns(['actions', 'requests'])
+            ->make(true);    
+    }
+
+    public function all_pay(){
+        DB::statement(DB::raw('set @row:=0'));
+        $data = \App\Reservation::where('client_id', Auth::user()->client->id);
+
+         return DataTables::of($data)
+            ->AddColumn('row', function($column){
+               return $column->id;
+            })
+            ->AddColumn('date', function($column){
+               return date('M d, Y | h:i A', strtotime($column->date));
+            })
+            ->AddColumn('service', function($column){
+               return $column->package->service->name;
+            }) 
+            ->AddColumn('status', function($column){
+               return $column->status == 'blocked' ? 'Yes':'No';
+            })
+            ->AddColumn('actions', function($column){
+              
+                return '
+                            <button class="btn-sm btn btn-success pay-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-id-card-o"></i> Send Payment Details
+                            </button>
+                        ';
+            }) 
+            ->rawColumns(['actions', 'requests'])
+            ->make(true);    
+    }
+
+
+    public function all_coord(){
+        DB::statement(DB::raw('set @row:=0'));
+        $data = \App\Coordination::where('client_id', Auth::user()->client->id);
+
+         return DataTables::of($data)
+            ->AddColumn('row', function($column){
+               return $column->id;
+            })
+            ->AddColumn('date', function($column){
+               return date('M d, Y | h:i A', strtotime($column->date));
+            })
+            ->AddColumn('service', function($column){
+               return $column->service->name;
+            }) 
+            ->AddColumn('status', function($column){
+               return $column->status == 'blocked' ? 'Yes':'No';
+            })
+            ->AddColumn('actions', function($column){
+              
+                return '
+                            <button class="btn-sm btn btn-info show-coord-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-id-card-o"></i> View
+                            </button>
+                            <button class="btn-sm btn btn-success change2-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-trash-o"></i> Change Date
+                            </button> 
+
+                            <button class="btn-sm btn btn-danger cancel2-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-trash-o"></i> Send Cancellation
+                            </button> 
+                        ';
+            }) 
+            ->rawColumns(['actions', 'requests'])
+            ->make(true);    
+    }
+
+    public function all_coord_pay(){
+        DB::statement(DB::raw('set @row:=0'));
+        $data = \App\Coordination::where('client_id', Auth::user()->client->id);
+
+         return DataTables::of($data)
+            ->AddColumn('row', function($column){
+               return $column->id;
+            })
+            ->AddColumn('date', function($column){
+               return date('M d, Y | h:i A', strtotime($column->date));
+            })
+            ->AddColumn('service', function($column){
+               return $column->service->name;
+            }) 
+            ->AddColumn('status', function($column){
+               return $column->status == 'blocked' ? 'Yes':'No';
+            })
+            ->AddColumn('actions', function($column){
+              
+                return '
+                            <button class="btn-sm btn btn-success pay2-data-btn" data-id="'.$column->id.'">
+                                <i class="fa fa-id-card-o"></i> Send Payment Details
+                            </button>
+                            
                         ';
             }) 
             ->rawColumns(['actions', 'requests'])
@@ -243,7 +352,7 @@ class GuestController extends Controller
         $data = request()->validate([
             'amount' => 'required|numeric',
             'details' => 'required|string',
-            'date' => 'required',
+            'date' => 'required|before_or_equal:today',
             'time' => 'required',
         ]);
          try{
@@ -356,6 +465,8 @@ class GuestController extends Controller
         $data = request()->validate([
             'amount' => 'required|numeric',
             'details' => 'required|string',
+            'date' => 'required|before_or_equal:today',
+            'time' => 'required',
         ]);
          try{
 

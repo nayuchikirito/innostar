@@ -45,6 +45,8 @@
 
   <link rel="stylesheet" href="{{asset('/vendor/messenger/css/messenger.css')}}">
 
+  <link rel="stylesheet" href="{{ url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css')}}">
+
 <!--   <link rel="stylesheet" href="{{asset('/images/sort_asc.png')}}">
   <link rel="stylesheet" href="{{asset('/images/sort_asc_disabled.png')}}">
   <link rel="stylesheet" href="{{asset('/images/sort_both.png')}}">

@@ -84,9 +84,12 @@
                   <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                  <li class="{{ Request::segment(2) == 'yearly report' ? 'active':'' }}"><a href="{{url('admin/report/service/yearly')}}"><i class="fa fa-area-chart"></i> <span>Yearly Report</span></a></li>
+                  <li class="{{ Request::segment(2) == 'between years' ? 'active':'' }}"><a href="{{url('admin/report/service/yearly')}}"><i class="fa fa-area-chart"></i> <span>Between Years</span></a></li>
 
-                  <li class="{{ Request::segment(2) == 'monthly report' ? 'active':'' }}"><a href="{{url('admin/report/service/monthly')}}"><i class="fa fa-area-chart"></i> <span>Monthly Report</span></a></li>
+           
+                  <li class="{{ Request::segment(2) == 'yearly report' ? 'active':'' }}"><a href="{{url('admin/report/service/monthly')}}/{{\Carbon\Carbon::now()->year}}"><i class="fa fa-area-chart"></i> <span>Yearly Report</span></a></li>
+
+                  <li class="{{ Request::segment(2) == 'monthly report' ? 'active':'' }}"><a href="{{url('admin/report/service/weekly')}}/{{\Carbon\Carbon::now()->month}}/{{\Carbon\Carbon::now()->year}}"><i class="fa fa-area-chart"></i> <span>Monthly Report</span></a></li>
 
                   <li class="{{ Request::segment(2) == 'overall' ? 'active':'' }}"><a href="{{url('admin/report/service/overall')}}"><i class="fa fa-area-chart"></i> <span>Overall</span></a></li>
                 </ul>
@@ -100,9 +103,11 @@
                   <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                  <li class="{{ Request::segment(2) == 'yearly report' ? 'active':'' }}"><a href="{{url('admin/report/package/yearly')}}"><i class="fa fa-area-chart"></i> <span>Yearly Report</span></a></li>
+                  <li class="{{ Request::segment(2) == 'between years' ? 'active':'' }}"><a href="{{url('admin/report/package/yearly')}}"><i class="fa fa-area-chart"></i> <span>Between Years</span></a></li>
 
-                  <li class="{{ Request::segment(2) == 'monthly report' ? 'active':'' }}"><a href="{{url('admin/report/package/monthly')}}"><i class="fa fa-area-chart"></i> <span>Monthly Report</span></a></li>
+                  <li class="{{ Request::segment(2) == 'yearly report' ? 'active':'' }}"><a href="{{url('admin/report/package/monthly')}}/{{\Carbon\Carbon::now()->year}}"><i class="fa fa-area-chart"></i> <span>Yearly Report</span></a></li>
+
+                  <li class="{{ Request::segment(2) == 'monthly report' ? 'active':'' }}"><a href="{{url('admin/report/package/weekly')}}/{{\Carbon\Carbon::now()->month}}/{{\Carbon\Carbon::now()->year}}"><i class="fa fa-area-chart"></i> <span>Monthly Report</span></a></li>
 
                   <li class="{{ Request::segment(2) == 'overall' ? 'active':'' }}"><a href="{{url('admin/report/package/overall')}}"><i class="fa fa-area-chart"></i> <span>Overall</span></a></li>
 
@@ -117,9 +122,9 @@
                 </a>
                 
                 <ul class="treeview-menu">
-                  <li class="{{ Request::segment(2) == 'yearly' ? 'active':'' }}"><a href="{{url('admin/report/reservation/yearly')}}"><i class="fa fa-area-chart"></i> <span>Yearly Report</span></a></li>
+                  <li class="{{ Request::segment(2) == 'yearly' ? 'active':'' }}"><a href="{{url('admin/report/reservation/yearly')}}"><i class="fa fa-area-chart"></i> <span>Between Years</span></a></li>
 
-                  <li class="{{ Request::segment(2) == 'yearly report' ? 'active':'' }}"><a href="{{url('admin/report/reservation/monthly')}}"><i class="fa fa-area-chart"></i> <span>Monthly Report</span></a></li>
+                  <li class="{{ Request::segment(2) == 'yearly report' ? 'active':'' }}"><a href="{{url('admin/report/reservation/monthly')}}/{{\Carbon\Carbon::now()->year}}"><i class="fa fa-area-chart"></i> <span>Yearly Report</span></a></li>
 
                   <li class="{{ Request::segment(2) == 'overall' ? 'active':'' }}"><a href="{{url('admin/report/reservation/overall')}}"><i class="fa fa-area-chart"></i> <span>Overall</span></a></li>
 
@@ -169,7 +174,7 @@
               </li>
               @endif
 
-            <li class="{{ Request::segment(2) == 'messenger' ? 'active':'' }}"><a href="{{url('/chat/')}}"><i class="fa fa-dashboard"></i> <span>Messenger</span></a></li>
+<!--             <li class="{{ Request::segment(2) == 'messenger' ? 'active':'' }}"><a href="{{url('/chat/')}}"><i class="fa fa-dashboard"></i> <span>Messenger</span></a></li> -->
 
               
 

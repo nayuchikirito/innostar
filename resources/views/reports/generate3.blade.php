@@ -10,11 +10,11 @@
             </div>
         <!-- </div> -->
         <div class="form-group"> <!-- Date input -->
-            <label class="control-label" for="date">Year</label>
-            <input class="form-control" id="datepicker" name="date" placeholder="YYYY" type="text">
+            <label class="control-label" for="date">Month</label>
+            <input class="form-control" id="datepicker" name="date" placeholder="MM-YYYY" type="text">
           </div>
           <div class="form-group"> <!-- Submit button -->
-            <a href="{{url('admin/report/service/monthly')}}" class="btn btn-primary " name="submit" id="link" >Generate</a>
+            <a class="btn btn-primary " name="submit" id="link" >Generate</a>
           </div>    
       </div>
 
@@ -54,23 +54,23 @@
                 //     var that = this;
                 //     var token = $("input[name='_token']").val();
                 //     $.ajax({
-                //           url: "{{url('/report/service/monthly/{date}')}}",
+                //           url: "{{url('/report/package/monthly/{date}')}}",
                 //           method: 'POST',
                 //       });
                 // });
                 $.ajax({
                   type: 'POST',
-                  url: "{{url('/report/service/monthly')}}",
+                  url: "{{url('/report/package/monthly')}}",
                   data: $("#change-date-form").serialize()
                 });
 
       });
             $('#datepicker').datepicker({
-                format: "yyyy",
-                viewMode: "years",
-                minViewMode: "years"
+                format: "mm-yyyy",
+                viewMode: "months",
+                minViewMode: "months"
             }).on('changeDate', function(e) {
-                $('#link').attr('href', "{{url('admin/report/service/monthly')}}/"+$('#datepicker').val())
+                $('#link').attr('href', "{{url('admin/report/package/weekly')}}/"+$('#datepicker').val().substring(0,2)+"/"+$('#datepicker').val().substring(3,7))
             });
         });
     </script>

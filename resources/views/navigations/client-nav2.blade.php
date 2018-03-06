@@ -8,11 +8,14 @@
 	        <div class="collapse navbar-collapse" id="navbarResponsive">
 	          <ul class="navbar-nav ml-auto">
 	          	<li class="nav-item">
-	              <a class="nav-link js-scroll-trigger" href="{{ url('client/changepassword') }}">Change Password
+	              <a class="nav-link js-scroll-trigger" href="{{ url('/client/button') }}">Reserve Event
 	              </a>
 	            </li>
 	            <li class="nav-item">
-	              <a class="nav-link js-scroll-trigger" href="{{ route('clients.my_reservations') }}">My Reservations </a>
+	              <a class="nav-link js-scroll-trigger" href="{{ route('clients.my_reservations') }}">Monitor Reservations </a>
+	            </li>
+	            <li class="nav-item">
+	              <a class="nav-link js-scroll-trigger" href="{{ route('clients.reservations') }}">Send Payment Details </a>
 	            </li>
 	            <li class="nav-item">
                   <a class="nav-link js-scroll-trigger" href="{{ route('logout') }}" onclick="event.preventDefault(); 

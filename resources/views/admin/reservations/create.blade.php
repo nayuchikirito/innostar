@@ -101,7 +101,7 @@
           <label for="service_id1">Service</label>
           <select name="service_id1" id="service_id1" class="form-control">
             <option selected disabled>Select Service</option>
-            @foreach($services as $service1)
+            @foreach($services1 as $service1)
               <option value="{{$service1->id}}">{{ $service1->name }}</option>
             @endforeach
           </select> 

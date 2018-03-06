@@ -5,73 +5,59 @@
 @endsection
       @include('navigations.client-nav2')
 @section('content') 
-<section class="bg-dark" id="about" style="height: 100vh;">
-      <div class="container font-mine">
-        <div class="row">
-          <div class="col-md-12 text-left">
-            <h2 class="section-heading text-white">Package Reservations</h2> 
-            <table class="table table-hover table-bordered bg-white">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Reservation Date</th>
-                  <th class="text-left">Balance</th>
-                  <th class="text-center">Service</th>
-                  <th class="text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach($reservations as $reservation)
-                <tr>
-                  <td class="text-left">{{ $reservation->client->user->lname.', '.$reservation->client->user->fname.' '.substr($reservation->client->user->midname, 0, 1).'.' }}</td>
-                  <td class="text-left">{{ date('F d,Y', strtotime($reservation->date))}}</td>
-                  <td class="text-left">{{ $reservation->balance }}</td>
-                  <td class="text-center">{{ $reservation->package->service->name }}</td>
-                  <td class="text-center"><a href="#" class="btn btn-danger btn-xs cancel-data-btn" data-id="{{ $reservation->id }}"><i class="fa fa-close"></i> Send Cancellation Request</a>
-                  <td class="text-center"><a href="#" class="btn btn-warning btn-xs change-data-btn" data-id="{{ $reservation->id }}"><i class="fa fa-calendar"></i> Change Date Request</a>
-                    <!-- <a href="#" class="btn btn-danger btn-xs decline-request-btn" data-id=" {{ $reservation->id }}"><i class="fa fa-times"></i> Decline</a>
-                    <a href="#" class="btn btn-info btn-xs seen-request-btn" data-id="{{ $reservation->id }}"><i class="fa fa-eye"></i> Seen</a> --></td>
-                </tr>
-                @endforeach
-              </tbody>
-            </table> 
-          </div>
-        </div>
-      </div>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+<style type="text/css">
+  .dataTables_length{
+    float: left;
+    color: #fff;
+  } 
+  .dataTables_filter{
+    float: right;
+    color: #fff;
+  }
+  .dataTables_info{
+    float: left;
+    color: #fff;
+  }
+</style>
+<section class="bg-dark" id="about" style="height: 150vh;">
 
-      <section class="bg-dark" id="about" style="height: 100vh;">
       <div class="container font-mine">
-        <div class="row">
-          <div class="col-md-12 text-left">
-            <h2 class="section-heading text-white">On-the-day Coordination Reservations</h2> 
-            <table class="table table-hover table-bordered bg-white">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Reservation Date</th>
-                  <th class="text-left">Balance</th>
-                  <th class="text-center">Service</th>
-                  <th class="text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach($coordinations as $coordination)
-                <tr>
-                  <td class="text-left">{{ $coordination->client->user->lname.', '.$coordination->client->user->fname.' '.substr($coordination->client->user->midname, 0, 1).'.' }}</td>
-                  <td class="text-left">{{ date('F d,Y', strtotime($coordination->date))}}</td>
-                  <td class="text-left">{{ $coordination->balance }}</td>
-                  <td class="text-center">{{ $coordination->service->name }}</td>
-                  <td class="text-center"><a href="#" class="btn btn-danger btn-xs cancel2-data-btn" data-id="{{ $coordination->id }}"><i class="fa fa-close"></i> Send Cancellation Request</a>
-                  <td class="text-center"><a href="#" class="btn btn-warning btn-xs change2-data-btn" data-id="{{ $coordination->id }}"><i class="fa fa-calendar"></i> Change Date Request</a>
-                    <!-- <a href="#" class="btn btn-danger btn-xs decline-request-btn" data-id=" {{ $coordination->id }}"><i class="fa fa-times"></i> Decline</a>
-                    <a href="#" class="btn btn-info btn-xs seen-request-btn" data-id="{{ $coordination->id }}"><i class="fa fa-eye"></i> Seen</a> --></td>
-                </tr>
-                @endforeach
-              </tbody>
-            </table> 
-          </div>
-        </div>
+        <h2 class="section-heading text-white">Package Reservations</h2>
+        <div class="box-body">
+              <table class="table table-horver bg-yellow" id="reservations-table">
+                <thead>
+                  <th>#</th>
+                  <th>Date</th>
+                  <th>Balance</th>
+                  <th>Service</th>
+                  <th>Assigned</th>
+                  <th>Blocked</th>
+                  <th>Request</th>
+                </thead>
+              </table>
+            </div>
+          
       </div>
+    </section>
+
+      <section class="bg-dark" id="about" style="height: 150vh;">
+      <div class="container font-mine">
+        <h2 class="section-heading text-white">On-the-day Coordinations</h2>
+        <div class="box-body">
+              <table class="table table-hover bg-yellow" id="coordinations-table">
+                <thead>
+                  <th>#</th>
+                  <th>Date</th>
+                  <th>Balance</th>
+                  <th>Service</th>  
+                  <th>Blocked</th>
+                  <th>Request</th>
+                </thead>
+              </table>
+            </div>
+      </div>
+    </section>
 
 
     <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="changemodal">
@@ -87,10 +73,22 @@
         </div>
       </div>
     </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="showmodal">
+      <div class="modal-dialog modal-md add-user-form">
+        <div class="modal-content">
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;" id="showmodal_coord">
+      <div class="modal-dialog modal-md add-user-form">
+        <div class="modal-content">
+        </div>
+      </div>
+    </div>
     <!-- <section class="content-wrapper"> -->
 <!-- naa ang include sa my_reservations.blade.php -->
-
-  </section>
 @include('parts.contact')
 @endsection
 
@@ -113,12 +111,44 @@
           "previous":   "<i class='fa fa-chevron-left'></i>"
         }
       },
+      "iDisplayLength": 5,
+      "aLengthMenu": [[5, 10], [5, 10, "All"]],
       "columns": [ 
         {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
         {data: 'date',  name: 'date', className: 'col-md-2  text-left',   searchable: true, sortable: true},
-        {data: 'Balance',  name: 'Balance', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
         {data: 'balance',  name: 'balance', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
         {data: 'service',  name: 'service', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'assigned',  name: 'assigned', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'status',  name: 'status', className: 'col-md-2 text-left',  searchable: true, sortable: true},
+        {data: 'actions',   name: 'actions', className: 'col-md-4 text-left',  searchable: false,  sortable: false},
+      ], 
+      'order': [[0, 'asc']]
+    });
+
+    var table = $('#coordinations-table').DataTable({
+      bProcessing: true,
+      bServerSide: false,
+      sServerMethod: "GET",
+      'ajax': '/client/get-coordinations',
+      searching: true, 
+      paging: true, 
+      filtering:false, 
+      bInfo: true,
+      responsive: true,
+      language:{
+        "paginate": {
+          "next":       "<i class='fa fa-chevron-right'></i>",
+          "previous":   "<i class='fa fa-chevron-left'></i>"
+        }
+      },
+      "iDisplayLength": 5,
+      "aLengthMenu": [[5, 10], [5, 10, "All"]],
+      "columns": [ 
+        {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
+        {data: 'date',  name: 'date', className: 'col-md-2  text-left',   searchable: true, sortable: true},
+        {data: 'balance',  name: 'balance', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
+        {data: 'service',  name: 'service', className: 'col-md-2 text-left',  searchable: true, sortable: true},  
+        {data: 'status',  name: 'status', className: 'col-md-2 text-left',  searchable: true, sortable: true},
         {data: 'actions',   name: 'actions', className: 'col-md-4 text-left',  searchable: false,  sortable: false},
       ], 
       'order': [[0, 'asc']]
@@ -182,6 +212,21 @@
         $("#changemodal .modal-content").load('/client/change_request/'+that.dataset.id);
       });
     });
+
+    $(document).off('click','.show-data-btn').on('click','.show-data-btn', function(e){
+      e.preventDefault();
+      var that = this;
+      $("#showmodal").modal();
+      $("#showmodal .modal-content").load('/client/reservations/'+that.dataset.id);
+    });
+
+    $(document).off('click','.show-coord-data-btn').on('click','.show-coord-data-btn', function(e){
+      e.preventDefault();
+      var that = this;
+      $("#showmodal_coord").modal();
+      $("#showmodal_coord .modal-content").load('/client/coordinations/'+that.dataset.id);
+    });
+
 
     $(document).off('click','.cancel2-data-btn').on('click','.cancel2-data-btn', function(e){
       e.preventDefault();

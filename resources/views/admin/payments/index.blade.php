@@ -28,6 +28,7 @@
               <table class="table table-hover" id="payments-table">
                 <thead>
                   <th>#</th>
+                  <th>Client Name</th>
                   <th>OR / Transaction Number</th>
                   <th>Amount</th>
                   <th>Type</th>
@@ -83,6 +84,7 @@
       },
       "columns": [ 
         {data: 'row',  name: 'row', className: ' text-left',   searchable: true, sortable: true},
+        {data: 'name',  name: 'name', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
         {data: 'details',  name: 'details', className: 'col-md-3 text-left',  searchable: true, sortable: true}, 
         {data: 'amount',  name: 'amount', className: 'col-md-2 text-left',  searchable: true, sortable: true}, 
         {data: 'type',  name: 'type', className: 'col-md-2  text-left',   searchable: true, sortable: true},

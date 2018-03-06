@@ -29,9 +29,12 @@
           $arr = explode('>', $package->description);
           @endphp
           <span id="description" style="float:left; height: 200px; overflow: auto; width: 100%;">
-            @foreach($arr as $a)
-            <li>{{$a}}</li>
-            @endforeach
+            
+            @forelse($arr as $a)
+              <li>{{$a}}</li>
+            @empty
+              <li>Empty</li>
+            @endforelse
           </span>          
           <span class="help-text text-danger"></span>
       </div>
@@ -45,12 +48,16 @@
               </tr>
             </thead>
             <tbody>
-              @foreach($package->package_detail as $detail)
+              @forelse($package->package_detail as $detail)
                 <tr>
                   <td>{{ $detail->package_description->name }}</td>
                   <td class="text-right">{{ number_format($detail->price,2) }}</td>
                 </tr>
-              @endforeach
+              @empty
+                <tr>
+                  <td colspan="2"><i>Add Package Details</i></td>
+                </tr>
+              @endforelse
               <tfoot>
                 <tr>
                   <th class="text-right">TOTAL:</th>

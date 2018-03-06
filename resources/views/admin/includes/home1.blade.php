@@ -79,6 +79,7 @@
         </div>
         <!-- ./col -->
       </div>
+      
       <!-- /.row -->
       <!-- <div class="row">
         <div id='calendar'></div>

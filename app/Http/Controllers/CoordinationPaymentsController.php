@@ -192,6 +192,9 @@ class CoordinationPaymentsController extends Controller
             ->AddColumn('row', function($column){
                return $column->id;
             })
+            ->AddColumn('name', function($column){
+               return $column->coordination->client->user->lname.', '.$column->coordination->client->user->fname.' '.substr($column->coordination->client->user->midname, 0, 1).'.';
+            })
             ->AddColumn('actions', function($column){
               
                 return '

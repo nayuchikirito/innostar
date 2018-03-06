@@ -55,14 +55,16 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 	Route::get('/report/printpdf', 'ReportsController@printPdf');
 
 	Route::get('/report/service/yearly', 'ReportsController@yearly_service');
-	Route::get('/report/service/monthly', 'ReportsController@monthly_service');
+	Route::get('/report/service/monthly/{year}', 'ReportsController@monthly_service');
+	Route::get('/report/service/weekly/{month}/{year}', 'ReportsController@weekly_service');
 	Route::get('/report/service/overall', 'ReportsController@overall');
 
-	Route::get('/report/package/monthly', 'ReportsController@monthly_package');
+	Route::get('/report/package/monthly/{year}', 'ReportsController@monthly_package');
 	Route::get('/report/package/yearly', 'ReportsController@yearly_package');
+	Route::get('/report/package/weekly/{month}/{year}', 'ReportsController@weekly_package');
 	Route::get('/report/package/overall', 'ReportsController@overall_package');
 
-	Route::get('/report/reservation/monthly', 'ReportsController@monthly_reservation');
+	Route::get('/report/reservation/monthly/{year}', 'ReportsController@monthly_reservation');
 	Route::get('/report/reservation/yearly', 'ReportsController@yearly_reservation');
 	Route::get('/report/reservation/overall', 'ReportsController@overall_reservation');
 
@@ -139,7 +141,10 @@ Route::middleware('client')->prefix('client')->group(function () {
 	Route::get('/pay', 'GuestController@pay')->name('clients.pay');
 	Route::get('/clients/reservations', 'GuestController@reservations')->name('clients.reservations');
 	Route::get('/clients/my_reservations', 'GuestController@my_reservations')->name('clients.my_reservations');
+
 	Route::get('/get-reservations', 'GuestController@all');
+	Route::get('/get-reservations-pay', 'GuestController@all_pay');
+
 	Route::get('/home', 'GuestController@index')->name('clients.home');
 	Route::get('/payments_bank/{res_id}', 'GuestController@pay')->name('admin.payments');
 	Route::get('/payments_bank_coord/{res_id}', 'GuestController@pay_coord');
@@ -160,8 +165,10 @@ Route::middleware('client')->prefix('client')->group(function () {
 	Route::post('/change_request_coord', 'GuestController@change_send_coord');
 
 	
-	Route::resource('/coordinations', 'CoordinationsController');
-	Route::get('/get-coordinations', 'CoordinationsController@all');
+	// Route::resource('/coordinations', 'CoordinationsController');
+	Route::get('/get-coordinations', 'GuestController@all_coord');
+	Route::get('/get-coordinations-pay', 'GuestController@all_coord_pay');
+	Route::get('/coordinations/{coord_id}', 'GuestController@show_coord');
 
 	
 	Route::get('/changepassword', 'GuestController@changepassword');

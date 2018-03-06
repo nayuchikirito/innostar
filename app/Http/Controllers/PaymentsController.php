@@ -220,6 +220,9 @@ class PaymentsController extends Controller
             ->AddColumn('row', function($column){
                return $column->id;
             })
+            ->AddColumn('name', function($column){
+               return $column->reservation->client->user->lname.', '.$column->reservation->client->user->fname.' '.substr($column->reservation->client->user->midname, 0, 1).'.';
+            })
             ->AddColumn('actions', function($column){
               
                 return '
